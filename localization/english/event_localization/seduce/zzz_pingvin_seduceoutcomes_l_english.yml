@@ -1,0 +1,5 @@
+﻿l_english:
+ seduce_outcome.3901.t:0 "A Snake at Court"
+ seduce_outcome.pingvin.1.desc:0 "[owner.Custom2('YourCharacterIntroduction', ROOT.Char)|U] is having an affair with [target.Custom2('YourCharacterIntroductionNoComma', ROOT.Char)]. That [owner.Custom('InsultAdjective')] [owner.Custom('InsultNounSexual')]!"
+ seduce_outcome.pingvin.2.desc:0 "The [owner.Custom('InsultAdjective')] [owner.Custom('InsultNounSexual')] [owner.GetFirstNameNoTooltip] was caught trying to seduce [target.GetFirstNameNoTooltip]!"
+ 

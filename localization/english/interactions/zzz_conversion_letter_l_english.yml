@@ -1,0 +1,7 @@
+﻿l_english:
+ 
+ lns_con_accept:0  "Conversion Accepted"
+ lns_con_acc_desc:0 "[recipient.GetTitledFirstName] has embraced the [actor.GetFaith.GetAdjective] faith!"
+ 
+ lns_con_refuse:0  "Conversion Refused"
+ lns_con_ref_desc:0 "[recipient.GetTitledFirstName] refuses to accept the [actor.GetFaith.GetAdjective] faith!"

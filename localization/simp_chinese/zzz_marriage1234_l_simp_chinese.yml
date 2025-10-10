@@ -1,0 +1,3 @@
+﻿l_simp_chinese:
+ pingvin.marriage.title:0 "接受婚姻"
+ pingvin.marriage.desc:0 "[secondary_recipient.GetFirstName]将会和[secondary_actor.GetFirstName]结婚。"

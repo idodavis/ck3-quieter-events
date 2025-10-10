@@ -1,0 +1,4 @@
+﻿l_english: 
+ prisonreleasethingy.title:0 "Prisoner Agrees To Release"
+ prisonreleasethingy.message:0 "[recipient.GetShortUINameNoTooltip] has agreed to your conditions for their release."
+ 

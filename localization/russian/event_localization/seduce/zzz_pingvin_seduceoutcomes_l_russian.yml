@@ -1,0 +1,5 @@
+﻿l_russian:
+ seduce_outcome.3901.t: "Змея при дворе"
+ seduce_outcome.pingvin.1.desc: "[owner.Custom2('YourCharacterIntroduction', ROOT.Char)|U] имеет дело с [target.Custom2('YourCharacterIntroductionNoComma', ROOT.Char)]. Это  [owner.Custom('InsultAdjective')] [owner.Custom('InsultNounSexual')]!"
+ seduce_outcome.pingvin.2.desc: "Это [owner.Custom('InsultAdjective')] [owner.Custom('InsultNounSexual')] [owner.GetFirstNameNoTooltip] был пойман при попытке соблазнить [target.GetFirstNameNoTooltip]!"
+ 

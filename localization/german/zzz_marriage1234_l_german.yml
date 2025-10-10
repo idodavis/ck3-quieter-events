@@ -1,0 +1,4 @@
+﻿l_german: 
+ pingvin.marriage.title:0 "Heiratsantrag angenommen"
+ pingvin.marriage.desc:0 "[secondary_recipient.GetFirstName] wird [secondary_actor.GetFirstName] heiraten."
+ 

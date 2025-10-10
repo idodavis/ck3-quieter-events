@@ -1,0 +1,4 @@
+﻿l_russian: 
+ prisonreleasethingy.title: "Заключенный согласен на освобождение"
+ prisonreleasethingy.message: "[recipient.GetShortUINameNoTooltip] [Select_CString(recipient.IsFemale, 'согласна', 'согласен' )] на ваши условия освобождения."
+ 
