@@ -1,16 +1,18 @@
+![Mod Thumbnail](thumbnail.png)
+
 # Current Mod Description (As Shown on Steam):
-Currently, this mod is essentially just an updated version of the ***"Less Event Spam"*** mod by the wonderful **Night** and **Pingvin**. Please see the original: https://steamcommunity.com/sharedfiles/filedetails/?id=2750102888&searchtext=less+even
+This mod is an updated version of the ***"Less Event Spam"*** mod by the wonderful **Night** and **Pingvin**. Please see the original: https://steamcommunity.com/sharedfiles/filedetails/?id=2750102888&searchtext=less+even
 
 # What It Does
 This mod, as it's predecessor did, simply changes character events and large popups to hidden ones that will still be logged or sent to the interface as less obtrusive alerts styles so they don't show up in the players face time and time again. To be clear: **Events are hidden or relegated to toasts/notifications**
 
 # Current Events Affected
-* A Seduction Scheme at Court: Spymaster notifies player of ongoing scheme against character at court. 
-* Schemer Discovered: Your spymaster has discovered the schemer, but you can't take action. If you can imprison the schemer (i.e. they're your courtier/vassal), you still get the event.
-* Prisoner Release Acceptance; Since you already know whether your prisoner will accept their release conditions, there's no point in giving you a large event popup.
-* Marriage Accepted Letter: Just like Prisoner release, we know when we send offer, so no need to get a large reply.
-* A Snake at Court: Attempted seduction of courtier & ongoing affair between courtier and someone else. Still uses the games random insults that Less Event Spam mod used...may change in the future.
-* Child of My Dynasty: Sends a simple toast message with the ai chosen name and who the moth is instead of the larger window and prompting you to name using the widgets. ***Added back due to popular demand and with the help of VLindermann***
+* **A Seduction Scheme at Court**: Spymaster notifies player of ongoing scheme against character at court. 
+* **Schemer Discovered**: Your spymaster has discovered the schemer, but you can't take action. If you can imprison the schemer (i.e. they're your courtier/vassal), you still get the event.
+* **Prisoner Release Acceptance**: Since you already know whether your prisoner will accept their release conditions, there's no point in giving you a large event popup.
+* **Marriage Accepted Letter**: Just like Prisoner release, we know when we send offer, so no need to get a large reply.
+* **A Snake at Court**: Attempted seduction of courtier & ongoing affair between courtier and someone else. Still uses the games random insults that Less Event Spam mod used...may change in the future.
+* **Child of My Dynasty**: Sends a simple toast message with the ai chosen name and who the moth is instead of the larger window and prompting you to name using the widgets.
 
 # Compatibility
 **This mod overwrites the following events files in their entirety as it's the only way to ensure the events are actually affected and overridden.** *If there's an alternative let me know*
