@@ -1055,11 +1055,11 @@ spymaster_task.0347 = {
 			}
 			left_icon = scope:councillor
 			right_icon = scope:secret_holder
-			trigger = {
-				scope:secret_to_reveal = {
-					secret_type = secret_non_believer
-				}
-			}
+		}
+	}
+	trigger = {
+		scope:secret_to_reveal = {
+			secret_type = secret_non_believer
 		}
 	}
 }
