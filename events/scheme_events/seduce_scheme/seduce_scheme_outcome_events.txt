@@ -3760,6 +3760,7 @@ seduce_outcome.3309 = {
 #}
 #seduce_outcome.3900.t: "Discovered!"
 #seduce_outcome.3900.desc: "Mere moments after I have kissed [owner.GetTitledFirstName] goodbye, my [ROOT.Char.Custom2('RelationToMeShort', SCOPE.sC('target_liege'))]'s enraged shouts cut through the peaceful silence.\n\nMy heart sinks like a stone.\n\nKnowing that there is nothing I can do or say to prevent the coming disaster, I brace myself for [target_liege.GetTitledFirstNamePossessive] wrath."
+
 ##Quieter Events
 #Discovery event for spouse/liege
 seduce_outcome.3901 = {

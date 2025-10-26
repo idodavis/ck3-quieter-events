@@ -1,0 +1,103 @@
+secret_unbeliever_found_rule_ = {
+	
+	categories = {
+		quieter_events
+	}
+	
+	default = quieter
+	
+	suf_vanilla = { flag = GG_can_change_rule }
+	
+	suf_quieter = { flag = GG_can_change_rule }
+}
+
+prison_release_acceptance_rule = {
+	
+	categories = {
+		quieter_events
+	}
+	
+	default = quieter
+	
+	pra_vanilla = { flag = GG_can_change_rule }
+	
+	pra_quieter = { flag = GG_can_change_rule }
+}
+
+vassal_imprison_success_rule = {
+	
+	categories = {
+		quieter_events
+	}
+	
+	default = quieter
+	
+	vis_vanilla = { flag = GG_can_change_rule }
+	
+	quieter = { flag = GG_can_change_rule }
+}
+
+marriage_proposal_accepted_rule = {
+	
+	categories = {
+		quieter_events
+	}
+	
+	default = quieter
+	
+	mpa_vanilla = { flag = GG_can_change_rule }
+	
+	mpa_quieter = { flag = GG_can_change_rule }
+}
+
+seduction_scheme_discovery_rule = {
+	
+	categories = {
+		quieter_events
+	}
+	
+	default = quieter
+	
+	ssd_vanilla = { flag = GG_can_change_rule }
+	
+	quieter = { flag = GG_can_change_rule }
+}
+
+hostile_scheme_discovery_rule = {
+	
+	categories = {
+		quieter_events
+	}
+	
+	default = quieter
+	
+	hsd_vanilla = { flag = GG_can_change_rule }
+	
+	hsd_quieter = { flag = GG_can_change_rule }
+}
+
+hostile_scheme_owner_discovery_rule = {
+	
+	categories = {
+		quieter_events
+	}
+	
+	default = quieter
+	
+	hso_vanilla = { flag = GG_can_change_rule }
+	
+	hso_quieter = { flag = GG_can_change_rule }
+}
+
+child_of_my_dynasty_rule = {
+	
+	categories = {
+		quieter_events
+	}
+	
+	default = quieter
+	
+	cod_vanilla = { flag = GG_can_change_rule }
+	
+	cod_quieter = { flag = GG_can_change_rule }
+}

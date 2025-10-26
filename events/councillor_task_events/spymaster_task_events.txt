@@ -1000,6 +1000,7 @@ spymaster_task.0346 = {
 	}
 }
 
+# TODO: Look into limit and how I can trigger vanilla or quieter versions of events via game rules and triggers
 #Spymaster found Secret Unbeliever
 ##Quieter Events
 spymaster_task.0347 = {
