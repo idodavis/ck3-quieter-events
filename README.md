@@ -2,7 +2,7 @@
 Currently, this mod is essentially just an updated version of the ***"Less Event Spam"*** mod by the wonderful **Night** and **Pingvin**. Please see the original: https://steamcommunity.com/sharedfiles/filedetails/?id=2750102888&searchtext=less+even
 
 # What It Does
-This mod, as it's predecessor did, simply marks multiple events as hidden. Turning them from character events and large popups to hidden ones that will still be logged or sent to the interface as less obtrusive alerts so they don't show up in the players face time and time again. To be clear: **Events are hidden or relegated to toasts/notifications**
+This mod, as it's predecessor did, simply changes character events and large popups to hidden ones that will still be logged or sent to the interface as less obtrusive alerts styles so they don't show up in the players face time and time again. To be clear: **Events are hidden or relegated to toasts/notifications**
 
 # Current Events Affected
 * A Seduction Scheme at Court: Spymaster notifies player of ongoing scheme against character at court. 
