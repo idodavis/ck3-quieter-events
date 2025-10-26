@@ -1,4 +1,4 @@
-##Event sway in court
+﻿##Event sway in court
 quieter_seduce = {
 	icon = "sway_scheme"
 	title = event_message_title

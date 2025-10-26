@@ -1,4 +1,4 @@
-#Events related to the Spymaster's tasks
+﻿#Events related to the Spymaster's tasks
 namespace = spymaster_task
 ####
 # 0001-0999: Task outcome events
@@ -1053,8 +1053,8 @@ spymaster_task.0347 = {
 					desc = spymaster_task.0311.secret_non_believer
 				}
 			}
-			left_portrait = scope:councillor
-			right_portrait = scope:secret_holder
+			left_icon = scope:councillor
+			right_icon = scope:secret_holder
 			trigger = {
 				scope:secret_to_reveal = {
 					secret_type = secret_non_believer

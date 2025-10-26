@@ -1,10 +1,10 @@
-secret_unbeliever_found_rule_ = {
+﻿secret_unbeliever_found_rule_ = {
 	
 	categories = {
 		quieter_events
 	}
 	
-	default = quieter
+	default = suf_quieter
 	
 	suf_vanilla = { flag = GG_can_change_rule }
 	
@@ -17,7 +17,7 @@ prison_release_acceptance_rule = {
 		quieter_events
 	}
 	
-	default = quieter
+	default = pra_quieter
 	
 	pra_vanilla = { flag = GG_can_change_rule }
 	
@@ -30,11 +30,11 @@ vassal_imprison_success_rule = {
 		quieter_events
 	}
 	
-	default = quieter
+	default = vis_quieter
 	
 	vis_vanilla = { flag = GG_can_change_rule }
 	
-	quieter = { flag = GG_can_change_rule }
+	vis_quieter = { flag = GG_can_change_rule }
 }
 
 marriage_proposal_accepted_rule = {
@@ -43,7 +43,7 @@ marriage_proposal_accepted_rule = {
 		quieter_events
 	}
 	
-	default = quieter
+	default = mpa_quieter
 	
 	mpa_vanilla = { flag = GG_can_change_rule }
 	
@@ -56,11 +56,11 @@ seduction_scheme_discovery_rule = {
 		quieter_events
 	}
 	
-	default = quieter
+	default = ssd_quieter
 	
 	ssd_vanilla = { flag = GG_can_change_rule }
 	
-	quieter = { flag = GG_can_change_rule }
+	ssd_quieter = { flag = GG_can_change_rule }
 }
 
 hostile_scheme_discovery_rule = {
@@ -69,7 +69,7 @@ hostile_scheme_discovery_rule = {
 		quieter_events
 	}
 	
-	default = quieter
+	default = hsd_quieter
 	
 	hsd_vanilla = { flag = GG_can_change_rule }
 	
@@ -82,7 +82,7 @@ hostile_scheme_owner_discovery_rule = {
 		quieter_events
 	}
 	
-	default = quieter
+	default = hso_quieter
 	
 	hso_vanilla = { flag = GG_can_change_rule }
 	
@@ -95,7 +95,7 @@ child_of_my_dynasty_rule = {
 		quieter_events
 	}
 	
-	default = quieter
+	default = cod_quieter
 	
 	cod_vanilla = { flag = GG_can_change_rule }
 	

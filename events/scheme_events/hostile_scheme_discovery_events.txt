@@ -252,7 +252,7 @@ hostile_scheme_discovery.1002 = {
 		if = {
 			limit = {
 				scope:scheme = {
-					scheme_target = {
+					scheme_target_character = {
 						NOT = {
 							this = root
 						}
@@ -260,7 +260,7 @@ hostile_scheme_discovery.1002 = {
 				}
 			}
 			scope:scheme = {
-				scheme_target = {
+				scheme_target_character = {
 					trigger_event = hostile_scheme_discovery.1002
 					save_scope_as = targeted_courtier
 				}
@@ -277,7 +277,7 @@ hostile_scheme_discovery.1002 = {
 			limit = {
 				#Double check since it seems the scheme sometimes hangs around as a scope
 				exists = scope:scheme
-				exists = scope:scheme.scheme_target
+				exists = scope:scheme.scheme_target_character
 			}
 			scope:scheme = {
 				end_scheme = yes
@@ -286,8 +286,8 @@ hostile_scheme_discovery.1002 = {
 		if = {
 			#Only send it from the host's event so that owner doesn't get duplication if the host and the target isn't the same person
 			limit = {
-				exists = scope:scheme.scheme_target
-				scope:scheme.scheme_target = {
+				exists = scope:scheme.scheme_target_character
+				scope:scheme.scheme_target_character = {
 					this = root
 				}
 			}
