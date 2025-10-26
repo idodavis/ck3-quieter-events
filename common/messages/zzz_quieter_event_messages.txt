@@ -1,5 +1,5 @@
 ##Event sway in court
-pingvin_silent_seduce = {
+quieter_seduce = {
 	icon = "sway_scheme"
 	title = event_message_title
 	desc = event_message_text

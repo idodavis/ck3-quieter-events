@@ -1,0 +1,61 @@
+﻿l_english:
+  quieter.prisonrelease.title:0 "Gefangener freigelassen"
+  quieter.prisonrelease.message:0 "[recipient.GetShortUINameNoTooltip] hat Euren Kerker verlassen."
+
+  quieter.marriage.title:0 "Heiratsantrag angenommen"
+  quieter.marriage.desc:0 "[secondary_recipient.GetFirstName] wird [secondary_actor.GetFirstName] heiraten." 
+
+  quieter.seduce_outcome.3901.t:0 "Ein Lustmolch am Hofe"
+  quieter.seduce_outcome.desc:0 "[owner.Custom2('YourCharacterIntroduction', ROOT.Char)|U] hat eine Affäre mit [target.Custom2('YourCharacterIntroductionNoComma', ROOT.Char)]. Welch [owner.Custom('InsultAdjective')] [owner.Custom('InsultNounSexual')]!"
+
+  quieter.birth.dynastic.title:0 "Child Of My Dynasty"
+  quieter.birth.dynastic.message:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] has given birth to a [child.Custom('GetDaughterSon')]! They're calling the little one [child.GetFirstNameNoTooltip]."
+  quieter.birth.dynastic.message.twin:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] has given birth to two [child.Custom('TwinDaughtersSonsChildren')]!"
+
+  rule_secret_unbeliever_found_rule:0 "QE: A Secret Unbeliever is Found"
+  setting_vanilla:0 "Vanilla Event"
+  setting_vanilla_desc:0 "The standard event will fire as normal."
+  setting_quieter:0 "Quieter Event" 
+  setting_quieter_desc:0 "A simple message will notify you of the discovery."
+
+  rule_prison_release_acceptance_rule:0 "QE: Prisoner Release Acceptance"
+  setting_vanilla:0 "Vanilla Event"
+  setting_vanilla_desc:0 "The standard event will fire as normal."
+  setting_quieter:0 "Quieter Event"
+  setting_quieter_desc:0 "A \"good\" toast event will notify you of release acceptance."
+
+  rule_vassal_imprison_success_rule:0 "QE: Vassal Imprison Success"
+  setting_vanilla:0 "Vanilla Event"
+  setting_vanilla_desc:0 "The standard event will fire as normal."
+  setting_quieter:0 "Quieter Event"
+  setting_quieter_desc:0 "A \"neutral\" toast event will notify you of the successful imprisonment."
+
+  rule_marriage_proposal_accepted_rule:0 "QE: Marriage Proposal Accepted"
+  setting_vanilla:0 "Vanilla Event"
+  setting_vanilla_desc:0 "The standard event will fire as normal."
+  setting_quieter:0 "Quieter Event"
+  setting_quieter_desc:0 "A \"good\" toast event will notify you of the marriage acceptance."
+
+  rule_seduction_scheme_discovery_rule:0 "QE: Seduction Scheme Discovery"
+  setting_vanilla:0 "Vanilla Event"
+  setting_vanilla_desc:0 "The standard event will fire as normal."
+  setting_quieter:0 "Quieter Event"
+  setting_quieter_desc:0 "A \"bad\" small event will notify you of a seduction scheme by your liege/spouse."
+
+  rule_hostile_scheme_discovery_rule:0 "QE: Hostile Scheme Discovery"
+  setting_vanilla:0 "Vanilla Event"
+  setting_vanilla_desc:0 "The standard event will fire as normal."
+  setting_quieter:0 "Quieter Event"
+  setting_quieter_desc:0 "A \"good\" message notification will inform you of a hostile scheme that's been found via spymaster."
+
+  rule_hostile_scheme_owner_discovery_rule:0 "QE: Hostile Scheme Owner Discovery"
+  setting_vanilla:0 "Vanilla Event"
+  setting_vanilla_desc:0 "The standard event will fire as normal."
+  setting_quieter:0 "Quieter Event"
+  setting_quieter_desc:0 "A \"good\" message notification will inform you of who is the owner of a hostile scheme via spymaster."
+
+  rule_child_of_my_dynasty_rule:0 "QE: Child of My Dynasty Event"
+  setting_vanilla:0 "Vanilla Event"
+  setting_vanilla_desc:0 "The standard event will fire as normal."
+  setting_quieter:0 "Quieter Event"
+  setting_quieter_desc:0 "A \"good\" toast event will notify you when a new member of your dynasty is born and who the parents are. No longer an option to name the child via event."

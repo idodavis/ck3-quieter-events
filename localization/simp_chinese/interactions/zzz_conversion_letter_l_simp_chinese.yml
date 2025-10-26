@@ -1,5 +1,0 @@
-﻿l_simp_chinese:
- lns_con_accept:0 "接受改信"
- lns_con_acc_desc:0 "[recipient.GetTitledFirstName]皈依[actor.GetFaith.GetAdjective]信仰！"
- lns_con_refuse:0 "拒绝改信"
- lns_con_ref_desc:0 "[recipient.GetTitledFirstName]拒绝皈依[actor.GetFaith.GetAdjective]信仰！"

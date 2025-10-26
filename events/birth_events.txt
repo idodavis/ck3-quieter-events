@@ -2220,14 +2220,14 @@ birth.1010 = {
 	immediate = {
 		send_interface_message = {
 			type = event_generic_good_text
-			title = birth.dynastic.silent.title
+			title = quieter.birth.dynastic.title
 			desc = {
 				first_valid = {
 					triggered_desc = {
 						trigger = { exists = scope:child_2 }
-						desc = birth.dynastic.silent.message.twin
+						desc = quieter.birth.dynastic.message.twin
 					}
-					desc = birth.dynastic.silent.message			
+					desc = quieter.birth.dynastic.message
 				}
 			}
 			left_icon = scope:mother

@@ -830,8 +830,8 @@ char_interaction.0160 = {
 	immediate = {
 		send_interface_message = {
 			type = event_prison_good
-			title = prisonreleasethingy.title
-			desc = prisonreleasethingy.message
+			title = quieter.prisonrelease.title
+			desc = quieter.prisonrelease.message
 			right_icon = scope:recipient
 		}
 	}

@@ -1,5 +1,0 @@
-﻿l_german:
- seduce_outcome.3901.t:0 "Ein Lustmolch am Hofe"
- seduce_outcome.pingvin.1.desc:0 "[owner.Custom2('YourCharacterIntroduction', ROOT.Char)|U] hat eine Affäre mit [target.Custom2('YourCharacterIntroductionNoComma', ROOT.Char)]. Welch [owner.Custom('InsultAdjective')] [owner.Custom('InsultNounSexual')]!"
- seduce_outcome.pingvin.2.desc:0 "Der [owner.Custom('InsultAdjective')] [owner.Custom('InsultNounSexual')] [owner.GetFirstNameNoTooltip] hat versucht, [target.GetFirstNameNoTooltip] zu verführen!"
- 

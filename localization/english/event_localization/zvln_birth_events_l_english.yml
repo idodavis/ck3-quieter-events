@@ -1,6 +1,0 @@
-﻿l_english:
-
- birth.dynastic.silent.title:0 "Child Of My Dynasty"
- birth.dynastic.silent.message:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] has given birth to a [child.Custom('GetDaughterSon')]! They're calling the little one [child.GetFirstNameNoTooltip]."
- birth.dynastic.silent.message.twin:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] has given birth to two [child.Custom('TwinDaughtersSonsChildren')]!"
- 

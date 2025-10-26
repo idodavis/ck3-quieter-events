@@ -1,4 +1,0 @@
-﻿l_russian: 
- pingvin.marriage.title: "Предложение обвенчаться принято"
- pingvin.marriage.desc: "[secondary_recipient.GetFirstName] станет супругом [secondary_actor.GetFirstName]."
- 

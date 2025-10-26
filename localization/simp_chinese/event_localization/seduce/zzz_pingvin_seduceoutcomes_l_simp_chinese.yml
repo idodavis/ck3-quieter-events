@@ -1,4 +1,0 @@
-﻿l_simp_chinese:
- seduce_outcome.3901.t:0 "宫廷里的蛇"
- seduce_outcome.pingvin.1.desc:0 "[owner.Custom2('YourCharacterIntroduction', ROOT.Char)|U]承认与[target.Custom2('YourCharacterIntroductionNoComma', ROOT.Char)]，[owner.Custom('InsultAdjective')][owner.Custom('InsultNounSexual')]有染！"
- seduce_outcome.pingvin.2.desc:0 "[owner.Custom('InsultAdjective')][owner.Custom('InsultNounSexual')][owner.GetFirstNameNoTooltip]被发现试图勾引[target.GetFirstNameNoTooltip]！"

@@ -414,8 +414,8 @@ marriage_interaction.0010 = {
 	immediate = {
 		send_interface_message = {
 			type = event_generic_good_text
-			title = pingvin.marriage.title
-			desc = pingvin.marriage.desc
+			title = quieter.marriage.title
+			desc = quieter.marriage.desc
 			left_icon = scope:secondary_actor
 			right_icon = scope:secondary_recipient
 		}
