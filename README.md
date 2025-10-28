@@ -1,6 +1,8 @@
 ![Mod Thumbnail](thumbnail.png)
 
 # Current Mod Description (As Shown on Steam):
+**Currently Supports Game Version 1.18**
+
 This mod is an updated version of the ***"Less Event Spam"*** mod by the wonderful **Night** and **Pingvin**. Please see the original: https://steamcommunity.com/sharedfiles/filedetails/?id=2750102888&searchtext=less+even
 
 # What It Does
