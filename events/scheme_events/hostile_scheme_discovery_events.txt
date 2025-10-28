@@ -1,9 +1,11 @@
 ﻿##Events for hostile scheme discovery
+
 namespace = hostile_scheme_discovery
+
 ## 1001-1999: Agent discovered
 ## 2001-2999: Scheme discovered
-scripted_effect
-forbid_agent_from_scheme_effect = {
+
+scripted_effect forbid_agent_from_scheme_effect = {
 	scope:agent = {
 		forbid_from_scheme = scope:scheme
 		add_prestige = major_prestige_loss
@@ -34,13 +36,11 @@ hostile_scheme_discovery.1001 = {
 				desc = {
 					first_valid = {
 						triggered_desc = {
-							trigger = {
-								scope:scheme = {
-									scheme_target_character = root
-								}
-							}
-							desc = {
-								first_valid = {
+						    trigger = {
+								scope:scheme = { scheme_target_character = root }
+						    }
+						    desc = {
+						    	first_valid = {
 									triggered_desc = {
 										trigger = {
 											exists = scope:spymaster
@@ -50,7 +50,7 @@ hostile_scheme_discovery.1001 = {
 									}
 									desc = hostile_scheme_discovery.1001.close_relation_no_spymaster
 								}
-							}
+						    }
 						}
 						desc = {
 							first_valid = {
@@ -78,13 +78,11 @@ hostile_scheme_discovery.1001 = {
 			desc = {
 				first_valid = {
 					triggered_desc = {
-						trigger = {
-							scope:scheme = {
-								scheme_target_character = root
-							}
-						}
-						desc = {
-							first_valid = {
+					    trigger = {
+							scope:scheme = { scheme_target_character = root }
+					    }
+					    desc = {
+					    	first_valid = {
 								triggered_desc = {
 									trigger = {
 										exists = scope:spymaster
@@ -94,7 +92,7 @@ hostile_scheme_discovery.1001 = {
 								}
 								desc = hostile_scheme_discovery.1001.desc_no_spymaster
 							}
-						}
+					    }
 					}
 					desc = {
 						first_valid = {
@@ -124,9 +122,7 @@ hostile_scheme_discovery.1001 = {
 	left_portrait = scope:spymaster
 	lower_left_portrait = {
 		trigger = {
-			NOT = {
-				scope:targeted_courtier = scope:spymaster
-			}
+			scope:targeted_courtier != scope:spymaster
 		}
 		character = scope:targeted_courtier
 		animation = shock
@@ -135,25 +131,17 @@ hostile_scheme_discovery.1001 = {
 		character = scope:agent
 		animation = fear
 	}
+
 	immediate = {
 		play_music_cue = "mx_cue_murder"
 		if = {
 			limit = {
-				scope:scheme = {
-					scheme_target_character = {
-						NOT = {
-							this = root
-						}
-					}
-				}
+				scope:target_character != root
 			}
-			scope:scheme = {
-				scheme_target_character = {
-					save_scope_as = targeted_courtier
-				}
-			}
+			scope:target_character = { save_scope_as = targeted_courtier }
 		}
 	}
+
 	#Accuse and let go
 	option = {
 		name = hostile_scheme_discovery.1001.a
@@ -166,6 +154,7 @@ hostile_scheme_discovery.1001 = {
 			base = 40
 		}
 	}
+
 	#Accuse and imprison
 	option = {
 		name = hostile_scheme_discovery.1001.b
@@ -177,12 +166,9 @@ hostile_scheme_discovery.1001 = {
 				}
 			}
 		}
-		show_as_unavailable = {
-			always = yes
-		}
+		show_as_unavailable = { always = yes }
 		forbid_agent_from_scheme_effect = yes
-		rightfully_imprison_character_effect = {
-			#Exposing scheme agent above will add opinion making the imprisonment rightful
+		rightfully_imprison_character_effect = { #Exposing scheme agent above will add opinion making the imprisonment rightful
 			TARGET = scope:agent
 			IMPRISONER = root
 		}
@@ -194,6 +180,7 @@ hostile_scheme_discovery.1001 = {
 			base = 100
 		}
 	}
+
 	#Let them go
 	option = {
 		name = hostile_scheme_discovery.1001.c
@@ -222,6 +209,7 @@ hostile_scheme_discovery.1001 = {
 			custom_tooltip = hostile_scheme_discovery.1001.c.tt
 			add_piety = miniscule_piety_gain
 		}
+		
 		ai_chance = {
 			base = 20
 			modifier = {
@@ -230,6 +218,7 @@ hostile_scheme_discovery.1001 = {
 			}
 		}
 	}
+
 	after = {
 		#If the agent has not been let go, send notification to scheme owner
 		if = {
@@ -242,6 +231,7 @@ hostile_scheme_discovery.1001 = {
 		}
 	}
 }
+
 
 ##Quieter Events
 #Owner discovered
@@ -365,6 +355,8 @@ hostile_scheme_discovery.1002 = {
 	}
 }
 
+
+
 ##Quieter Events
 #Discover Scheme
 hostile_scheme_discovery.2001 = {
@@ -462,12 +454,16 @@ hostile_scheme_discovery.2001 = {
 	}
 }
 
+
+
 #Agent discovery notification for scheme owner
 hostile_scheme_discovery.3001 = {
 	type = character_event
 	title = hostile_scheme_discovery.3001.t
 	desc = {
+
 		desc = hostile_scheme_discovery.3001.intro
+
 		first_valid = {
 			triggered_desc = {
 				trigger = {
@@ -492,6 +488,7 @@ hostile_scheme_discovery.3001 = {
 		gui = "event_window_widget_scheme"
 		container = "custom_widgets_container"
 	}
+
 	immediate = {
 		play_music_cue = "mx_cue_murder"
 		scope:target.court_owner = {
@@ -514,6 +511,7 @@ hostile_scheme_discovery.3001 = {
 			}
 		}
 	}
+
 	option = {
 		name = hostile_scheme_discovery.3001.a
 	}
@@ -537,19 +535,16 @@ hostile_scheme_discovery.3002 = {
 		gui = "event_window_widget_scheme"
 		container = "custom_widgets_container"
 	}
+
 	immediate = {
 		play_music_cue = "mx_cue_murder"
 		if = {
-			limit = {
-				exists = scope:target.court_owner
-			}
+			limit = { exists = scope:target.court_owner }
 			scope:target.court_owner = {
 				save_scope_as = court_owner
 				if = {
 					limit = {
-						NOT = {
-							scope:target = scope:court_owner
-						}
+						scope:target != scope:court_owner
 					}
 					save_scope_as = portrait
 				}
@@ -561,6 +556,7 @@ hostile_scheme_discovery.3002 = {
 			}
 		}
 	}
+
 	option = {
 		name = hostile_scheme_discovery.3002.a
 	}
@@ -612,15 +608,11 @@ hostile_scheme_discovery.3003 = {
 	left_portrait = {
 		character = scope:target
 		triggered_animation = {
-			trigger = {
-				ai_boldness > 0
-			}
+			trigger = { ai_boldness > 0 }
 			animation = anger
 		}
 		triggered_animation = {
-			trigger = {
-				always = yes
-			}
+			trigger = { always = yes }
 			animation = fear
 		}
 	}
@@ -629,25 +621,23 @@ hostile_scheme_discovery.3003 = {
 		gui = "event_window_widget_scheme"
 		container = "custom_widgets_container"
 	}
+
 	immediate = {
 		play_music_cue = "mx_cue_murder"
 		if = {
-			limit = {
-				exists = scope:target.court_owner
-			}
+			limit = { exists = scope:target.court_owner }
 			scope:target.court_owner = {
 				save_scope_as = court_owner
 				if = {
 					limit = {
-						NOT = {
-							scope:target = scope:court_owner
-						}
+						scope:target != scope:court_owner
 					}
 					save_scope_as = portrait
 				}
 			}
 		}
 	}
+
 	option = {
 		name = hostile_scheme_discovery.3003.a
 		scope:owner = {
@@ -662,6 +652,7 @@ hostile_scheme_discovery.3003 = {
 			}
 			steal_back_artifact_failure_effect = yes
 		}
+
 		if = {
 			limit = {
 				scope:scheme = {
@@ -673,15 +664,18 @@ hostile_scheme_discovery.3003 = {
 				MURDERER = scope:owner
 			}
 		}
+
 		scope:scheme = {
 			end_scheme = yes
 		}
 	}
 }
 
+
 ######################################
 # SCHEMES AT OWN COURT ARE DISCOVERED
 ######################################
+
 #Fallback for any type of Hostile Scheme
 hostile_scheme_discovery.4001 = {
 	type = character_event
@@ -692,6 +686,7 @@ hostile_scheme_discovery.4001 = {
 	}
 	theme = generic_intrigue_scheme
 	left_portrait = scope:target
+
 	immediate = {
 		play_music_cue = "mx_cue_murder"
 		scope:target = {
@@ -701,6 +696,7 @@ hostile_scheme_discovery.4001 = {
 			}
 		}
 	}
+
 	#End the Scheme
 	option = {
 		name = hostile_scheme_discovery.4001.a
@@ -710,9 +706,7 @@ hostile_scheme_discovery.4001 = {
 		add_prestige = medium_prestige_loss
 		add_tyranny = minor_tyranny_gain
 		if = {
-			limit = {
-				is_valid_for_legitimacy_change = yes
-			}
+			limit = { is_valid_for_legitimacy_change = yes }
 			add_legitimacy = miniscule_legitimacy_loss
 		}
 		ai_chance = {
@@ -729,14 +723,13 @@ hostile_scheme_discovery.4001 = {
 			}
 		}
 	}
+
 	#Keep it going
 	option = {
 		name = hostile_scheme_discovery.4001.b
 		add_tyranny = medium_tyranny_gain
 		if = {
-			limit = {
-				is_valid_for_legitimacy_change = yes
-			}
+			limit = { is_valid_for_legitimacy_change = yes }
 			add_legitimacy = minor_legitimacy_loss
 		}
 		ai_chance = {
@@ -765,6 +758,7 @@ hostile_scheme_discovery.4002 = {
 	}
 	theme = generic_intrigue_scheme
 	left_portrait = scope:target
+
 	immediate = {
 		play_music_cue = "mx_cue_murder"
 		#Target dislikes you for trying to kill them
@@ -775,6 +769,7 @@ hostile_scheme_discovery.4002 = {
 			}
 		}
 	}
+
 	#End the Scheme
 	option = {
 		name = hostile_scheme_discovery.4001.a
@@ -784,9 +779,7 @@ hostile_scheme_discovery.4002 = {
 		add_tyranny = minor_tyranny_gain
 		add_prestige = medium_prestige_loss
 		if = {
-			limit = {
-				is_valid_for_legitimacy_change = yes
-			}
+			limit = { is_valid_for_legitimacy_change = yes }
 			add_legitimacy = miniscule_legitimacy_loss
 		}
 		ai_chance = {
@@ -803,15 +796,14 @@ hostile_scheme_discovery.4002 = {
 			}
 		}
 	}
+
 	#Keep it going
 	option = {
 		name = hostile_scheme_discovery.4001.b
 		add_tyranny = execution_tyranny_gain
 		add_dread = minor_dread_gain
 		if = {
-			limit = {
-				is_valid_for_legitimacy_change = yes
-			}
+			limit = { is_valid_for_legitimacy_change = yes }
 			add_legitimacy = minor_legitimacy_loss
 		}
 		ai_chance = {
@@ -829,3 +821,4 @@ hostile_scheme_discovery.4002 = {
 		}
 	}
 }
+

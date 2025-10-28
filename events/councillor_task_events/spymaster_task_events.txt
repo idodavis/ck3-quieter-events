@@ -1,13 +1,20 @@
 ﻿#Events related to the Spymaster's tasks
+
 namespace = spymaster_task
+
+
 ####
 # 0001-0999: Task outcome events
 # by Petter Vilberg
 ####
 # 0301 - Find Minor Secret - Hidden setup!
 # 0302 - Find Major Secret - Hidden setup!
+
 # 0341-0359 - Reveal secret
+
 # 0399 - Spymaster found nothing
+
+
 ####
 # 1000-1999: Side effects from Disrupt Schemes
 # by Petter Vilberg
@@ -15,7 +22,10 @@ namespace = spymaster_task
 # 1001-1002 - Spymaster Gives Up Your Secret
 # 1003-1004 - Spymaster Gives Up a Courtier's Secret
 # 1005 - Spymaster Giving Up Secret: Follow-up for Forgiving
+
 # 1101 - Hostile Scheme Interrupted
+
+
 ####
 # 2000-2999: Side effects from Support Schemes
 # by Petter Vilberg
@@ -23,8 +33,11 @@ namespace = spymaster_task
 # 2001 - Loss of Piety
 # 2002 - Loss of Prestige
 # 2003 - Scheme Fails
+
 # 2101-2103 - Discover a Minor Secret
 # 2104 - 2106 - Discover a Major Secret
+
+
 ####
 # 3000-3999: Side effects from Espionage
 # by Petter Vilberg
@@ -33,37 +46,47 @@ namespace = spymaster_task
 # 3001 - Snooping on your vassal causes opinion loss
 # 3002 - Your Liege has been and continues to snoop on you
 # 3003 - Your Liege has been snooping, but promises to stop
+
 ### Own liege target:
 # 3004 - Snooping on your liege causes opinion loss
 # 3005 - Your vassal has been and continues to snoop on you
 # 3006 - Your Vassal has been snooping, but promises to stop
+
 ### Foreign Ruler target
 # 3007 - Snooping on a foreign ruler causes opinion loss
 # 3008 - A Foreign Ruler has been and continues to snoop on you
 # 3009 - A Foreign Ruler has been snooping, but promises to stop
+
 # Foreign Ruler's Vassal target
 # 3010 - Snooping on a foreign vassal causes opinion loss
 # 3011 - A Foreign Ruler has been and continues to snoop on you
 # 3012 - A Foreign Ruler has been snooping, but promises to stop
+
+
+
 ##################
 # Task Outcome Events
 # 0001-0999
 ##################
+
 #######
 # Espionage
 # 0301-0399
 #  by Petter Vilberg
 #######
+
 #Pick a minor secret to reveal
 spymaster_task.0301 = {
 	hidden = yes
+
 	trigger = {
 		exists = cp:councillor_spymaster
 		scope:councillor = cp:councillor_spymaster
 		scope:target_character = {
-			spymaster_task_find_secrets_court_has_minor_secrets_trigger = yes
+			spymaster_task_find_secrets_court_has_minor_secrets_trigger = yes		
 		}
 	}
+
 	immediate = {
 		cp:councillor_spymaster = {
 			save_scope_as = active_councillor
@@ -79,7 +102,7 @@ spymaster_task.0301 = {
 				}
 				every_secret = {
 					limit = {
-						spymaster_task_find_secrets_suitable_minor_secret_trigger = yes
+						spymaster_task_find_secrets_suitable_minor_secret_trigger = yes	
 					}
 					add_to_temporary_list = suitable_secrets
 				}
@@ -89,14 +112,12 @@ spymaster_task.0301 = {
 				limit = {
 					any_secret = {
 						spymaster_task_find_secrets_suitable_minor_secret_trigger = yes
-					}
+					}	
 				}
 				every_secret = {
 					limit = {
 						spymaster_task_find_secrets_suitable_minor_secret_trigger = yes
-						NOT = {
-							is_in_list = suitable_secrets
-						}
+						NOT = { is_in_list = suitable_secrets }
 					}
 					add_to_temporary_list = suitable_secrets
 				}
@@ -111,14 +132,13 @@ spymaster_task.0301 = {
 				every_secret = {
 					limit = {
 						spymaster_task_find_secrets_suitable_minor_secret_trigger = yes
-						NOT = {
-							is_in_list = suitable_secrets
-						}
+						NOT = { is_in_list = suitable_secrets }
 					}
 					add_to_temporary_list = suitable_secrets
 				}
 			}
 		}
+
 		#Pick a Secret to discover
 		random_in_list = {
 			list = suitable_secrets
@@ -140,9 +160,7 @@ spymaster_task.0301 = {
 					add = -3
 					secret_type = secret_crypto_religionist
 					secret_owner = {
-						secret_faith ?= {
-							has_doctrine_parameter = sanctioned_false_conversion
-						}
+						secret_faith ?= { has_doctrine_parameter = sanctioned_false_conversion }
 					}
 				}
 				# Less likely to pick crypto-religionist secrets (b/c narratively they are hard to discover)
@@ -156,6 +174,7 @@ spymaster_task.0301 = {
 				save_scope_as = secret_holder
 			}
 		}
+
 		#Fire events
 		# If the secret is a crypto-religionist secret, then there is a chance that the spymaster does not discover anything after all
 		if = {
@@ -169,11 +188,7 @@ spymaster_task.0301 = {
 					value = 50
 					# Even more likely to not discover this secret if the target practices Taqiya
 					if = {
-						limit = {
-							secret_faith ?= {
-								has_doctrine_parameter = sanctioned_false_conversion
-							}
-						}
+						limit = { secret_faith ?= { has_doctrine_parameter = sanctioned_false_conversion } }
 						add = 25
 					}
 				}
@@ -181,8 +196,7 @@ spymaster_task.0301 = {
 			}
 		}
 		scope:councillor_liege = {
-			if = {
-				#It's someone I care about
+			if = { #It's someone I care about
 				limit = {
 					OR = {
 						spymaster_find_secrets_secret_holder_is_interesting_to_me_trigger = yes
@@ -195,31 +209,28 @@ spymaster_task.0301 = {
 					on_action = task_find_secrets_reveal_selection
 				}
 			}
-			else = {
-				#For everyone else, send a feed message
+			else = { #For everyone else, send a feed message
 				send_interface_message = {
 					type = msg_spymaster_task_good
 					title = spymaster_task.0311.notification
 					desc = {
 						triggered_desc = {
 							trigger = {
-								scope:active_councillor = {
-									intrigue <= average_skill_level
-								}
+								scope:active_councillor = { intrigue <= average_skill_level }
 							}
 							desc = task_intrigue_good_unskilled_notification_tooltip
 						}
 						triggered_desc = {
 							trigger = {
-								scope:active_councillor = {
-									intrigue > average_skill_level
-								}
+								scope:active_councillor = { intrigue > average_skill_level }
 							}
 							desc = task_intrigue_good_skilled_notification_tooltip
 						}
 					}
+					
 					left_icon = scope:secret_holder
 					right_icon = scope:councillor
+					
 					scope:secret_to_reveal = {
 						reveal_to = scope:councillor_liege
 					}
@@ -227,31 +238,27 @@ spymaster_task.0301 = {
 			}
 		}
 		scope:councillor = {
-			if = {
-				#Check that the Spymaster doesn't already know the secret
+			if = { #Check that the Spymaster doesn't already know the secret
 				limit = {
 					scope:secret_to_reveal = {
-						NOT = {
-							is_known_by = prev
-						}
+						NOT = { is_known_by = prev }
 					}
 				}
-				if = {
-					#It's the owner of the court or someone else I care about
-					limit = {
-						spymaster_find_secrets_secret_holder_is_interesting_to_me_trigger = yes
-					}
+				if = { #It's the owner of the court or someone else I care about
+					limit = { spymaster_find_secrets_secret_holder_is_interesting_to_me_trigger = yes }
 					trigger_event = {
 						on_action = task_find_secrets_reveal_selection
 					}
 				}
-				else = {
-					#For everyone else, send a feed message
+				else = { #For everyone else, send a feed message
 					send_interface_message = {
 						type = msg_spymaster_task_good
 						title = spymaster_task.0311.notification
+						
 						left_icon = scope:secret_holder
+						
 						desc = blank_line
+						
 						scope:secret_to_reveal = {
 							reveal_to = scope:councillor
 						}
@@ -265,6 +272,7 @@ spymaster_task.0301 = {
 #Pick a major secret to reveal
 spymaster_task.0302 = {
 	hidden = yes
+
 	trigger = {
 		exists = cp:councillor_spymaster
 		scope:councillor = cp:councillor_spymaster
@@ -272,6 +280,7 @@ spymaster_task.0302 = {
 			spymaster_task_find_secrets_court_has_major_secrets_trigger = yes
 		}
 	}
+
 	immediate = {
 		cp:councillor_spymaster = {
 			save_scope_as = active_councillor
@@ -286,7 +295,7 @@ spymaster_task.0302 = {
 				}
 				every_secret = {
 					limit = {
-						spymaster_task_find_secrets_suitable_major_secret_trigger = yes
+						spymaster_task_find_secrets_suitable_major_secret_trigger = yes	
 					}
 					add_to_temporary_list = suitable_secrets
 				}
@@ -296,14 +305,12 @@ spymaster_task.0302 = {
 				limit = {
 					any_secret = {
 						spymaster_task_find_secrets_suitable_major_secret_trigger = yes
-					}
+					}	
 				}
 				every_secret = {
 					limit = {
 						spymaster_task_find_secrets_suitable_major_secret_trigger = yes
-						NOT = {
-							is_in_list = suitable_secrets
-						}
+						NOT = { is_in_list = suitable_secrets }
 					}
 					add_to_temporary_list = suitable_secrets
 				}
@@ -318,14 +325,13 @@ spymaster_task.0302 = {
 				every_secret = {
 					limit = {
 						spymaster_task_find_secrets_suitable_major_secret_trigger = yes
-						NOT = {
-							is_in_list = suitable_secrets
-						}
+						NOT = { is_in_list = suitable_secrets }
 					}
 					add_to_temporary_list = suitable_secrets
 				}
 			}
 		}
+
 		#Pick a Secret to discover
 		random_in_list = {
 			list = suitable_secrets
@@ -348,10 +354,10 @@ spymaster_task.0302 = {
 				save_scope_as = secret_holder
 			}
 		}
+
 		#Fire events
 		scope:councillor_liege = {
-			if = {
-				#It's someone I care about
+			if = { #It's someone I care about
 				limit = {
 					OR = {
 						spymaster_find_secrets_secret_holder_is_interesting_to_me_trigger = yes
@@ -364,31 +370,28 @@ spymaster_task.0302 = {
 					on_action = task_find_secrets_reveal_selection
 				}
 			}
-			else = {
-				#For everyone else, send a feed message
+			else = { #For everyone else, send a feed message
 				send_interface_message = {
 					type = msg_spymaster_task_good
 					title = spymaster_task.0311.notification
 					desc = {
 						triggered_desc = {
 							trigger = {
-								scope:active_councillor = {
-									intrigue <= average_skill_level
-								}
+								scope:active_councillor = { intrigue <= average_skill_level }
 							}
 							desc = task_intrigue_good_unskilled_notification_tooltip
 						}
 						triggered_desc = {
 							trigger = {
-								scope:active_councillor = {
-									intrigue > average_skill_level
-								}
+								scope:active_councillor = { intrigue > average_skill_level }
 							}
 							desc = task_intrigue_good_skilled_notification_tooltip
 						}
 					}
+
 					left_icon = scope:secret_holder
 					right_icon = scope:councillor
+
 					scope:secret_to_reveal = {
 						reveal_to = scope:councillor_liege
 					}
@@ -396,17 +399,13 @@ spymaster_task.0302 = {
 			}
 		}
 		scope:councillor = {
-			if = {
-				#Check that the Spymaster doesn't already know the secret
+			if = { #Check that the Spymaster doesn't already know the secret
 				limit = {
 					scope:secret_to_reveal = {
-						NOT = {
-							is_known_by = prev
-						}
+						NOT = { is_known_by = prev }
 					}
 				}
-				if = {
-					#It's the owner of the court or someone else I care about
+				if = { #It's the owner of the court or someone else I care about
 					limit = {
 						OR = {
 							scope:secret_holder = {
@@ -422,14 +421,16 @@ spymaster_task.0302 = {
 						on_action = task_find_secrets_reveal_selection
 					}
 				}
-				else = {
-					#For everyone else, send a feed message
+				else = { #For everyone else, send a feed message
 					scope:councillor = {
 						send_interface_message = {
 							type = msg_spymaster_task_good
 							title = spymaster_task.0311.notification
+
 							left_icon = scope:secret_holder
+							
 							desc = blank_line
+
 							scope:secret_to_reveal = {
 								reveal_to = scope:councillor
 							}
@@ -440,6 +441,8 @@ spymaster_task.0302 = {
 		}
 	}
 }
+
+
 
 #Spymaster found Secret Deviant
 spymaster_task.0341 = {
@@ -461,7 +464,7 @@ spymaster_task.0341 = {
 					OR = {
 						has_trait = deviant
 						any_secret = {
-							secret_type = secret_deviant
+							type = secret_deviant
 						}
 					}
 				}
@@ -479,13 +482,17 @@ spymaster_task.0341 = {
 		character = scope:secret_holder
 		animation = shame
 	}
+	
 	trigger = {
 		scope:secret_to_reveal = {
 			secret_type = secret_deviant
 		}
 	}
+
 	immediate = {
+	
 	}
+
 	option = {
 		name = {
 			text = spymaster_task.0341.a.deviant
@@ -493,7 +500,7 @@ spymaster_task.0341 = {
 				OR = {
 					has_trait = deviant
 					any_secret = {
-						secret_type = secret_deviant
+						type = secret_deviant
 					}
 				}
 			}
@@ -548,9 +555,9 @@ spymaster_task.0342 = {
 					first_valid = {
 						#Root is ambivalent
 						triggered_desc = {
-							trigger = {
+							trigger = {			
 								any_secret = {
-									secret_type = secret_homosexual
+									type = secret_homosexual
 								}
 							}
 							desc = spymaster_task.0311.secret_sodomy.illegal_shared
@@ -559,7 +566,7 @@ spymaster_task.0342 = {
 					}
 				}
 				desc = spymaster_task.0311.sodomy.accepted
-			}
+			}		
 		}
 	}
 	theme = intrigue
@@ -571,11 +578,13 @@ spymaster_task.0342 = {
 		character = scope:secret_holder
 		animation = shame
 	}
+	
 	trigger = {
 		scope:secret_to_reveal = {
 			secret_type = secret_homosexual
 		}
 	}
+
 	option = {
 		name = spymaster_task.0342.a
 		scope:secret_to_reveal = {
@@ -600,11 +609,7 @@ spymaster_task.0343 = {
 		}
 		first_valid = {
 			triggered_desc = {
-				trigger = {
-					scope:secret_to_reveal = {
-						secret_target = root
-					}
-				}
+				trigger = { scope:secret_to_reveal = { secret_target = root } }
 				desc = spymaster_task.0311.secret_murder_attempt.targeting_me
 			}
 			triggered_desc = {
@@ -633,11 +638,13 @@ spymaster_task.0343 = {
 		animation = shame
 	}
 	lower_right_portrait = scope:murder_target
+	
 	trigger = {
 		scope:secret_to_reveal = {
 			secret_type = secret_murder_attempt
 		}
 	}
+
 	immediate = {
 		scope:secret_to_reveal = {
 			secret_target = {
@@ -647,25 +654,27 @@ spymaster_task.0343 = {
 		if = {
 			limit = {
 				any_scheme = {
-					scheme_type = murder
+					type = murder
 					scheme_target_character = scope:secret_holder
 				}
 			}
 			random_scheme = {
+				type = murder
 				limit = {
-					scheme_type = murder
 					scheme_target_character = scope:secret_holder
 				}
 				save_scope_as = scheme
 			}
 		}
 	}
+
 	option = {
 		name = spymaster_task.0343.a
 		scope:secret_to_reveal = {
 			reveal_to = root
 		}
 	}
+
 	option = {
 		name = spymaster_task.0343.murder_back
 		trigger = {
@@ -754,11 +763,13 @@ spymaster_task.0344 = {
 		animation = shame
 	}
 	lower_right_portrait = scope:murder_target
+	
 	trigger = {
 		scope:secret_to_reveal = {
 			secret_type = secret_murder
 		}
 	}
+
 	immediate = {
 		scope:secret_to_reveal = {
 			secret_target = {
@@ -768,19 +779,20 @@ spymaster_task.0344 = {
 		if = {
 			limit = {
 				any_scheme = {
-					scheme_type = murder
+					type = murder
 					scheme_target_character = scope:secret_holder
 				}
 			}
 			random_scheme = {
+				type = murder
 				limit = {
-					scheme_type = murder
 					scheme_target_character = scope:secret_holder
 				}
 				save_scope_as = scheme
 			}
 		}
 	}
+
 	option = {
 		name = {
 			text = spymaster_task.0344.a.sadistic
@@ -800,7 +812,38 @@ spymaster_task.0344 = {
 				CHARACTER = root
 			}
 		}
+		if = {
+			limit = {
+				scope:murder_target.house.house_head ?= this
+				NOT = {
+					has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:murder_target }
+				}
+				valid_for_feud_events_with_target_trigger = { TARGET = scope:secret_holder }
+			}
+			scope:secret_holder = { house_feud_save_head_and_attacker_effect = yes }
+			scope:murder_target = { save_scope_as = house_feud_victim }
+			random = {
+				chance = 50
+				modifier = {
+					add = 25
+					has_trait = vengeful
+				}
+				modifier = {
+					add = -25
+					has_trait = forgiving
+				}
+				modifier = {
+					add = 25
+					has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:killer }
+				}
+				trigger_event = {
+					id = bp1_house_feud.0005
+					days = { 10 15 }
+				}
+			}
+		}
 	}
+
 	option = {
 		name = {
 			text = spymaster_task.0344.a.sadistic
@@ -820,6 +863,36 @@ spymaster_task.0344 = {
 		}
 		scope:scheme = {
 			add_scheme_progress = scheme_progress_gain
+		}
+		if = {
+			limit = {
+				scope:murder_target.house.house_head ?= this
+				NOT = {
+					has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:murder_target }
+				}
+				valid_for_feud_events_with_target_trigger = { TARGET = scope:secret_holder }
+			}
+			scope:murder_target = { save_scope_as = house_feud_victim }
+			scope:secret_holder = { house_feud_save_head_and_attacker_effect = yes }
+			random = {
+				chance = 50
+				modifier = {
+					add = 25
+					has_trait = vengeful
+				}
+				modifier = {
+					add = -25
+					has_trait = forgiving
+				}
+				modifier = {
+					add = 25
+					has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:killer }
+				}
+				trigger_event = {
+					id = bp1_house_feud.0005
+					days = { 10 15 }
+				}
+			}
 		}
 	}
 }
@@ -843,8 +916,8 @@ spymaster_task.0345 = {
 				trigger = {
 					OR = {
 						has_trait = cannibal
-						any_secret = {
-							secret_type = secret_cannibal
+						any_secret = {	
+							type = secret_cannibal
 						}
 					}
 				}
@@ -862,11 +935,13 @@ spymaster_task.0345 = {
 		character = scope:secret_holder
 		animation = shame
 	}
+	
 	trigger = {
 		scope:secret_to_reveal = {
 			secret_type = secret_cannibal
 		}
 	}
+
 	option = {
 		name = {
 			text = spymaster_task.0345.a.cannibal
@@ -899,9 +974,7 @@ spymaster_task.0346 = {
 			#Lover Secret
 			triggered_desc = {
 				trigger = {
-					scope:secret_holder = {
-						is_consort_of = root
-					}
+					scope:secret_holder = { is_consort_of = root }
 				}
 				desc = spymaster_task.0311.secret_lover.consort
 			}
@@ -946,12 +1019,14 @@ spymaster_task.0346 = {
 		animation = flirtation
 	}
 	lower_right_portrait = scope:councillor
+	
 	trigger = {
 		scope:secret_to_reveal = {
 			secret_type = secret_lover
 			exists = secret_target
 		}
 	}
+
 	immediate = {
 		if = {
 			limit = {
@@ -966,17 +1041,14 @@ spymaster_task.0346 = {
 			}
 		}
 	}
+
 	option = {
 		name = {
 			text = spymaster_task.0346.a.consort
 			trigger = {
 				OR = {
-					scope:secret_holder = {
-						is_consort_of = root
-					}
-					scope:lover = {
-						is_consort_of = root
-					}
+					scope:secret_holder = { is_consort_of = root }
+					scope:lover = { is_consort_of = root }
 				}
 			}
 		}
@@ -1081,14 +1153,11 @@ spymaster_task.0348 = {
 		first_valid = {
 			triggered_desc = {
 				trigger = {
-					has_negative_attitude_towards_trait_trigger = {
-						TRAIT = incestuous
-						GENDER_CHARACTER = scope:secret_holder
-					}
+					has_negative_attitude_towards_trait_trigger = { TRAIT = incestuous GENDER_CHARACTER = scope:secret_holder }
 				}
 				desc = spymaster_task.0311.secret_incest
 			}
-			desc = spymaster_task.0311.secret_incest.shared			#Less condemning for not illegal/shared secret
+			desc = spymaster_task.0311.secret_incest.shared #Less condemning for not illegal/shared secret
 		}
 	}
 	theme = intrigue
@@ -1100,18 +1169,20 @@ spymaster_task.0348 = {
 		character = scope:secret_holder
 		animation = shock
 	}
+	
 	trigger = {
 		scope:secret_to_reveal = {
 			secret_type = secret_incest
 		}
 	}
+
 	option = {
 		name = {
 			trigger = {
 				OR = {
 					has_trait = incestuous
 					any_secret = {
-						secret_type = secret_incest
+						type = secret_incest
 					}
 				}
 			}
@@ -1153,7 +1224,7 @@ spymaster_task.0349 = {
 					OR = {
 						has_trait = witch
 						any_secret = {
-							secret_type = secret_witch
+							type = secret_witch
 						}
 					}
 				}
@@ -1188,11 +1259,13 @@ spymaster_task.0349 = {
 		character = scope:secret_holder
 		animation = dismissal
 	}
+	
 	trigger = {
 		scope:secret_to_reveal = {
 			secret_type = secret_witch
 		}
 	}
+
 	option = {
 		name = {
 			trigger = {
@@ -1286,12 +1359,14 @@ spymaster_task.0350 = {
 		animation = shame
 	}
 	lower_right_portrait = scope:actual_father
+	
 	trigger = {
 		scope:secret_to_reveal = {
 			secret_type = secret_disputed_heritage
 			secret_target = scope:secret_holder
 		}
 	}
+
 	immediate = {
 		scope:secret_to_reveal = {
 			secret_target = {
@@ -1305,6 +1380,7 @@ spymaster_task.0350 = {
 			}
 		}
 	}
+
 	option = {
 		name = {
 			trigger = {
@@ -1398,11 +1474,14 @@ spymaster_task.0351 = {
 		animation = shame
 	}
 	lower_right_portrait = scope:bastard
+
+	
 	trigger = {
 		scope:secret_to_reveal = {
 			secret_type = secret_disputed_heritage
 		}
 	}
+
 	immediate = {
 		scope:secret_to_reveal = {
 			secret_target = {
@@ -1416,6 +1495,7 @@ spymaster_task.0351 = {
 			}
 		}
 	}
+
 	option = {
 		name = {
 			trigger = {
@@ -1471,11 +1551,13 @@ spymaster_task.0352 = {
 	}
 	lower_right_portrait = scope:actual_father
 	lower_left_portrait = scope:bastard
+	
 	trigger = {
 		scope:secret_to_reveal = {
 			secret_type = secret_unmarried_illegitimate_child
 		}
 	}
+
 	immediate = {
 		scope:secret_to_reveal = {
 			secret_target = {
@@ -1489,6 +1571,7 @@ spymaster_task.0352 = {
 			}
 		}
 	}
+
 	option = {
 		name = {
 			trigger = {
@@ -1524,30 +1607,23 @@ spymaster_task.0353 = {
 			# Both secret practicers of the same faith
 			triggered_desc = {
 				trigger = {
-					exists = secret_faith
-					secret_faith = scope:secret_holder.secret_faith
+					secret_faith ?= scope:secret_holder.secret_faith
 				}
 				desc = spymaster_task.0311.secret_crypto_religionist.shared_faith_shared_secret
 			}
 			# Both of the same faith, but root does not practice in secret. Faith however does allow false conversions
 			triggered_desc = {
 				trigger = {
-					NOT = {
-						exists = secret_faith
-					}
+					NOT = { exists = secret_faith }
 					faith = scope:secret_holder.secret_faith
-					faith = {
-						has_doctrine_parameter = sanctioned_false_conversion
-					}
+					faith = { has_doctrine_parameter = sanctioned_false_conversion }
 				}
 				desc = spymaster_task.0311.secret_crypto_religionist.shared_faith_taqiya
 			}
 			# Both of the same faith, but root does not practice in secret
 			triggered_desc = {
 				trigger = {
-					NOT = {
-						exists = secret_faith
-					}
+					NOT = { exists = secret_faith }
 					faith = scope:secret_holder.secret_faith
 				}
 				desc = spymaster_task.0311.secret_crypto_religionist.shared_faith
@@ -1556,9 +1632,7 @@ spymaster_task.0353 = {
 			triggered_desc = {
 				trigger = {
 					exists = secret_faith
-					NOT = {
-						secret_faith = scope:secret_holder.secret_faith
-					}
+					NOT = { secret_faith = scope:secret_holder.secret_faith }
 				}
 				desc = spymaster_task.0311.secret_crypto_religionist.shared_secret
 			}
@@ -1590,27 +1664,26 @@ spymaster_task.0353 = {
 		character = scope:secret_holder
 		animation = dismissal
 	}
+	
 	trigger = {
 		scope:secret_to_reveal = {
 			secret_type = secret_crypto_religionist
 		}
 		exists = scope:secret_holder.secret_faith
 	}
+
 	option = {
 		name = {
 			text = {
 				first_valid = {
 					triggered_desc = {
 						trigger = {
-							exists = secret_faith
-							secret_faith = scope:secret_holder.secret_faith
+							secret_faith ?= scope:secret_holder.secret_faith
 						}
 						desc = spymaster_task.0353.a.shared_faith_shared_secret
 					}
 					triggered_desc = {
-						trigger = {
-							has_trait = cynical
-						}
+						trigger = { has_trait = cynical }
 						desc = spymaster_task.0353.a.cynical
 					}
 					desc = spymaster_task.0353.a
@@ -1647,9 +1720,11 @@ spymaster_task.0359 = {
 		character = scope:secret_holder
 		animation = shame
 	}
+	
 	trigger = {
 		exists = scope:secret_to_reveal
 	}
+
 	option = {
 		name = spymaster_task.0359.a
 		scope:secret_to_reveal = {
@@ -1657,6 +1732,7 @@ spymaster_task.0359 = {
 		}
 	}
 }
+
 
 ################################
 # Fabricate a Hook on a Courtier
@@ -1678,6 +1754,7 @@ spymaster_task.0381 = {
 		desc = spymaster_task.0381.desc
 	}
 	sender = scope:councillor
+	
 	trigger = {
 		has_perk = truth_is_relative_perk
 		scope:target_character = {
@@ -1686,6 +1763,7 @@ spymaster_task.0381 = {
 			}
 		}
 	}
+
 	weight_multiplier = {
 		base = 1
 		modifier = {
@@ -1695,13 +1773,15 @@ spymaster_task.0381 = {
 				is_hostile = yes
 			}
 		}
+
 		modifier = {
 			add = 4
 			scope:councillor = {
-				has_trait = lazy				# They're not really trying to find real secrets...
+				has_trait = lazy # They're not really trying to find real secrets...
 			}
 		}
 	}
+
 	immediate = {
 		scope:target_character = {
 			random_courtier_or_guest = {
@@ -1710,8 +1790,7 @@ spymaster_task.0381 = {
 				}
 				weight = {
 					base = 1
-					modifier = {
-						# Prioritise actual Courtiers
+					modifier = { # Prioritise actual Courtiers
 						add = 3
 						is_courtier_of = scope:target_character
 					}
@@ -1720,6 +1799,7 @@ spymaster_task.0381 = {
 			}
 		}
 	}
+
 	option = {
 		name = spymaster_task.0381.a
 		custom_tooltip = spymaster_task.0381.a.truth_is_relative_unlock
@@ -1749,6 +1829,7 @@ spymaster_task.0381 = {
 			#}
 		}
 	}
+
 	option = {
 		name = spymaster_task.0381.b
 		flavor = spymaster_task.0381.b.flavor
@@ -1768,6 +1849,9 @@ spymaster_task.0381 = {
 	}
 }
 
+
+
+
 #Spymaster finds nothing
 spymaster_task.0399 = {
 	type = letter_event
@@ -1778,31 +1862,28 @@ spymaster_task.0399 = {
 		desc = spymaster_task.0399.desc
 		first_valid = {
 			triggered_desc = {
-				trigger = {
-					root = scope:target_character
-				}
+				trigger = { root = scope:target_character }
 				desc = spymaster_task.0399.home_court
 			}
 			desc = spymaster_task.0399.other_court
 		}
 		first_valid = {
 			triggered_desc = {
-				trigger = {
-					exists = scope:no_secrets_here
-				}
+				trigger = { exists = scope:no_secrets_here }
 				desc = spymaster_task.0399.nothing_to_find
 			}
 			desc = spymaster_task.0399.something_here
 		}
 	}
 	sender = scope:councillor
+
 	weight_multiplier = {
 		base = 1
 		compare_modifier = {
 			trigger = {
 				scope:councillor = {
 					intrigue < medium_skill_rating
-				}
+				}	
 			}
 			target = scope:councillor
 			value = intrigue
@@ -1810,6 +1891,7 @@ spymaster_task.0399 = {
 			offset = inverted_high_skill_rating
 		}
 	}
+
 	immediate = {
 		#Calculate whether Spymaster thinks there are secrets to be found
 		random_list = {
@@ -1845,6 +1927,7 @@ spymaster_task.0399 = {
 			}
 		}
 	}
+
 	#Set Spymaster to default task
 	option = {
 		name = {
@@ -1866,7 +1949,7 @@ spymaster_task.0399 = {
 		}
 		hidden_effect = {
 			scope:councillor = {
-				start_default_task = yes
+				start_default_task = yes	
 			}
 		}
 		custom_tooltip = spymaster_task.0399.a.tt
@@ -1878,6 +1961,7 @@ spymaster_task.0399 = {
 			}
 		}
 	}
+
 	#I am not convinced, keep it up
 	option = {
 		name = {
@@ -1907,34 +1991,36 @@ spymaster_task.0399 = {
 	}
 }
 
+
+
 #####################
 # Side Effects from Disrupt Schemes
 # 1000-1999
 #####################
+
 ###Bad Side Effects
+
 #Spymaster gives up one of your secrets... - chain
 # 1001-1002
 spymaster_task.1001 = {
 	hidden = yes
+	
 	trigger = {
 		exists = cp:councillor_spymaster
 		scope:councillor = cp:councillor_spymaster
 		any_vassal = {
 			is_powerful_vassal = yes
-			NOT = {
-				this = scope:councillor
-			}
+			this != scope:councillor
 			save_temporary_scope_as = vassal
 		}
 		any_secret = {
-			NOT = {
-				is_known_by = scope:vassal
-			}
+			NOT = { is_known_by = scope:vassal }
 		}
 		scope:councillor = {
 			intrigue < high_skill_rating
 		}
 	}
+
 	weight_multiplier = {
 		base = 1
 		compare_modifier = {
@@ -1944,6 +2030,7 @@ spymaster_task.1001 = {
 			offset = inverted_high_skill_rating
 		}
 	}
+
 	immediate = {
 		cp:councillor_spymaster = {
 			save_scope_as = active_councillor
@@ -1951,15 +2038,11 @@ spymaster_task.1001 = {
 		random_vassal = {
 			limit = {
 				is_powerful_vassal = yes
-				NOT = {
-					this = scope:councillor
-				}
+				this != scope:councillor
 				save_temporary_scope_as = vassal
 				root = {
 					any_secret = {
-						NOT = {
-							is_known_by = scope:vassal
-						}
+						NOT = { is_known_by = scope:vassal }
 					}
 				}
 			}
@@ -1967,22 +2050,18 @@ spymaster_task.1001 = {
 		}
 		random_secret = {
 			limit = {
-				NOT = {
-					is_known_by = scope:vassal
-				}
+				NOT = { is_known_by = scope:vassal }
 			}
 			save_scope_as = secret_to_reveal
 		}
-		scope:vassal = {
-			#Fire the revelation event for the vassal
+		scope:vassal = { #Fire the revelation event for the vassal
 			trigger_event = spymaster_task.1002
 		}
+
 		if = {
 			limit = {
 				OR = {
-					NOT = {
-						has_trait = forgiving
-					}
+					NOT = { has_trait = forgiving }
 					has_hook_of_type = {
 						target = scope:councillor
 						type = favor_hook
@@ -1992,22 +2071,20 @@ spymaster_task.1001 = {
 			send_interface_message = {
 				type = msg_spymaster_task_bad
 				title = spymaster.1001.notification
+				
 				left_icon = scope:councillor
+
 				desc = {
 					desc = spymaster_task.1001.a.tt
 					triggered_desc = {
 						trigger = {
-							scope:active_councillor = {
-								intrigue <= average_skill_level
-							}
+							scope:active_councillor = { intrigue <= average_skill_level }
 						}
 						desc = task_intrigue_bad_unskilled_notification_tooltip
 					}
 					triggered_desc = {
 						trigger = {
-							scope:active_councillor = {
-								intrigue > average_skill_level
-							}
+							scope:active_councillor = { intrigue > average_skill_level }
 						}
 						desc = task_intrigue_bad_skilled_notification_tooltip
 					}
@@ -2023,7 +2100,9 @@ spymaster_task.1001 = {
 			trigger_event = spymaster_task.1005
 		}
 	}
+
 }
+
 
 #Vassal gets to know about the secret
 spymaster_task.1002 = {
@@ -2033,6 +2112,7 @@ spymaster_task.1002 = {
 	}
 	desc = spymaster_task.1002.desc
 	sender = scope:councillor
+	
 	option = {
 		name = spymaster_task.1002.a
 		flavor = spymaster_task.1002.a.tt
@@ -2043,21 +2123,16 @@ spymaster_task.1002 = {
 }
 
 ### END Spymaster giving up secret chain
+
 #Spymaster gives up a courtier's secret... - chain
 # 1003-1004
-scripted_trigger
-spymaster_task_1003_courtier_secret_trigger = {
-	NOT = {
-		is_known_by = scope:vassal
-	}
+scripted_trigger spymaster_task_1003_courtier_secret_trigger = {
+	NOT = { is_known_by = scope:vassal }
 	is_known_by = scope:councillor_liege
 }
 
-scripted_trigger
-spymaster_task_1003_courtier_trigger = {
-	NOT = {
-		this = scope:councillor
-	}
+scripted_trigger spymaster_task_1003_courtier_trigger = {
+	this != scope:councillor
 	any_secret = {
 		spymaster_task_1003_courtier_secret_trigger = yes
 	}
@@ -2065,6 +2140,7 @@ spymaster_task_1003_courtier_trigger = {
 
 spymaster_task.1003 = {
 	hidden = yes
+	
 	trigger = {
 		exists = cp:councillor_spymaster
 		scope:councillor = cp:councillor_spymaster
@@ -2079,6 +2155,7 @@ spymaster_task.1003 = {
 			intrigue < high_skill_rating
 		}
 	}
+
 	weight_multiplier = {
 		base = 1
 		compare_modifier = {
@@ -2088,6 +2165,7 @@ spymaster_task.1003 = {
 			offset = inverted_high_skill_rating
 		}
 	}
+
 	immediate = {
 		cp:councillor_spymaster = {
 			save_scope_as = active_councillor
@@ -2116,30 +2194,28 @@ spymaster_task.1003 = {
 			}
 			save_scope_as = courtier
 		}
-		scope:vassal = {
-			#Fire the revelation event for the vassal
+		scope:vassal = { #Fire the revelation event for the vassal
 			trigger_event = spymaster_task.1004
 		}
+
 		send_interface_message = {
 			type = msg_spymaster_task_bad
 			title = spymaster_task.1003.notification
+
 			right_icon = scope:courtier
 			left_icon = scope:councillor
+
 			desc = {
 				desc = spymaster_task.1003.a.tt
 				triggered_desc = {
 					trigger = {
-						scope:active_councillor = {
-							intrigue <= average_skill_level
-						}
+						scope:active_councillor = { intrigue <= average_skill_level }
 					}
 					desc = task_intrigue_bad_unskilled_notification_tooltip
 				}
 				triggered_desc = {
 					trigger = {
-						scope:active_councillor = {
-							intrigue > average_skill_level
-						}
+						scope:active_councillor = { intrigue > average_skill_level }
 					}
 					desc = task_intrigue_bad_skilled_notification_tooltip
 				}
@@ -2151,7 +2227,9 @@ spymaster_task.1003 = {
 			}
 		}
 	}
+
 }
+
 
 #Vassal gets to know about the secret
 spymaster_task.1004 = {
@@ -2161,6 +2239,7 @@ spymaster_task.1004 = {
 	}
 	desc = spymaster_task.1002.desc
 	sender = scope:councillor
+	
 	option = {
 		name = spymaster_task.1002.a
 		custom_tooltip = spymaster_task.1002.a.tt
@@ -2171,6 +2250,7 @@ spymaster_task.1004 = {
 }
 
 ### END Spymaster giving up secret chain
+
 #Spymaster Giving Up Secret: Follow-up for Forgiving
 spymaster_task.1005 = {
 	type = character_event
@@ -2181,8 +2261,8 @@ spymaster_task.1005 = {
 		character = scope:councillor
 		animation = shame
 	}
-	option = {
-		#How could you ever!
+
+	option = { #How could you ever!
 		name = spymaster_task.1001.a
 		custom_tooltip = spymaster_task.1001.a.tt
 		add_opinion = {
@@ -2191,8 +2271,8 @@ spymaster_task.1005 = {
 			opinion = -20
 		}
 	}
-	option = {
-		#We all make mistake s
+
+	option = { #We all make mistake s
 		name = spymaster_task.1001.b
 		trigger = {
 			has_trait = forgiving
@@ -2214,17 +2294,18 @@ spymaster_task.1005 = {
 	}
 }
 
+
 ###Good Side Effects
+
 #Hostile Scheme Interrupted
-scripted_trigger
-spymaster_task_1101_scheme_trigger = {
+
+scripted_trigger spymaster_task_1101_scheme_trigger = {
 	hostile_scheme_trigger = yes
-	scheme_owner = {
-		is_ai = yes
-	}
+	scheme_owner = { is_ai = yes }
 	save_temporary_scope_as = scheme
 	scheme_progress >= scheme_progress_33
 }
+
 
 spymaster_task.1101 = {
 	type = letter_event
@@ -2235,19 +2316,11 @@ spymaster_task.1101 = {
 		desc = spymaster_task.1101.desc_opening
 		first_valid = {
 			triggered_desc = {
-				trigger = {
-					scope:scheme = {
-						scheme_type = murder
-					}
-				}
+				trigger = { scope:scheme = { scheme_type = murder } }
 				desc = spymaster_task.1101.murder
 			}
 			triggered_desc = {
-				trigger = {
-					scope:scheme = {
-						scheme_type = abduct
-					}
-				}
+				trigger = { scope:scheme = { scheme_type = abduct } }
 				desc = spymaster_task.1101.abduct
 			}
 			desc = spymaster_task.1101.fallback
@@ -2255,6 +2328,7 @@ spymaster_task.1101 = {
 		desc = spymaster_task.1101.ending
 	}
 	sender = scope:councillor
+	
 	trigger = {
 		exists = cp:councillor_spymaster
 		scope:councillor = cp:councillor_spymaster
@@ -2262,10 +2336,11 @@ spymaster_task.1101 = {
 			spymaster_task_1101_scheme_trigger = yes
 		}
 		scope:councillor = {
-			councillor_positive_event_opinion_trigger = yes
+			
 			intrigue >= medium_skill_rating
 		}
 	}
+
 	weight_multiplier = {
 		base = 1
 		compare_modifier = {
@@ -2275,6 +2350,7 @@ spymaster_task.1101 = {
 			offset = inverted_mediocre_skill_rating
 		}
 	}
+
 	immediate = {
 		random_targeting_scheme = {
 			limit = {
@@ -2295,6 +2371,7 @@ spymaster_task.1101 = {
 			}
 		}
 	}
+
 	option = {
 		name = spymaster_task.1101.a
 		scope:scheme = {
@@ -2303,13 +2380,19 @@ spymaster_task.1101 = {
 	}
 }
 
+
 #####################
 # Side Effects from Support Schemes
 # 2000-2999
 #####################
+
+
 ###Bad Side Effects
+
+
 #Loss of Piety
 # by Petter Vilberg
+
 spymaster_task.2001 = {
 	type = character_event
 	title = spymaster_task.2001.t
@@ -2319,13 +2402,24 @@ spymaster_task.2001 = {
 		character = scope:councillor
 		animation = worry
 	}
+	right_portrait = {
+		character = scope:accused_priest
+		animation = schadenfreude
+	}
+	
 	trigger = {
 		exists = cp:councillor_spymaster
 		scope:councillor = cp:councillor_spymaster
 		scope:councillor = {
 			intrigue < high_skill_rating
 		}
+		any_pool_character = {
+			province = root.location
+			is_available_ai_adult = yes
+			can_be_clergy_due_to_gender_trigger = yes
+		}
 	}
+
 	weight_multiplier = {
 		base = 1
 		compare_modifier = {
@@ -2335,17 +2429,39 @@ spymaster_task.2001 = {
 			offset = inverted_high_skill_rating
 		}
 	}
+
 	immediate = {
 		set_variable = {
 			name = had_spymaster_task_side_effect
 			value = yes
 			days = spymaster_task_side_effect_cooldown
 		}
+		random_pool_character = {
+			province = root.location
+			limit = {
+				is_available_ai_adult = yes
+				can_be_clergy_due_to_gender_trigger = yes
+			}
+			save_scope_as = accused_priest
+			add_character_flag = need_priest_outfit
+		}
 	}
+
+	option = {
+		name = spymaster_task.2001.c
+		add_courtier = scope:accused_priest
+		reverse_add_opinion = {
+			modifier = distrustful
+			years = 15
+			target = scope:councillor
+		}
+	}
+	
 	option = {
 		name = spymaster_task.2001.a
 		add_piety = medium_piety_loss
 	}
+
 	option = {
 		name = spymaster_task.2001.b
 		add_piety = major_piety_loss
@@ -2375,12 +2491,20 @@ spymaster_task.2001 = {
 			}
 		}
 	}
+	after = {
+		scope:accused_priest = {
+			remove_character_flag = need_priest_outfit
+		}
+	}
 }
+
 
 #Loss of Prestige
 # by Petter Vilberg
+
 spymaster_task.2002 = {
 	hidden = yes
+	
 	trigger = {
 		exists = cp:councillor_spymaster
 		scope:councillor = cp:councillor_spymaster
@@ -2388,6 +2512,7 @@ spymaster_task.2002 = {
 			intrigue < high_skill_rating
 		}
 	}
+
 	weight_multiplier = {
 		base = 1
 		compare_modifier = {
@@ -2397,6 +2522,7 @@ spymaster_task.2002 = {
 			offset = inverted_high_skill_rating
 		}
 	}
+
 	immediate = {
 		cp:councillor_spymaster = {
 			save_scope_as = active_councillor
@@ -2406,37 +2532,37 @@ spymaster_task.2002 = {
 			value = yes
 			days = spymaster_task_side_effect_cooldown
 		}
+
 		send_interface_message = {
 			type = msg_spymaster_task_bad
 			title = spymaster_task.2002.notification
 			desc = {
 				triggered_desc = {
 					trigger = {
-						scope:active_councillor = {
-							intrigue <= average_skill_level
-						}
+						scope:active_councillor = { intrigue <= average_skill_level }
 					}
 					desc = task_intrigue_bad_unskilled_notification_tooltip
 				}
 				triggered_desc = {
 					trigger = {
-						scope:active_councillor = {
-							intrigue > average_skill_level
-						}
+						scope:active_councillor = { intrigue > average_skill_level }
 					}
 					desc = task_intrigue_bad_skilled_notification_tooltip
 				}
 			}
+			
 			left_icon = scope:councillor
+
 			add_prestige = medium_prestige_loss
 		}
 	}
 }
 
+
 #Scheme Fails
 # by Petter Vilberg
-scripted_trigger
-spymaster_task_2003_scheme_trigger = {
+
+scripted_trigger spymaster_task_2003_scheme_trigger = {
 	hostile_scheme_trigger = yes
 	save_temporary_scope_as = scheme
 	scheme_progress >= scheme_progress_50
@@ -2451,6 +2577,7 @@ spymaster_task.2003 = {
 		character = scope:councillor
 		animation = shock
 	}
+	
 	trigger = {
 		exists = cp:councillor_spymaster
 		scope:councillor = cp:councillor_spymaster
@@ -2461,6 +2588,7 @@ spymaster_task.2003 = {
 			spymaster_task_2003_scheme_trigger = yes
 		}
 	}
+	
 	weight_multiplier = {
 		base = 1
 		compare_modifier = {
@@ -2470,6 +2598,7 @@ spymaster_task.2003 = {
 			offset = inverted_high_skill_rating
 		}
 	}
+
 	immediate = {
 		random_scheme = {
 			limit = {
@@ -2478,12 +2607,11 @@ spymaster_task.2003 = {
 			save_scope_as = scheme
 		}
 	}
+
 	option = {
 		name = spymaster_task.2003.a
 		if = {
-			limit = {
-				exists = scope:scheme
-			}
+			limit = { exists = scope:scheme }
 			scope:scheme = {
 				end_scheme = yes
 			}
@@ -2491,17 +2619,21 @@ spymaster_task.2003 = {
 	}
 }
 
+
+
 ###Good Side Effects
+
 #Discovery of Minor Secrets Chain
 # 1101-1103
 # by Petter Vilberg
 spymaster_task.2101 = {
 	hidden = yes
+	
 	trigger = {
 		exists = cp:councillor_spymaster
 		scope:councillor = cp:councillor_spymaster
 		scope:councillor = {
-			councillor_positive_event_opinion_trigger = yes
+			
 			intrigue >= inverted_mediocre_skill_rating
 		}
 		scope:councillor_liege = {
@@ -2517,9 +2649,11 @@ spymaster_task.2101 = {
 			}
 		}
 	}
+
 	weight_multiplier = {
 		base = 1
 	}
+
 	immediate = {
 		scope:councillor_liege = {
 			every_courtier = {
@@ -2533,9 +2667,7 @@ spymaster_task.2101 = {
 			every_vassal = {
 				limit = {
 					OR = {
-						root = {
-							highest_held_title_tier = tier_county
-						}
+						root = { highest_held_title_tier = tier_county }
 						highest_held_title_tier = tier_county
 					}
 					any_secret = {
@@ -2570,16 +2702,16 @@ spymaster_task.2102 = {
 		character = scope:secret_owner
 		animation = worry
 	}
+
 	trigger = {
 		exists = scope:secret_to_reveal
 	}
+
 	option = {
 		name = spymaster_task.2102.a
 		trigger = {
 			scope:secret_to_reveal = {
-				NOT = {
-					is_known_by = root
-				}
+				NOT = { is_known_by = root }
 			}
 		}
 		scope:secret_to_reveal = {
@@ -2602,6 +2734,7 @@ spymaster_task.2102 = {
 			}
 		}
 	}
+
 	option = {
 		name = spymaster_task.2102.b
 		trigger = {
@@ -2626,14 +2759,13 @@ spymaster_task.2102 = {
 			}
 		}
 	}
+
 	option = {
 		name = spymaster_task.2102.c
 		scope:secret_to_reveal = {
 			if = {
 				limit = {
-					NOT = {
-						is_known_by = root
-					}
+					NOT = { is_known_by = root }
 				}
 				reveal_to = root
 			}
@@ -2645,8 +2777,10 @@ spymaster_task.2102 = {
 	}
 }
 
+
 spymaster_task.2103 = {
 	hidden = yes
+	
 	immediate = {
 		cp:councillor_spymaster = {
 			save_scope_as = active_councillor
@@ -2657,23 +2791,21 @@ spymaster_task.2103 = {
 			desc = {
 				triggered_desc = {
 					trigger = {
-						scope:active_councillor = {
-							intrigue <= average_skill_level
-						}
+						scope:active_councillor = { intrigue <= average_skill_level }
 					}
 					desc = task_intrigue_good_unskilled_notification_tooltip
 				}
 				triggered_desc = {
 					trigger = {
-						scope:active_councillor = {
-							intrigue > average_skill_level
-						}
+						scope:active_councillor = { intrigue > average_skill_level }
 					}
 					desc = task_intrigue_good_skilled_notification_tooltip
 				}
 			}
+			
 			right_icon = scope:secret_owner
 			left_icon = scope:councillor
+	
 			scope:secret_to_reveal = {
 				reveal_to = root
 			}
@@ -2682,16 +2814,18 @@ spymaster_task.2103 = {
 }
 
 ###END Discovery of Minor Secrets Chain
+
 #Discovery of Major Secrets Chain
 # 2104-2106
 # by Petter Vilberg
 spymaster_task.2104 = {
 	hidden = yes
+
 	trigger = {
 		exists = cp:councillor_spymaster
 		scope:councillor = cp:councillor_spymaster
 		scope:councillor = {
-			councillor_positive_event_opinion_trigger = yes
+			
 			intrigue >= mediocre_skill_rating
 		}
 		scope:councillor_liege = {
@@ -2707,9 +2841,11 @@ spymaster_task.2104 = {
 			}
 		}
 	}
+
 	weight_multiplier = {
 		base = 1
 	}
+
 	immediate = {
 		scope:councillor_liege = {
 			every_courtier = {
@@ -2723,9 +2859,7 @@ spymaster_task.2104 = {
 			every_vassal = {
 				limit = {
 					OR = {
-						root = {
-							highest_held_title_tier = tier_county
-						}
+						root = { highest_held_title_tier = tier_county }
 						highest_held_title_tier = tier_county
 					}
 					any_secret = {
@@ -2760,13 +2894,12 @@ spymaster_task.2105 = {
 		character = scope:secret_owner
 		animation = worry
 	}
+
 	option = {
 		name = spymaster_task.2102.a
 		trigger = {
 			scope:secret_to_reveal = {
-				NOT = {
-					is_known_by = root
-				}
+				NOT = { is_known_by = root }
 			}
 		}
 		scope:secret_to_reveal = {
@@ -2783,6 +2916,7 @@ spymaster_task.2105 = {
 			}
 		}
 	}
+
 	option = {
 		name = spymaster_task.2102.b
 		trigger = {
@@ -2801,14 +2935,13 @@ spymaster_task.2105 = {
 			}
 		}
 	}
+
 	option = {
 		name = spymaster_task.2102.c
 		scope:secret_to_reveal = {
 			if = {
 				limit = {
-					NOT = {
-						is_known_by = root
-					}
+					NOT = { is_known_by = root}
 				}
 				reveal_to = root
 			}
@@ -2817,8 +2950,10 @@ spymaster_task.2105 = {
 	}
 }
 
+
 spymaster_task.2106 = {
 	hidden = yes
+	
 	immediate = {
 		cp:councillor_spymaster = {
 			save_scope_as = active_councillor
@@ -2829,23 +2964,21 @@ spymaster_task.2106 = {
 			desc = {
 				triggered_desc = {
 					trigger = {
-						scope:active_councillor = {
-							intrigue <= average_skill_level
-						}
+						scope:active_councillor = { intrigue <= average_skill_level }
 					}
 					desc = task_intrigue_good_unskilled_notification_tooltip
 				}
 				triggered_desc = {
 					trigger = {
-						scope:active_councillor = {
-							intrigue > average_skill_level
-						}
+						scope:active_councillor = { intrigue > average_skill_level }
 					}
 					desc = task_intrigue_good_skilled_notification_tooltip
 				}
 			}
+			
 			right_icon = scope:secret_owner
 			left_icon = scope:councillor
+	
 			scope:secret_to_reveal = {
 				reveal_to = root
 			}
@@ -2854,11 +2987,15 @@ spymaster_task.2106 = {
 }
 
 ###END Discovery of Major Secrets Chain
+
+
 ###############
 # Espionage Side Effects
 # 3000-3999
 ###############
+
 ###Bad Side Effects
+
 #Snooping on your vassal causes opinion loss
 # by Petter Vilberg
 spymaster_task.3001 = {
@@ -2868,6 +3005,7 @@ spymaster_task.3001 = {
 	}
 	desc = spymaster_task.3001.desc
 	sender = scope:target_character
+	
 	trigger = {
 		exists = cp:councillor_spymaster
 		scope:councillor = cp:councillor_spymaster
@@ -2875,6 +3013,7 @@ spymaster_task.3001 = {
 			target_is_liege_or_above = root
 		}
 	}
+
 	weight_multiplier = {
 		base = 1
 		#Check whether the target's Spymaster is performing Disrupt Schemes
@@ -2895,6 +3034,7 @@ spymaster_task.3001 = {
 			multiplier = -0.05
 		}
 	}
+
 	immediate = {
 		set_variable = {
 			name = had_spymaster_task_side_effect
@@ -2902,6 +3042,7 @@ spymaster_task.3001 = {
 			days = spymaster_task_side_effect_cooldown
 		}
 	}
+
 	#Deny everything and continue
 	option = {
 		name = spymaster_task.3001.a
@@ -2920,6 +3061,7 @@ spymaster_task.3001 = {
 			}
 		}
 	}
+
 	#Promise it will stop
 	option = {
 		name = spymaster_task.3001.b
@@ -2960,6 +3102,7 @@ spymaster_task.3002 = {
 		character = scope:councillor
 		animation = disapproval
 	}
+	
 	option = {
 		name = spymaster_task.3002.a
 		add_opinion = {
@@ -2988,6 +3131,7 @@ spymaster_task.3003 = {
 		character = scope:councillor
 		animation = disapproval
 	}
+	
 	option = {
 		name = spymaster_task.3003.a
 		add_opinion = {
@@ -2998,6 +3142,7 @@ spymaster_task.3003 = {
 	}
 }
 
+
 #Snooping on your liege or above causes opinion loss
 # by Petter Vilberg
 spymaster_task.3004 = {
@@ -3007,11 +3152,13 @@ spymaster_task.3004 = {
 	}
 	desc = spymaster_task.3004.desc
 	sender = scope:target_character
+	
 	trigger = {
 		exists = cp:councillor_spymaster
 		scope:councillor = cp:councillor_spymaster
 		target_is_liege_or_above = scope:target_character
 	}
+
 	weight_multiplier = {
 		base = 1
 		#Check whether the target's Spymaster is performing Disrupt Schemes
@@ -3032,6 +3179,7 @@ spymaster_task.3004 = {
 			multiplier = -0.05
 		}
 	}
+
 	immediate = {
 		set_variable = {
 			name = had_spymaster_task_side_effect
@@ -3039,6 +3187,7 @@ spymaster_task.3004 = {
 			days = spymaster_task_side_effect_cooldown
 		}
 	}
+
 	#Deny everything and continue
 	option = {
 		name = spymaster_task.3004.a
@@ -3055,6 +3204,7 @@ spymaster_task.3004 = {
 			}
 		}
 	}
+
 	#Promise it will stop
 	option = {
 		name = spymaster_task.3004.b
@@ -3093,6 +3243,7 @@ spymaster_task.3005 = {
 		character = scope:councillor
 		animation = disapproval
 	}
+	
 	option = {
 		name = spymaster_task.3005.a
 		add_opinion = {
@@ -3120,6 +3271,7 @@ spymaster_task.3006 = {
 		character = scope:councillor
 		animation = disapproval
 	}
+	
 	option = {
 		name = spymaster_task.3006.a
 		add_opinion = {
@@ -3139,19 +3291,15 @@ spymaster_task.3007 = {
 	}
 	desc = spymaster_task.3007.desc
 	sender = scope:target_character
+	
 	trigger = {
 		exists = cp:councillor_spymaster
 		scope:councillor = cp:councillor_spymaster
-		scope:target_character = {
-			is_independent_ruler = yes
-		}
-		NOT = {
-			target_is_liege_or_above = scope:target_character
-		}
-		NOT = {
-			scope:target_character = root
-		}
+		scope:target_character = { top_liege = this }
+		NOT = { target_is_liege_or_above = scope:target_character }
+		scope:target_character != root
 	}
+
 	weight_multiplier = {
 		base = 1
 		#Check whether the target's Spymaster is performing Disrupt Schemes
@@ -3172,6 +3320,7 @@ spymaster_task.3007 = {
 			multiplier = -0.05
 		}
 	}
+
 	immediate = {
 		set_variable = {
 			name = had_spymaster_task_side_effect
@@ -3179,6 +3328,7 @@ spymaster_task.3007 = {
 			days = spymaster_task_side_effect_cooldown
 		}
 	}
+
 	#Deny everything and continue
 	option = {
 		name = spymaster_task.3007.a
@@ -3197,6 +3347,7 @@ spymaster_task.3007 = {
 			}
 		}
 	}
+
 	#Promise it will stop
 	option = {
 		name = spymaster_task.3007.b
@@ -3236,6 +3387,7 @@ spymaster_task.3008 = {
 		character = scope:councillor
 		animation = disapproval
 	}
+	
 	option = {
 		name = spymaster_task.3005.a
 		add_opinion = {
@@ -3263,6 +3415,7 @@ spymaster_task.3009 = {
 		character = scope:councillor
 		animation = disapproval
 	}
+	
 	option = {
 		name = spymaster_task.3006.a
 		add_opinion = {
@@ -3273,6 +3426,9 @@ spymaster_task.3009 = {
 	}
 }
 
+
+
+
 #Snooping on a foreign vassal causes opinion loss
 # by Petter Vilberg
 spymaster_task.3010 = {
@@ -3282,23 +3438,19 @@ spymaster_task.3010 = {
 	}
 	desc = spymaster_task.3007.desc
 	sender = scope:target_character
+	
 	trigger = {
 		exists = cp:councillor_spymaster
 		scope:councillor = cp:councillor_spymaster
 		scope:target_character = {
-			is_independent_ruler = no
-			NOT = {
-				target_is_liege_or_above = root
-			}
+			top_liege != this
+			NOT = { target_is_liege_or_above = root }
 		}
 		exists = scope:target_character.top_liege
-		NOT = {
-			target_is_liege_or_above = scope:target_character
-		}
-		NOT = {
-			scope:target_character = root
-		}
+		NOT = { target_is_liege_or_above = scope:target_character }
+		scope:target_character != root
 	}
+
 	weight_multiplier = {
 		base = 1
 		#Check whether the target's Spymaster is performing Disrupt Schemes
@@ -3319,6 +3471,7 @@ spymaster_task.3010 = {
 			multiplier = -0.05
 		}
 	}
+
 	immediate = {
 		set_variable = {
 			name = had_spymaster_task_side_effect
@@ -3329,6 +3482,7 @@ spymaster_task.3010 = {
 			save_scope_as = target_top_liege
 		}
 	}
+
 	#Deny everything and continue
 	option = {
 		name = spymaster_task.3007.a
@@ -3352,6 +3506,7 @@ spymaster_task.3010 = {
 			}
 		}
 	}
+
 	#Promise it will stop
 	option = {
 		name = spymaster_task.3007.b
@@ -3395,6 +3550,7 @@ spymaster_task.3011 = {
 		character = scope:councillor
 		animation = disapproval
 	}
+	
 	option = {
 		name = spymaster_task.3005.a
 		add_opinion = {
@@ -3429,6 +3585,7 @@ spymaster_task.3012 = {
 		character = scope:councillor
 		animation = disapproval
 	}
+	
 	option = {
 		name = spymaster_task.3006.a
 		add_opinion = {
@@ -3445,3 +3602,4 @@ spymaster_task.3012 = {
 		}
 	}
 }
+

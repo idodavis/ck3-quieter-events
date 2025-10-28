@@ -1,4 +1,4 @@
-version="1.1.0"
+version="1.1.18"
 tags={
 	"Fixes"
 	"Events"
@@ -6,5 +6,5 @@ tags={
 }
 name="Quieter Events"
 picture="thumbnail.png"
-supported_version="1.17.*"
+supported_version="1.18.*"
 remote_file_id="3578625086"

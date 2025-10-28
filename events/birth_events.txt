@@ -1,6 +1,9 @@
 ﻿#Events for birth on actions
+
 namespace = birth
+
 #All events marked with "BIRTH" are events announcing the birth
+
 ##############################################################################################
 # 0001-1999: "Ordinary" births and bastard births
 # by Petter Vilberg, Linnéa Thimrén & Mathilda Bjarnehed
@@ -13,6 +16,8 @@ namespace = birth
 # 1005 - BIRTH: Mother: Unmarried and father is unknown
 # 1006 - BIRTH: Real father: Realizes he is father of newborn (currently only triggered in 1005)
 # 1100 - Sends good omen notification
+
+
 ##############################################################################################
 # 2001-2999: Legitimization events for bastards
 ##############################################################################################
@@ -26,6 +31,7 @@ namespace = birth
 # 2102 - Mother's spouse: Bastard is unlegitimizable
 # 2103 - Father: Bastard is unlegitimizable
 # 2104 - Father's spouse: Birth of unlegitimizable bastard
+
 ##############################################################################################
 # 3000-3999: Problematic childbirth (miscarriages, mother deaths, sickly child, ill mother)
 # by Linnéa Thimrén & Mathilda Bjarnehed
@@ -42,18 +48,23 @@ namespace = birth
 # 3034 - Sickly child recovery - for child
 # 3035 - Sickly child recovery - for mother and father
 # 3041 - Sickly mother - for mother
+
+
 #############################################
 # 8001-8999: Misc birth management
 #############################################
+
 # 8001 - Reincarnation management, by Mathilda Bjarnehed
+
 ##############################################################################################
 # 9001-9999: Special naming events
 # by Mathilda Bjarnehed
 ###############################################################################################
 # 9002 - BIRTH: AI spouse suggests a name (5% change of replacing regular 1001 mother event or 1003 father event)
 # 9003 - You said no to their suggestion and pick a name of your own
-scripted_trigger
-allow_naming_on_birth_of_dynasty_child_trigger = {
+
+
+scripted_trigger allow_naming_on_birth_of_dynasty_child_trigger = {
 	save_temporary_scope_as = naming_dynasty_member
 	exists = $CHILD$
 	is_ai = no
@@ -61,9 +72,7 @@ allow_naming_on_birth_of_dynasty_child_trigger = {
 	$CHILD$ = {
 		any_parent = {
 			NOR = {
-				allow_naming_on_birth_of_child_trigger = {
-					CHILD = $CHILD$
-				}
+				allow_naming_on_birth_of_child_trigger = { CHILD = $CHILD$ }
 				this = scope:naming_dynasty_member
 			}
 		}
@@ -74,12 +83,15 @@ allow_naming_on_birth_of_dynasty_child_trigger = {
 #Selects visible birth event based on bastard status and complication rolls (for births without mother and/or child dying)
 birth.0001 = {
 	hidden = yes
+
 	trigger = {
 		birth_will_happen_as_usual_trigger = yes
 	}
+
 	immediate = {
 		#NOTE: Sets up secrets and notifies real_father and father if the child is a bastard, and they should know the Secret.
 		pregnancy_maintainance_effect = yes
+
 		#It is not a bastard and not complicated
 		if = {
 			limit = {
@@ -89,24 +101,18 @@ birth.0001 = {
 				}
 			}
 			random_list = {
-				95 = {
-					#Normal birth event for mother
+				95 = { #Normal birth event for mother
 					trigger_event = birth.1001
 				}
-				5 = {
-					#Other parent (father) suggest a name
+				5 = { #Other parent (father) suggest a name
 					trigger = {
-						allow_naming_on_birth_of_child_trigger = {
-							CHILD = scope:child
-						}
+						allow_naming_on_birth_of_child_trigger = { CHILD = scope:child }
 						scope:child = {
 							father ?= {
 								is_ai = yes
 								is_alive = yes
 							}
-							NOT = {
-								has_trait = twin
-							}
+							NOT = { has_trait = twin }
 						}
 					}
 					opinion_modifier = {
@@ -117,10 +123,7 @@ birth.0001 = {
 						multiplier = 0.1
 					}
 					modifier = {
-						any_child = {
-							is_alive = yes
-							count > 1
-						}
+						any_child = { is_alive = yes count > 1 }
 						add = -5
 					}
 					modifier = {
@@ -132,11 +135,8 @@ birth.0001 = {
 						}
 						add = 15
 					}
-					modifier = {
-						# Event is less common for AI rulers.
-						scope:child.mother = {
-							is_ai = yes
-						}
+					modifier = { # Event is less common for AI rulers.
+						scope:child.mother = { is_ai = yes }
 						factor = 0.25
 					}
 					trigger_event = birth.9002
@@ -146,13 +146,12 @@ birth.0001 = {
 		###
 		# Bastard event firing
 		###
+
 		# Married mother with secret bastard
 		else_if = {
 			limit = {
 				has_character_flag = bastard_pregnancy
-				NOT = {
-					has_character_flag = pregnancy_real_father_of_bastard_is_known_flag
-				}
+				NOT = { has_character_flag = pregnancy_real_father_of_bastard_is_known_flag }
 			}
 			trigger_event = birth.1002
 		}
@@ -160,12 +159,11 @@ birth.0001 = {
 		else_if = {
 			limit = {
 				has_character_flag = unmarried_bastard_pregnancy
-				NOT = {
-					has_character_flag = pregnancy_real_father_of_bastard_is_known_flag
-				}
+				NOT = { has_character_flag = pregnancy_real_father_of_bastard_is_known_flag }
 			}
 			trigger_event = birth.1005
 		}
+
 		#Known bastard
 		else_if = {
 			limit = {
@@ -175,6 +173,7 @@ birth.0001 = {
 				}
 				has_character_flag = pregnancy_real_father_of_bastard_is_known_flag
 			}
+
 			if = {
 				limit = {
 					exists = scope:child.house
@@ -193,10 +192,9 @@ birth.0001 = {
 					save_scope_as = legitimizer
 				}
 			}
+
 			if = {
-				limit = {
-					exists = scope:legitimizer
-				}
+				limit = { exists = scope:legitimizer }
 				scope:legitimizer = {
 					if = {
 						limit = {
@@ -212,140 +210,156 @@ birth.0001 = {
 				}
 			}
 		}
-		if = {
-			#Check whether the father should get a regular notification event
-			limit = {
-				exists = scope:father
-			}
-			scope:father = {
-				if = {
-					limit = {
-						OR = {
-							any_consort = {
-								this = scope:mother
-								NOT = {
-									has_character_flag = pregnancy_real_father_of_bastard_is_known_flag
-								}
-							}
-							#If you split up before the pregnancy was showing etc.
-							any_former_spouse = {
-								this = scope:mother
-								NOT = {
-									has_character_flag = pregnancy_real_father_of_bastard_is_known_flag
-								}
-							}
-							any_former_concubine = {
-								this = scope:mother
-								NOT = {
-									has_character_flag = pregnancy_real_father_of_bastard_is_known_flag
-								}
-							}
-							any_former_concubinist = {
-								this = scope:mother
-								NOT = {
-									has_character_flag = pregnancy_real_father_of_bastard_is_known_flag
-								}
-							}
+
+		scope:mother = {
+			every_parent = { # Grandparents
+				limit = {
+					NOT = { is_parent_of = scope:child } # Don't ask
+					trigger_if = {
+						limit = {
+							scope:child = { tgp_is_in_ceremonial_house_trigger = yes }
 						}
-						NOT = {
-							is_in_list = illegitimacy_secret_knowers
+						tgp_is_in_ceremonial_house_trigger = yes
+					}
+				}
+				send_interface_toast = {
+					type = msg_grandchild_born_toast
+					title = msg_grandchild_born_toast_title
+					left_icon = scope:mother
+					right_icon = scope:child
+					if = {
+						limit = {
+							scope:child = { has_trait = twin }
+						}
+						custom_tooltip = msg_grandchild_born_toast_desc_twins
+					}
+					else = {
+						custom_tooltip = msg_grandchild_born_toast_desc
+					}
+				}
+			}
+		}
+
+		scope:father ?= { #Check whether the father should get a regular notification event
+			if = {
+				limit = {
+					OR = {
+						any_consort = {
+							this = scope:mother
+							NOT = { has_character_flag = pregnancy_real_father_of_bastard_is_known_flag }
+						}
+						#If you split up before the pregnancy was showing etc.
+						any_former_spouse = {
+							this = scope:mother
+							NOT = { has_character_flag = pregnancy_real_father_of_bastard_is_known_flag }
+						}
+						any_former_concubine = {
+							this = scope:mother
+							NOT = { has_character_flag = pregnancy_real_father_of_bastard_is_known_flag }
+						}
+						any_former_concubinist = {
+							this = scope:mother
+							NOT = { has_character_flag = pregnancy_real_father_of_bastard_is_known_flag }
 						}
 					}
-					random_list = {
-						95 = {
-							#Normal birth event for father
-							if = {
-								limit = {
-									#If you split up before the pregnancy was showing etc. and now the mother isn't around then we just want to give the father a toast
-									NOT = {
-										is_consort_of = scope:mother
-									}
-									NOT = {
-										is_at_same_location = scope:mother
-									}
-								}
-								send_interface_toast = {
-									type = msg_child_born_toast
-									title = birth.father_is_former_consort_toast
-									left_icon = scope:mother
-									right_icon = scope:child
-									if = {
-										limit = {
-											scope:child = {
-												has_trait = twin
-											}
-										}
-										custom_tooltip = birth.father_is_former_consort_toast_tt_twins
-									}
-									else = {
-										custom_tooltip = birth.father_is_former_consort_toast_tt
-									}
-								}
+					NOT = { is_in_list = illegitimacy_secret_knowers }
+				}
+				random_list = {
+					95 = { #Normal birth event for father
+						if = {
+							limit = { #If you split up before the pregnancy was showing etc. and now the mother isn't around then we just want to give the father a toast
+								NOT = { is_consort_of = scope:mother }
+								NOT = { is_at_same_location = scope:mother }
 							}
-							else = {
-								#Normal event
-								trigger_event = birth.1003
+							send_interface_toast = {
+								type = msg_child_born_toast
+								title = birth.father_is_former_consort_toast
+								left_icon = scope:mother
+								right_icon = scope:child
+								if = {
+									limit = {
+										scope:child = { has_trait = twin }
+									}
+									custom_tooltip = birth.father_is_former_consort_toast_tt_twins
+								}
+								else = {
+									custom_tooltip = birth.father_is_former_consort_toast_tt
+								}
 							}
 						}
-						5 = {
-							#Other parent (mother) suggest a name
-							trigger = {
-								is_consort_of = scope:mother
-								allow_naming_on_birth_of_child_trigger = {
-									CHILD = scope:child
-								}
-								scope:child = {
-									exists = mother
-									mother = {
-										is_ai = yes
-									}
-									NOT = {
-										has_trait = twin
-									}
+						else = { #Normal event
+							trigger_event = birth.1003 	
+						}
+					}
+					5 = { #Other parent (mother) suggest a name
+						trigger = {
+							is_consort_of = scope:mother
+							allow_naming_on_birth_of_child_trigger = { CHILD = scope:child }
+							scope:child = {
+								mother ?= { is_ai = yes }
+								NOT = { has_trait = twin }
+							}
+						}
+						opinion_modifier = {
+							who = scope:child.mother
+							opinion_target = scope:child.father
+							min = 0
+							max = 10
+							multiplier = 0.1
+						}
+						modifier = {
+							any_child = { is_alive = yes count > 1 }
+							add = -5
+						}
+						modifier = {
+							scope:child.father != scope:child.real_father
+							add = 5
+						}
+						modifier = {
+							scope:child.mother = {
+								OR = {
+									has_trait = lunatic
+									has_trait = possessed
 								}
 							}
-							opinion_modifier = {
-								who = scope:child.mother
-								opinion_target = scope:child.father
-								min = 0
-								max = 10
-								multiplier = 0.1
+							add = 15
+						}
+						modifier = { # Event is less common for AI rulers.
+							scope:child.father = { is_ai = yes }
+							factor = 0.25
+						}
+						trigger_event = birth.9002
+					}
+				}
+				every_parent = { # Grandparents
+					limit = {
+						NOT = { is_parent_of = scope:child } # Don't ask
+						trigger_if = {
+							limit = {
+								scope:child = { tgp_is_in_ceremonial_house_trigger = yes }
 							}
-							modifier = {
-								any_child = {
-									is_alive = yes
-									count > 1
-								}
-								add = -5
+							tgp_is_in_ceremonial_house_trigger = yes
+						}
+					}
+					send_interface_toast = {
+						type = msg_grandchild_born_toast
+						title = msg_grandchild_born_toast_title
+						left_icon = scope:mother
+						right_icon = scope:child
+						if = {
+							limit = {
+								scope:child = { has_trait = twin }
 							}
-							modifier = {
-								NOT = {
-									scope:child.father = scope:child.real_father
-								}
-								add = 5
-							}
-							modifier = {
-								scope:child.mother = {
-									OR = {
-										has_trait = lunatic
-										has_trait = possessed
-									}
-								}
-								add = 15
-							}
-							modifier = {
-								# Event is less common for AI rulers.
-								scope:child.father = {
-									is_ai = yes
-								}
-								factor = 0.25
-							}
-							trigger_event = birth.9002
+							custom_tooltip = msg_grandchild_born_toast_desc_twins
+						}
+						else = {
+							custom_tooltip = msg_grandchild_born_toast_desc
 						}
 					}
 				}
 			}
 		}
+
 		#To trigger events for sickly child and ill mother!
 		if = {
 			limit = {
@@ -353,10 +367,7 @@ birth.0001 = {
 			}
 			trigger_event = {
 				id = birth.3031
-				days = {
-					10
-					30
-				}
+				days = { 10 30 }
 			}
 		}
 		if = {
@@ -365,12 +376,10 @@ birth.0001 = {
 			}
 			trigger_event = {
 				id = birth.3041
-				days = {
-					10
-					30
-				}
+				days = { 10 30 }
 			}
 		}
+
 		#Chance to gain cool modifier if you've birthed a lot of kids!
 		if = {
 			limit = {
@@ -414,19 +423,16 @@ birth.0001 = {
 				}
 				trigger_event = {
 					id = birth.0002
-					days = {
-						7
-						14
-					}
+					days = { 7 14 }
 				}
 			}
 		}
 		pregnancy_cleanup_effect = yes
+
+
 		#Special traits from event learning_medicine.1023
 		if = {
-			limit = {
-				has_character_flag = medicine_learning_fertility_treamtent_unexpected_trait
-			}
+			limit = { has_character_flag = medicine_learning_fertility_treamtent_unexpected_trait }
 			remove_character_flag = medicine_learning_fertility_treamtent_unexpected_trait
 			scope:child = {
 				random_list = {
@@ -484,45 +490,79 @@ birth.0001 = {
 						}
 						add_trait = intellect_bad_3
 					}
-					1 = {
-						add_trait = dwarf
-					}
-					2 = {
-						add_trait = giant
-					}
-					1 = {
-						add_trait = albino
-					}
+					1 = { add_trait = dwarf }
+					2 = { add_trait = giant }
+					1 = { add_trait = albino }
 				}
 			}
 		}
+
 		#Is a player part of the same dynasty, and my host? Give them the chance to name the child!
-		if = {
-			limit = {
-				exists = scope:child.dynasty
-			}
-			scope:child.dynasty = {
-				if = {
-					limit = {
-						any_dynasty_member = {
-							allow_naming_on_birth_of_dynasty_child_trigger = {
-								CHILD = scope:child
-							}
-							NOT = {
-								is_parent_of = scope:child
-							}							# parents should get their own naming event
-						}
+		scope:child.dynasty ?= {
+			if = {
+				limit = {
+					any_player = {
+						allow_naming_on_birth_of_dynasty_child_trigger = { CHILD = scope:child }
+						NOT = { is_parent_of = scope:child } # parents should get their own naming event
+						dynasty ?= scope:child.dynasty
 					}
-					random_dynasty_member = {
-						limit = {
-							allow_naming_on_birth_of_dynasty_child_trigger = {
-								CHILD = scope:child
+				}
+				random_player = {
+					limit = {
+						allow_naming_on_birth_of_dynasty_child_trigger = { CHILD = scope:child }
+						NOT = { is_parent_of = scope:child }
+						dynasty ?= scope:child.dynasty
+					}
+					trigger_event = birth.1010
+				}
+			}
+		}
+		# TGP Ceremonial House
+		scope:child = {
+			if = {
+				limit = {
+					tgp_is_in_ceremonial_house_trigger = yes
+					any_parent = {
+						NOT = { tgp_is_in_ceremonial_house_trigger = yes }
+					}
+				}
+				every_parent = {
+					limit = {
+						NOT = { tgp_is_in_ceremonial_house_trigger = yes }
+					}
+					save_scope_as = non_royal_parent
+					dynasty ?= { add_dynasty_prestige = minor_dynasty_prestige_gain }
+					every_player = {
+						limit = { top_liege = scope:child.top_liege }
+						send_interface_toast = {
+							type = msg_royal_child_born_toast
+							title = msg_royal_child_born_toast_title
+							left_icon = scope:non_royal_parent
+							right_icon = scope:child
+							if = {
+								limit = {
+									scope:child = { has_trait = twin }
+									scope:non_royal_parent = { is_female = yes }
+								}
+								custom_tooltip = msg_royal_child_born_toast_desc_twins
 							}
-							NOT = {
-								is_parent_of = scope:child
+							else_if = {
+								limit = {
+									scope:child = { has_trait = twin }
+								}
+								custom_tooltip = msg_royal_child_born_toast_desc_twins_father
+							}
+							else_if = {
+								limit = {
+									scope:non_royal_parent = { is_female = yes }
+								}
+								custom_tooltip = msg_royal_child_born_toast_desc
+							}
+							else = { custom_tooltip = msg_royal_child_born_toast_desc_father }
+							show_as_tooltip = {
+								scope:non_royal_parent.dynasty ?= { add_dynasty_prestige = minor_dynasty_prestige_gain }
 							}
 						}
-						trigger_event = birth.1010
 					}
 				}
 			}
@@ -540,12 +580,12 @@ birth.0002 = {
 		animation = newborn
 	}
 	theme = family
-	override_background = {
-		reference = bedchamber
-	}
+	override_background = { reference = bedchamber }
+
 	immediate = {
 		play_music_cue = mx_cue_positive_effect
 	}
+
 	option = {
 		name = birth.0002.a
 		add_character_modifier = {
@@ -561,9 +601,7 @@ birth.1001 = {
 			triggered_desc = {
 				trigger = {
 					scope:child = {
-						NOT = {
-							has_trait = twin
-						}
+						NOT = { has_trait = twin }
 						NAND = {
 							exists = root.player_heir
 							this = root.player_heir
@@ -575,9 +613,7 @@ birth.1001 = {
 			triggered_desc = {
 				trigger = {
 					scope:child = {
-						NOT = {
-							has_trait = twin
-						}
+						NOT = { has_trait = twin }
 						AND = {
 							exists = root.player_heir
 							this = root.player_heir
@@ -592,9 +628,7 @@ birth.1001 = {
 						has_trait = twin
 						is_female = yes
 					}
-					scope:child_2 = {
-						is_female = yes
-					}
+					scope:child_2 = { is_female = yes }
 				}
 				desc = birth.1001.daughters.t
 			}
@@ -604,9 +638,7 @@ birth.1001 = {
 						has_trait = twin
 						is_male = yes
 					}
-					scope:child_2 = {
-						is_male = yes
-					}
+					scope:child_2 = { is_male = yes }
 				}
 				desc = birth.1001.sons.t
 			}
@@ -616,8 +648,7 @@ birth.1001 = {
 	desc = {
 		#How do I feel?
 		random_valid = {
-			triggered_desc = {
-				#First child and it was cool
+			triggered_desc = { #First child and it was cool
 				trigger = {
 					NOT = {
 						any_child = {
@@ -628,14 +659,11 @@ birth.1001 = {
 							}
 						}
 					}
-					NOT = {
-						has_trait = craven
-					}
+					NOT = { has_trait = craven }
 				}
 				desc = birth.1001.first_birth_good.desc
 			}
-			triggered_desc = {
-				#First child and it was scary
+			triggered_desc = { #First child and it was scary
 				trigger = {
 					NOT = {
 						any_child = {
@@ -646,14 +674,11 @@ birth.1001 = {
 							}
 						}
 					}
-					NOT = {
-						has_trait = brave
-					}
+					NOT = { has_trait = brave }
 				}
 				desc = birth.1001.first_birth_scary.desc
 			}
-			triggered_desc = {
-				#Had a lot of babies
+			triggered_desc = { #Had a lot of babies
 				trigger = {
 					any_child = {
 						even_if_dead = yes
@@ -680,9 +705,7 @@ birth.1001 = {
 			triggered_desc = {
 				trigger = {
 					scope:child = {
-						NOT = {
-							has_trait = twin
-						}
+						NOT = { has_trait = twin }
 					}
 				}
 				desc = birth.1001.sondaughter.desc
@@ -693,9 +716,7 @@ birth.1001 = {
 						has_trait = twin
 						is_female = yes
 					}
-					scope:child_2 = {
-						is_female = yes
-					}
+					scope:child_2 = { is_female = yes }
 				}
 				desc = birth.1001.daughters.desc
 			}
@@ -705,9 +726,7 @@ birth.1001 = {
 						has_trait = twin
 						is_male = yes
 					}
-					scope:child_2 = {
-						is_male = yes
-					}
+					scope:child_2 = { is_male = yes }
 				}
 				desc = birth.1001.sons.desc
 			}
@@ -718,30 +737,22 @@ birth.1001 = {
 			# Mystical Birthright
 			triggered_desc = {
 				trigger = {
-					scope:child = {
-						has_character_flag = born_as_taltos
-					}
+					scope:child = { has_character_flag = born_as_taltos }
 					faith = scope:child.faith
 				}
 				desc = birth.1001.taltos.desc
 			}
 			triggered_desc = {
 				trigger = {
-					scope:child = {
-						has_character_flag = born_as_taltos
-					}
-					NOT = {
-						faith = scope:child.faith
-					}
+					scope:child = { has_character_flag = born_as_taltos }
+					faith != scope:child.faith
 				}
 				desc = birth.1001.taltos_unfaithful.desc
 			}
 			# Twins
 			triggered_desc = {
 				trigger = {
-					scope:child = {
-						has_trait = twin
-					}
+					scope:child = { has_trait = twin }
 					exists = root.player_heir
 					OR = {
 						scope:child = root.player_heir
@@ -752,9 +763,7 @@ birth.1001 = {
 			}
 			triggered_desc = {
 				trigger = {
-					scope:child = {
-						has_trait = twin
-					}
+					scope:child = { has_trait = twin }
 				}
 				desc = birth.1001.twins.desc
 			}
@@ -763,9 +772,7 @@ birth.1001 = {
 				trigger = {
 					exists = root.player_heir
 					scope:child = root.player_heir
-					NOT = {
-						sex_opposite_of = scope:child
-					}
+					NOT = { sex_opposite_of = scope:child }
 				}
 				desc = birth.1001.same_gender_heir.desc
 			}
@@ -784,39 +791,34 @@ birth.1001 = {
 	}
 	theme = pregnancy
 	override_background = {
-		reference = bedchamber
+		trigger = { scope:mother = { is_travelling = yes } }
+		reference = terrain_travel
 	}
+	override_background = { reference = bedchamber }
 	left_portrait = {
 		character = root
 		animation = newborn
-		outfit_tags = {
-			nightgown
-		}
+		outfit_tags = { nightgown }
 	}
 	right_portrait = {
-		trigger = {
-			exists = scope:second_adult
-		}
+		trigger = { exists = scope:second_adult }
 		character = scope:second_adult
 		animation = newborn
 	}
-	lower_left_portrait = scope:child
-	lower_center_portrait = scope:child_2
-	lower_right_portrait = scope:father
+	lower_left_portrait =  scope:child
+	lower_center_portrait =  scope:child_2
+	lower_right_portrait =  scope:father
+
 	trigger = {
 		root = scope:mother
 		scope:child.father = scope:child.real_father
 		scope:child = {
-			NOT = {
-				has_trait = bastard
-			}
-			NOT = {
-				has_trait = legitimized_bastard
-			}
+			NOT = { has_trait = bastard }
+			NOT = { has_trait = legitimized_bastard }
 		}
 		NOT = {
 			any_secret = {
-				secret_type = secret_disputed_heritage
+				type = secret_disputed_heritage
 				secret_target = {
 					this = scope:child
 				}
@@ -824,10 +826,9 @@ birth.1001 = {
 		}
 		birth_will_happen_as_usual_trigger = yes
 	}
+
 	immediate = {
-		play_music_cue_once = {
-			TRACK = mx_cue_birth
-		}
+		play_music_cue_once = { TRACK = mx_cue_birth }
 		if = {
 			limit = {
 				exists = var:dead_spouse
@@ -842,13 +843,9 @@ birth.1001 = {
 			}
 		}
 		scope:child = {
-			hidden_effect = {
-				set_father = scope:father
-			}
+			hidden_effect = { set_father = scope:father }
 			if = {
-				limit = {
-					has_trait = twin
-				}
+				limit = { has_trait = twin }
 				random_sibling = {
 					limit = {
 						is_twin_of = scope:child
@@ -857,13 +854,10 @@ birth.1001 = {
 				}
 			}
 		}
-		if = {
-			#To save the child that the father suspects of illegitimacy
+		if = { #To save the child that the father suspects of illegitimacy
 			limit = {
 				has_character_flag = father_suspects_this_pregnancy
-				scope:father = {
-					is_alive = yes
-				}
+				scope:father = { is_alive = yes }
 			}
 			remove_character_flag = father_suspects_this_pregnancy
 			scope:father = {
@@ -875,9 +869,7 @@ birth.1001 = {
 		}
 		#Look for another adult to hold the twin
 		if = {
-			limit = {
-				exists = scope:child_2
-			}
+			limit = { exists = scope:child_2 }
 			#Let's save the court physician if you have one
 			if = {
 				limit = {
@@ -888,9 +880,7 @@ birth.1001 = {
 						is_ai = yes
 					}
 				}
-				save_court_physician_as_effect = {
-					SCOPE_NAME = second_adult
-				}
+				save_court_physician_as_effect = { SCOPE_NAME = second_adult }
 			}
 			#Otherwise look for a relative of the mother
 			else_if = {
@@ -900,12 +890,8 @@ birth.1001 = {
 							is_in_the_same_court_as = root
 							is_adult = yes
 							NOR = {
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:father
-								}
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:mother
-								}
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:father }
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:mother }
 								this = scope:father
 								this = scope:mother
 							}
@@ -917,13 +903,9 @@ birth.1001 = {
 						limit = {
 							is_in_the_same_court_as = root
 							is_adult = yes
-							has_any_good_relationship_with_character_trigger = {
-								CHARACTER = scope:mother
-							}
+							has_any_good_relationship_with_character_trigger = { CHARACTER = scope:mother }
 							NOR = {
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:father
-								}
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:father }
 								this = scope:father
 								this = scope:mother
 							}
@@ -932,12 +914,8 @@ birth.1001 = {
 							is_in_the_same_court_as = root
 							is_adult = yes
 							NOR = {
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:father
-								}
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:mother
-								}
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:father }
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:mother }
 								this = scope:father
 								this = scope:mother
 							}
@@ -955,12 +933,8 @@ birth.1001 = {
 							is_adult = yes
 							is_female = yes
 							NOR = {
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:father
-								}
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:mother
-								}
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:father }
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:mother }
 								this = scope:father
 								this = scope:mother
 							}
@@ -973,13 +947,9 @@ birth.1001 = {
 							is_in_the_same_court_as = root
 							is_adult = yes
 							is_female = yes
-							has_any_good_relationship_with_character_trigger = {
-								CHARACTER = scope:mother
-							}
+							has_any_good_relationship_with_character_trigger = { CHARACTER = scope:mother }
 							NOR = {
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:father
-								}
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:father }
 								this = scope:father
 								this = scope:mother
 							}
@@ -993,12 +963,8 @@ birth.1001 = {
 								value >= 10
 							}
 							NOR = {
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:father
-								}
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:mother
-								}
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:father }
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:mother }
 								this = scope:father
 								this = scope:mother
 							}
@@ -1010,16 +976,12 @@ birth.1001 = {
 			#In lack of that look for a courtier with good relations
 			else_if = {
 				limit = {
-					any_courtier = {
+					any_courtier= {
 						is_adult = yes
 						is_female = yes
 						NOR = {
-							has_any_bad_relationship_with_character_trigger = {
-								CHARACTER = scope:father
-							}
-							has_any_bad_relationship_with_character_trigger = {
-								CHARACTER = scope:mother
-							}
+							has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:father }
+							has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:mother }
 							this = scope:father
 							this = scope:mother
 						}
@@ -1029,13 +991,9 @@ birth.1001 = {
 					limit = {
 						is_adult = yes
 						is_female = yes
-						has_any_good_relationship_with_character_trigger = {
-							CHARACTER = scope:mother
-						}
+						has_any_good_relationship_with_character_trigger = { CHARACTER = scope:mother }
 						NOR = {
-							has_any_bad_relationship_with_character_trigger = {
-								CHARACTER = scope:father
-							}
+							has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:father }
 							this = scope:father
 							this = scope:mother
 						}
@@ -1048,12 +1006,8 @@ birth.1001 = {
 							value >= 10
 						}
 						NOR = {
-							has_any_bad_relationship_with_character_trigger = {
-								CHARACTER = scope:father
-							}
-							has_any_bad_relationship_with_character_trigger = {
-								CHARACTER = scope:mother
-							}
+							has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:father }
+							has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:mother }
 							this = scope:father
 							this = scope:mother
 						}
@@ -1068,16 +1022,13 @@ birth.1001 = {
 				limit = {
 					faith = {
 						has_doctrine_parameter = mystic_birthright_active
-						NOT = {
-							has_variable = recent_taltos_born
-						}
+						NOT = { has_variable = recent_taltos_born }
 					}
 				}
 				random_list = {
 					# 1% chance of super rare Taltos birth for AI characters
 					1 = {
-						modifier = {
-							# 5% chance for players
+						modifier = { # 5% chance for players
 							add = 4
 							OR = {
 								scope:mother = {
@@ -1088,6 +1039,7 @@ birth.1001 = {
 								}
 							}
 						}
+
 						add_character_flag = born_as_taltos
 						add_trait = lifestyle_mystic
 						hidden_effect = {
@@ -1116,8 +1068,7 @@ birth.1001 = {
 						}
 					}
 					99 = {
-						modifier = {
-							# 5% chance for players
+						modifier = { # 5% chance for players
 							add = -4
 							OR = {
 								scope:mother = {
@@ -1130,64 +1081,48 @@ birth.1001 = {
 						}
 						# 99% chance of normal uninteresting birth
 					}
+
 				}
 			}
 		}
 	}
+
+
 	#NAMING WIDGET
 	widgets = {
 		widget = {
 			is_shown = {
-				allow_naming_on_birth_of_child_trigger = {
-					CHILD = scope:child
-				}
+				allow_naming_on_birth_of_child_trigger = { CHILD = scope:child }
 			}
 			gui = "event_window_widget_name_child"
 			container = "dynamic_birth_name"
 			controller = name_character
-			setup_scope = {
-				scope:child = {
-					save_scope_as = name_character_target
-				}
-			}
+			setup_scope = { scope:child = { save_scope_as = name_character_target } }
 		}
 		widget = {
 			is_shown = {
-				allow_naming_on_birth_of_child_trigger = {
-					CHILD = scope:child_2
-				}
+				allow_naming_on_birth_of_child_trigger = { CHILD = scope:child_2 }
 			}
 			gui = "event_window_widget_name_child"
 			container = "dynamic_birth_name"
 			controller = name_character
-			setup_scope = {
-				scope:child_2 = {
-					save_scope_as = name_character_target
-				}
-			}
+			setup_scope = { scope:child_2 = { save_scope_as = name_character_target } }
 		}
 	}
+
 	option = {
 		name = birth.1001.a
-		trigger = {
-			scope:child = {
-				NOT = {
-					has_trait = twin
-				}
-			}
-		}
+		trigger = { scope:child = { NOT = { has_trait = twin } } }
 		add_prestige = minor_prestige_gain
 	}
+
 	option = {
 		name = birth.1001.b
-		trigger = {
-			scope:child = {
-				has_trait = twin
-			}
-		}
+		trigger = { scope:child = { has_trait = twin } }
 		add_prestige = minor_prestige_gain
 	}
 }
+
 
 #BIRTH: Mother: child secretly a bastard
 birth.1002 = {
@@ -1197,12 +1132,8 @@ birth.1002 = {
 			triggered_desc = {
 				trigger = {
 					scope:child = {
-						NOT = {
-							has_trait = twin
-						}
-						NOT = {
-							is_player_heir_of = root
-						}
+						NOT = { has_trait = twin }
+						NOT = { is_player_heir_of = root }
 					}
 				}
 				desc = birth.1001.t
@@ -1210,9 +1141,7 @@ birth.1002 = {
 			triggered_desc = {
 				trigger = {
 					scope:child = {
-						NOT = {
-							has_trait = twin
-						}
+						NOT = { has_trait = twin }
 						is_player_heir_of = root
 					}
 				}
@@ -1224,9 +1153,7 @@ birth.1002 = {
 						has_trait = twin
 						is_female = yes
 					}
-					scope:child_2 = {
-						is_female = yes
-					}
+					scope:child_2 = { is_female = yes }
 				}
 				desc = birth.1001.daughters.t
 			}
@@ -1236,9 +1163,7 @@ birth.1002 = {
 						has_trait = twin
 						is_male = yes
 					}
-					scope:child_2 = {
-						is_male = yes
-					}
+					scope:child_2 = { is_male = yes }
 				}
 				desc = birth.1001.sons.t
 			}
@@ -1248,11 +1173,7 @@ birth.1002 = {
 	desc = {
 		first_valid = {
 			triggered_desc = {
-				trigger = {
-					scope:child = {
-						has_trait = twin
-					}
-				}
+				trigger = { scope:child = { has_trait = twin } }
 				desc = birth.1002.opening.twin
 			}
 			desc = birth.1002.opening
@@ -1260,19 +1181,11 @@ birth.1002 = {
 		desc = birth.1002.true_father
 		first_valid = {
 			triggered_desc = {
-				trigger = {
-					scope:child = {
-						has_trait = twin
-					}
-				}
+				trigger = { scope:child = { has_trait = twin } }
 				desc = birth.1002.twin_name.desc
 			}
 			triggered_desc = {
-				trigger = {
-					scope:child = {
-						is_male = yes
-					}
-				}
+				trigger = { scope:child = { is_male = yes } }
 				desc = birth.1002.boy_name.desc
 			}
 			desc = birth.1002.girl_name.desc
@@ -1280,14 +1193,14 @@ birth.1002 = {
 	}
 	theme = pregnancy
 	override_background = {
-		reference = bedchamber
+		trigger = { scope:mother = { is_travelling = yes } }
+		reference = terrain_travel
 	}
+	override_background = { reference = bedchamber }
 	left_portrait = {
 		character = root
 		animation = newborn
-		outfit_tags = {
-			nightgown
-		}
+		outfit_tags = { nightgown }
 	}
 	right_portrait = {
 		character = scope:real_father
@@ -1296,18 +1209,15 @@ birth.1002 = {
 	lower_right_portrait = scope:father
 	lower_left_portrait = scope:child
 	lower_center_portrait = {
-		trigger = {
-			exists = scope:child_2
-		}
+		trigger = { exists = scope:child_2 }
 		character = scope:child_2
 	}
+
 	immediate = {
 		play_music_cue = mx_cue_seduction
 		scope:child = {
 			if = {
-				limit = {
-					has_trait = twin
-				}
+				limit = { has_trait = twin }
 				random_sibling = {
 					limit = {
 						is_twin_of = scope:child
@@ -1318,17 +1228,13 @@ birth.1002 = {
 					limit = {
 						any_sibling = {
 							is_twin_of = scope:child
-							NOT = {
-								this = scope:child_2
-							}
+							this != scope:child_2
 						}
 					}
 					random_sibling = {
 						limit = {
 							is_twin_of = scope:child
-							NOT = {
-								this = scope:child_2
-							}
+							this != scope:child_2
 						}
 						save_scope_as = child_3
 					}
@@ -1336,70 +1242,50 @@ birth.1002 = {
 			}
 		}
 	}
+
 	#NAMING WIDGET
 	widgets = {
 		widget = {
 			is_shown = {
-				allow_naming_on_birth_of_child_trigger = {
-					CHILD = scope:child
-				}
+				allow_naming_on_birth_of_child_trigger = { CHILD = scope:child }
 			}
 			gui = "event_window_widget_name_child"
 			container = "dynamic_birth_name"
 			controller = name_character
-			setup_scope = {
-				scope:child = {
-					save_scope_as = name_character_target
-				}
-			}
+			setup_scope = { scope:child = { save_scope_as = name_character_target } }
 		}
 		widget = {
 			is_shown = {
-				allow_naming_on_birth_of_child_trigger = {
-					CHILD = scope:child_2
-				}
+				allow_naming_on_birth_of_child_trigger = { CHILD = scope:child_2 }
 			}
 			gui = "event_window_widget_name_child"
 			container = "dynamic_birth_name"
 			controller = name_character
-			setup_scope = {
-				scope:child_2 = {
-					save_scope_as = name_character_target
-				}
-			}
+			setup_scope = { scope:child_2 = { save_scope_as = name_character_target } }
 		}
 	}
+
 	option = {
 		name = birth.1002.a
-		trigger = {
-			scope:child = {
-				NOT = {
-					has_trait = twin
-				}
-			}
-		}
+		trigger = { scope:child = { NOT = { has_trait = twin } } }
 		custom_tooltip = birth.1002.a.tt
 	}
 	option = {
 		name = birth.1002.b
-		trigger = {
-			scope:child = {
-				has_trait = twin
-			}
-		}
+		trigger = { scope:child = { has_trait = twin } }
 		custom_tooltip = birth.1002.b.tt
 	}
 	option = {
 		name = birth.1002.c
 		trigger = {
 			any_owned_story = {
-				story_type = story_peasant_affair
+				type = story_peasant_affair
 				var:peasant_character = {
 					this = scope:real_father
 				}
 			}
 		}
-		add_character_flag = is_looking_for_peasant		#To take the story_peasant_affair to the next step
+		add_character_flag = is_looking_for_peasant #To take the story_peasant_affair to the next step
 		add_character_flag = peasant_affair_already_looking
 		custom_tooltip = search_for_real_father_tt
 	}
@@ -1407,6 +1293,7 @@ birth.1002 = {
 		bastard_real_father_discovery_on_birth_effect = yes
 	}
 }
+
 
 #BIRTH: Father: Regular birth or unaware of unknown bastard birth
 birth.1003 = {
@@ -1416,21 +1303,16 @@ birth.1003 = {
 			triggered_desc = {
 				trigger = {
 					scope:child = {
-						NOT = {
-							has_trait = twin
-						}
+						NOT = { has_trait = twin }
 					}
-					exists = player_heir
-					player_heir = scope:child
+					player_heir ?= scope:child
 				}
 				desc = birth.1001.heir.t
 			}
 			triggered_desc = {
 				trigger = {
 					scope:child = {
-						NOT = {
-							has_trait = twin
-						}
+						NOT = { has_trait = twin }
 					}
 				}
 				desc = birth.1001.t
@@ -1441,9 +1323,7 @@ birth.1003 = {
 						has_trait = twin
 						is_female = yes
 					}
-					scope:child_2 = {
-						is_female = yes
-					}
+					scope:child_2 = { is_female = yes }
 				}
 				desc = birth.1001.daughters.t
 			}
@@ -1453,9 +1333,7 @@ birth.1003 = {
 						has_trait = twin
 						is_male = yes
 					}
-					scope:child_2 = {
-						is_male = yes
-					}
+					scope:child_2 = { is_male = yes }
 				}
 				desc = birth.1001.sons.t
 			}
@@ -1469,9 +1347,7 @@ birth.1003 = {
 			triggered_desc = {
 				trigger = {
 					this = character:125501
-					scope:mother = {
-						has_variable = borte_first_child_var
-					}
+					scope:mother = { has_variable = borte_first_child_var }
 				}
 				desc = secret_bastard.0001.assumed_father
 			}
@@ -1510,18 +1386,14 @@ birth.1003 = {
 			triggered_desc = {
 				trigger = {
 					this = character:125501
-					scope:mother = {
-						has_variable = borte_first_child_var
-					}
+					scope:mother = { has_variable = borte_first_child_var }
 				}
 				desc = birth.1003.desc.empty
 			}
 			triggered_desc = {
 				trigger = {
 					scope:child = {
-						NOT = {
-							has_trait = twin
-						}
+						NOT = { has_trait = twin }
 					}
 				}
 				desc = birth.1001.sondaughter.desc
@@ -1532,9 +1404,7 @@ birth.1003 = {
 						has_trait = twin
 						is_female = yes
 					}
-					scope:child_2 = {
-						is_female = yes
-					}
+					scope:child_2 = { is_female = yes }
 				}
 				desc = birth.1001.daughters.desc
 			}
@@ -1544,9 +1414,7 @@ birth.1003 = {
 						has_trait = twin
 						is_male = yes
 					}
-					scope:child_2 = {
-						is_male = yes
-					}
+					scope:child_2 = { is_male = yes }
 				}
 				desc = birth.1001.sons.desc
 			}
@@ -1558,39 +1426,29 @@ birth.1003 = {
 			triggered_desc = {
 				trigger = {
 					this = character:125501
-					scope:mother = {
-						has_variable = borte_first_child_var
-					}
+					scope:mother = { has_variable = borte_first_child_var }
 				}
 				desc = birth.1003.desc.borte
 			}
 			# Mystical Birthright
 			triggered_desc = {
 				trigger = {
-					scope:child = {
-						has_character_flag = born_as_taltos
-					}
+					scope:child = { has_character_flag = born_as_taltos }
 					faith = scope:child.faith
 				}
 				desc = birth.1001.taltos.desc
 			}
 			triggered_desc = {
 				trigger = {
-					scope:child = {
-						has_character_flag = born_as_taltos
-					}
-					NOT = {
-						faith = scope:child.faith
-					}
+					scope:child = { has_character_flag = born_as_taltos }
+					faith != scope:child.faith
 				}
 				desc = birth.1001.taltos_unfaithful.desc
 			}
 			# Twins
 			triggered_desc = {
 				trigger = {
-					scope:child = {
-						has_trait = twin
-					}
+					scope:child = { has_trait = twin }
 					exists = player_heir
 					OR = {
 						player_heir = scope:child
@@ -1601,27 +1459,21 @@ birth.1003 = {
 			}
 			triggered_desc = {
 				trigger = {
-					scope:child = {
-						has_trait = twin
-					}
+					scope:child = { has_trait = twin }
 				}
 				desc = birth.1001.twins.desc
 			}
 			# Heir
 			triggered_desc = {
 				trigger = {
-					exists = player_heir
-					player_heir = scope:child
-					NOT = {
-						sex_opposite_of = scope:child
-					}
+					player_heir ?= scope:child
+					NOT = { sex_opposite_of = scope:child }
 				}
 				desc = birth.1001.same_gender_heir.desc
 			}
 			triggered_desc = {
 				trigger = {
-					exists = player_heir
-					player_heir = scope:child
+					player_heir ?= scope:child
 				}
 				desc = birth.1001.other_gender_heir.desc
 			}
@@ -1633,36 +1485,27 @@ birth.1003 = {
 	}
 	theme = pregnancy
 	override_background = {
-		trigger = {
-			scope:mother = {
-				is_travelling = yes
-			}
-		}
+		trigger = { scope:mother = { is_travelling = yes } }
 		reference = terrain_travel
 	}
+	override_background = { reference = bedchamber }
 	left_portrait = {
 		character = scope:mother
-		outfit_tags = {
-			nightgown
-		}
+		outfit_tags = { nightgown }
 		animation = newborn
 	}
 	right_portrait = {
-		trigger = {
-			exists = scope:second_adult
-		}
+		trigger = { exists = scope:second_adult }
 		character = scope:second_adult
 		animation = newborn
 	}
-	lower_left_portrait = scope:child
-	lower_center_portrait = scope:child_2
+	lower_left_portrait =  scope:child
+	lower_center_portrait =  scope:child_2
 	trigger = {
 		OR = {
 			scope:father = scope:real_father
 			AND = {
-				NOT = {
-					scope:father = scope:real_father
-				}
+				scope:father != scope:real_father
 				scope:father = {
 					NOT = {
 						any_known_secret = {
@@ -1677,15 +1520,12 @@ birth.1003 = {
 			}
 		}
 	}
+
 	immediate = {
-		play_music_cue_once = {
-			TRACK = mx_cue_birth
-		}
+		play_music_cue_once = { TRACK = mx_cue_birth }
 		scope:child = {
 			if = {
-				limit = {
-					has_trait = twin
-				}
+				limit = { has_trait = twin }
 				random_sibling = {
 					limit = {
 						is_twin_of = scope:child
@@ -1696,17 +1536,13 @@ birth.1003 = {
 					limit = {
 						any_sibling = {
 							is_twin_of = scope:child
-							NOT = {
-								this = scope:child_2
-							}
+							this != scope:child_2
 						}
 					}
 					random_sibling = {
 						limit = {
 							is_twin_of = scope:child
-							NOT = {
-								this = scope:child_2
-							}
+							this != scope:child_2
 						}
 						save_scope_as = child_3
 					}
@@ -1715,9 +1551,7 @@ birth.1003 = {
 		}
 		#Look for another adult to hold the twin
 		if = {
-			limit = {
-				exists = scope:child_2
-			}
+			limit = { exists = scope:child_2 }
 			#Let's save the court physician if you have one
 			if = {
 				limit = {
@@ -1726,14 +1560,10 @@ birth.1003 = {
 						type = court_physician_court_position
 						has_court_event_flag = no
 						is_ai = yes
-						NOT = {
-							this = scope:mother
-						}
+						this != scope:mother 
 					}
 				}
-				save_court_physician_as_effect = {
-					SCOPE_NAME = second_adult
-				}
+				save_court_physician_as_effect = { SCOPE_NAME = second_adult }
 			}
 			#Otherwise look for a relative of the mother
 			else_if = {
@@ -1743,12 +1573,8 @@ birth.1003 = {
 							is_in_the_same_court_as = root
 							is_adult = yes
 							NOR = {
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:father
-								}
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:mother
-								}
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:father }
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:mother }
 								this = scope:father
 								this = scope:mother
 							}
@@ -1760,13 +1586,9 @@ birth.1003 = {
 						limit = {
 							is_in_the_same_court_as = root
 							is_adult = yes
-							has_any_good_relationship_with_character_trigger = {
-								CHARACTER = scope:mother
-							}
+							has_any_good_relationship_with_character_trigger = { CHARACTER = scope:mother }
 							NOR = {
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:father
-								}
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:father }
 								this = scope:father
 								this = scope:mother
 							}
@@ -1775,12 +1597,8 @@ birth.1003 = {
 							is_in_the_same_court_as = root
 							is_adult = yes
 							NOR = {
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:father
-								}
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:mother
-								}
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:father }
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:mother }
 								this = scope:father
 								this = scope:mother
 							}
@@ -1798,12 +1616,8 @@ birth.1003 = {
 							is_adult = yes
 							is_female = yes
 							NOR = {
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:father
-								}
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:mother
-								}
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:father }
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:mother }
 								this = scope:father
 								this = scope:mother
 							}
@@ -1816,13 +1630,9 @@ birth.1003 = {
 							is_in_the_same_court_as = root
 							is_adult = yes
 							is_female = yes
-							has_any_good_relationship_with_character_trigger = {
-								CHARACTER = scope:mother
-							}
+							has_any_good_relationship_with_character_trigger = { CHARACTER = scope:mother }
 							NOR = {
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:father
-								}
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:father }
 								this = scope:father
 								this = scope:mother
 							}
@@ -1836,12 +1646,8 @@ birth.1003 = {
 								value >= 10
 							}
 							NOR = {
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:father
-								}
-								has_any_bad_relationship_with_character_trigger = {
-									CHARACTER = scope:mother
-								}
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:father }
+								has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:mother }
 								this = scope:father
 								this = scope:mother
 							}
@@ -1853,16 +1659,12 @@ birth.1003 = {
 			#In lack of that look for a courtier with good relations
 			else_if = {
 				limit = {
-					any_courtier = {
+					any_courtier= {
 						is_adult = yes
 						is_female = yes
 						NOR = {
-							has_any_bad_relationship_with_character_trigger = {
-								CHARACTER = scope:father
-							}
-							has_any_bad_relationship_with_character_trigger = {
-								CHARACTER = scope:mother
-							}
+							has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:father }
+							has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:mother }
 							this = scope:father
 							this = scope:mother
 						}
@@ -1872,13 +1674,9 @@ birth.1003 = {
 					limit = {
 						is_adult = yes
 						is_female = yes
-						has_any_good_relationship_with_character_trigger = {
-							CHARACTER = scope:mother
-						}
+						has_any_good_relationship_with_character_trigger = { CHARACTER = scope:mother }
 						NOR = {
-							has_any_bad_relationship_with_character_trigger = {
-								CHARACTER = scope:father
-							}
+							has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:father }
 							this = scope:father
 							this = scope:mother
 						}
@@ -1891,12 +1689,8 @@ birth.1003 = {
 							value >= 10
 						}
 						NOR = {
-							has_any_bad_relationship_with_character_trigger = {
-								CHARACTER = scope:father
-							}
-							has_any_bad_relationship_with_character_trigger = {
-								CHARACTER = scope:mother
-							}
+							has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:father }
+							has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:mother }
 							this = scope:father
 							this = scope:mother
 						}
@@ -1906,48 +1700,32 @@ birth.1003 = {
 			}
 		}
 	}
+
 	#NAMING WIDGET
 	widgets = {
 		widget = {
 			is_shown = {
-				allow_naming_on_birth_of_child_trigger = {
-					CHILD = scope:child
-				}
+				allow_naming_on_birth_of_child_trigger = { CHILD = scope:child }
 			}
 			gui = "event_window_widget_name_child"
 			container = "dynamic_birth_name"
 			controller = name_character
-			setup_scope = {
-				scope:child = {
-					save_scope_as = name_character_target
-				}
-			}
+			setup_scope = { scope:child = { save_scope_as = name_character_target } }
 		}
 		widget = {
 			is_shown = {
-				allow_naming_on_birth_of_child_trigger = {
-					CHILD = scope:child_2
-				}
+				allow_naming_on_birth_of_child_trigger = { CHILD = scope:child_2 }
 			}
 			gui = "event_window_widget_name_child"
 			container = "dynamic_birth_name"
 			controller = name_character
-			setup_scope = {
-				scope:child_2 = {
-					save_scope_as = name_character_target
-				}
-			}
+			setup_scope = { scope:child_2 = { save_scope_as = name_character_target } }
 		}
 	}
+
 	option = {
 		name = birth.1003.a
-		trigger = {
-			scope:child = {
-				NOT = {
-					has_trait = twin
-				}
-			}
-		}
+		trigger = { scope:child = { NOT = { has_trait = twin } } }
 		if = {
 			limit = {
 				scope:mother = {
@@ -1955,32 +1733,25 @@ birth.1003 = {
 					has_variable = borte_first_child_var
 				}
 			}
-			scope:child = {
-				add_trait = wild_oat
-			}
+			scope:child = { add_trait = wild_oat }
 			scope:child = {
 				add_secret = {
 					type = secret_disputed_heritage
 					target = scope:child
 				}
 			}
-			scope:new_secret = {
-				reveal_to = root
-			}
-			scope:mother = {
-				remove_variable = borte_first_child_var
-			}
+			scope:new_secret = { reveal_to = root }
+			scope:mother = { remove_variable = borte_first_child_var }
 		}
 	}
+
 	option = {
 		name = birth.1003.b
-		trigger = {
-			scope:child = {
-				has_trait = twin
-			}
-		}
+		trigger = { scope:child = { has_trait = twin } }
 	}
 }
+
+
 
 #BIRTH: Mother: Unmarried and father is unknown
 birth.1005 = {
@@ -1989,9 +1760,7 @@ birth.1005 = {
 	desc = {
 		first_valid = {
 			triggered_desc = {
-				trigger = {
-					exists = scope:child_2
-				}
+				trigger = { exists = scope:child_2 }
 				desc = birth.1005.desc.twin
 			}
 			desc = birth.1005.desc
@@ -1999,22 +1768,23 @@ birth.1005 = {
 	}
 	theme = pregnancy
 	override_background = {
-		reference = bedchamber
+		trigger = { scope:mother = { is_travelling = yes } }
+		reference = terrain_travel
 	}
+	override_background = { reference = bedchamber }
 	left_portrait = {
 		character = root
 		animation = newborn
-		outfit_tags = {
-			nightgown
-		}
+		outfit_tags = { nightgown }
 	}
 	right_portrait = {
 		character = scope:child.real_father
 		animation = flirtation
 	}
 	lower_left_portrait = scope:child
-	lower_center_portrait = scope:child_2
+	lower_center_portrait =  scope:child_2
 	lower_right_portrait = scope:spouse_of_mother
+
 	immediate = {
 		play_music_cue = mx_cue_seduction
 		if = {
@@ -2041,39 +1811,29 @@ birth.1005 = {
 			}
 		}
 	}
+
 	#NAMING WIDGET
 	widgets = {
 		widget = {
 			is_shown = {
-				allow_naming_on_birth_of_child_trigger = {
-					CHILD = scope:child
-				}
+				allow_naming_on_birth_of_child_trigger = { CHILD = scope:child }
 			}
 			gui = "event_window_widget_name_child"
 			container = "dynamic_birth_name"
 			controller = name_character
-			setup_scope = {
-				scope:child = {
-					save_scope_as = name_character_target
-				}
-			}
+			setup_scope = { scope:child = { save_scope_as = name_character_target } }
 		}
 		widget = {
 			is_shown = {
-				allow_naming_on_birth_of_child_trigger = {
-					CHILD = scope:child_2
-				}
+				allow_naming_on_birth_of_child_trigger = { CHILD = scope:child_2 }
 			}
 			gui = "event_window_widget_name_child"
 			container = "dynamic_birth_name"
 			controller = name_character
-			setup_scope = {
-				scope:child_2 = {
-					save_scope_as = name_character_target
-				}
-			}
+			setup_scope = { scope:child_2 = { save_scope_as = name_character_target } }
 		}
 	}
+
 	option = {
 		name = birth.1005.a
 		bastard_real_father_discovery_on_birth_effect = yes
@@ -2088,9 +1848,7 @@ birth.1006 = {
 		desc = birth.1006.opening
 		first_valid = {
 			triggered_desc = {
-				trigger = {
-					exists = scope:child_2
-				}
+				trigger = { exists = scope:child_2 }
 				desc = birth.1006.desc.twin
 			}
 			desc = birth.1006.desc
@@ -2106,9 +1864,7 @@ birth.1006 = {
 		}
 	}
 	theme = pregnancy
-	override_background = {
-		reference = bedchamber
-	}
+	override_background = { reference = bedchamber }
 	left_portrait = {
 		character = root
 		animation = flirtation
@@ -2116,15 +1872,14 @@ birth.1006 = {
 	right_portrait = {
 		character = scope:mother
 		animation = newborn
-		outfit_tags = {
-			nightgown
-		}
+		outfit_tags = { nightgown }
 	}
 	lower_left_portrait = scope:child
-	lower_center_portrait = scope:child_2
+	lower_center_portrait =  scope:child_2
 	lower_right_portrait = scope:spouse_of_mother
+
 	trigger = {
-		exists = scope:secret		# Chance of Secret invalidating
+		exists = scope:secret # Chance of Secret invalidating
 		scope:secret = {
 			NOT = {
 				is_known_by = root
@@ -2132,8 +1887,10 @@ birth.1006 = {
 			secret_target.real_father = root
 		}
 	}
+
 	immediate = {
 		play_music_cue = mx_cue_seduction
+
 		custom_tooltip = birth.1006.bastard_explanation
 		hidden_effect = {
 			scope:secret = {
@@ -2143,8 +1900,8 @@ birth.1006 = {
 			}
 		}
 	}
-	option = {
-		#Keep the secret
+
+	option = { #Keep the secret
 		name = birth.1006.a
 		custom_tooltip = birth.1006.a.tt
 		hidden_effect = {
@@ -2162,43 +1919,32 @@ birth.1006 = {
 			base = 100
 		}
 	}
-	option = {
-		#Reveal the secret
+
+	option = { #Reveal the secret
 		name = birth.1006.b
 		scope:secret = {
 			expose_secret = root
 		}
-		scope:child = {
-			remove_inherited_descendent_traits_effect = yes
-		}
+		scope:child = { remove_inherited_descendent_traits_effect = yes }
 		if = {
-			limit = {
-				exists = scope:child_2
-			}
-			scope:child_2 = {
-				remove_inherited_descendent_traits_effect = yes
-			}
+			limit = { exists = scope:child_2 }
+			scope:child_2 = { remove_inherited_descendent_traits_effect = yes }
 		}
+
 		ai_chance = {
 			base = 10
-			modifier = {
-				#More likely if the character does not have a player_heir
+			modifier = { #More likely if the character does not have a player_heir
 				add = 50
-				NOT = {
-					exists = player_heir
-				}
-				age > 25				#Young characters don't care as much
+				NOT = { exists = player_heir }
+				age > 25 #Young characters don't care as much
 				character_gender_can_rule_title_trigger = {
 					GENDER = scope:child
 					TITLE = primary_title
 				}
 			}
-			modifier = {
-				#More likely if the character is unlikely to produce any other potential heirs...
+			modifier = { #More likely if the character is unlikely to produce any other potential heirs...
 				add = 50
-				NOT = {
-					exists = player_heir
-				}
+				NOT = { exists = player_heir }
 				age > 30
 				fertility <= low_fertility
 				character_gender_can_rule_title_trigger = {
@@ -2236,13 +1982,14 @@ birth.1010 = {
 	}
 }
 
+
+
 # Sends good omen notification
 birth.1100 = {
 	hidden = yes
+
 	immediate = {
-		play_music_cue_once = {
-			TRACK = mx_cue_birth
-		}
+		play_music_cue_once = { TRACK = mx_cue_birth }
 		send_interface_message = {
 			type = event_religious_good_with_text
 			title = birth.1100.title
@@ -2253,6 +2000,7 @@ birth.1100 = {
 	}
 }
 
+
 #KNOWN BASTARD BIRTH
 #Event for Potential Legitimizer
 birth.2001 = {
@@ -2262,53 +2010,37 @@ birth.2001 = {
 		triggered_desc = {
 			trigger = {
 				is_female = yes
-				scope:child = {
-					NOT = {
-						has_trait = twin
-					}
-				}
+				scope:child = { NOT = { has_trait = twin } }
 			}
 			desc = birth.2001.desc.mother.standard
 		}
 		triggered_desc = {
 			trigger = {
 				is_female = yes
-				scope:child = {
-					has_trait = twin
-				}
+				scope:child = { has_trait = twin }
 			}
 			desc = birth.2001.desc.mother.twins
 		}
 		triggered_desc = {
 			trigger = {
 				is_male = yes
-				scope:child = {
-					NOT = {
-						has_trait = twin
-					}
-				}
+				scope:child = { NOT = { has_trait = twin } }
 			}
 			desc = birth.2001.desc.father.standard
 		}
 		triggered_desc = {
 			trigger = {
 				is_male = yes
-				scope:child = {
-					has_trait = twin
-				}
+				scope:child = { has_trait = twin }
 			}
 			desc = birth.2001.desc.father.twins
 		}
 	}
 	theme = pregnancy
-	override_background = {
-		reference = relaxing_room
-	}
+	override_background = { reference = relaxing_room }
 	lower_left_portrait = scope:child
 	lower_center_portrait = {
-		trigger = {
-			exists = scope:child_2
-		}
+		trigger = { exists = scope:child_2 }
 		character = scope:child_2
 	}
 	left_portrait = {
@@ -2320,25 +2052,18 @@ birth.2001 = {
 			animation = newborn
 		}
 		triggered_animation = {
-			trigger = {
-				always = yes
-			}
+			trigger = { always = yes }
 			animation = worry
 		}
 	}
+
 	immediate = {
 		play_music_cue = mx_cue_seduction
 		hidden_effect = {
-			scope:child = {
-				remove_inherited_descendent_traits_effect = yes
-			}
+			scope:child = { remove_inherited_descendent_traits_effect = yes }
 			if = {
-				limit = {
-					exists = scope:child_2
-				}
-				scope:child_2 = {
-					remove_inherited_descendent_traits_effect = yes
-				}
+				limit = { exists = scope:child_2 }
+				scope:child_2 = { remove_inherited_descendent_traits_effect = yes }
 			}
 		}
 		#To get the picture of the other parent, and send correct follow-up events
@@ -2365,45 +2090,31 @@ birth.2001 = {
 			}
 		}
 		scope:child = {
-			save_scope_as = bastard			#Necessary for the House Head approval calculation
+			save_scope_as = bastard #Necessary for the House Head approval calculation
 		}
 	}
+
 	#NAMING WIDGET
 	widgets = {
 		widget = {
 			is_shown = {
-				allow_naming_on_birth_of_child_trigger = {
-					CHILD = scope:child
-				}
+				allow_naming_on_birth_of_child_trigger = { CHILD = scope:child }
 			}
 			gui = "event_window_widget_name_child"
 			container = "dynamic_birth_name"
 			controller = name_character
-			setup_scope = {
-				scope:child = {
-					save_scope_as = name_character_target
-				}
-			}
+			setup_scope = { scope:child = { save_scope_as = name_character_target } }
 		}
 	}
+
 	#Legitimize
 	option = {
 		name = {
-			trigger = {
-				scope:child = {
-					NOT = {
-						has_trait = twin
-					}
-				}
-			}
+			trigger = { scope:child = { NOT = { has_trait = twin } } }
 			text = birth.2001.a.standard
 		}
 		name = {
-			trigger = {
-				scope:child = {
-					has_trait = twin
-				}
-			}
+			trigger = { scope:child = { has_trait = twin } }
 			text = birth.2001.a.twins
 		}
 		trigger = {
@@ -2417,12 +2128,9 @@ birth.2001 = {
 				object = scope:child
 				house = scope:child.house
 			}
-			trigger_if = {
-				# Does the House Head approve?
+			trigger_if = { # Does the House Head approve?
 				limit = {
-					NOT = {
-						house.house_head = root
-					}
+					house.house_head != root
 				}
 				custom_description = {
 					text = house_head_would_not_approve_trigger
@@ -2439,36 +2147,35 @@ birth.2001 = {
 		show_as_unavailable = {
 			always = yes
 		}
+
 		add_prestige = {
 			value = bastard_legitimization_prestige_cost
 			multiply = -1
 		}
+
 		#To block multiple notifications
 		save_scope_value_as = {
 			name = newborn_legitimization
 			value = yes
 		}
+
 		legitimize_bastard_interaction_opinions_effect = {
 			BASTARD = scope:child
 			HOUSE_HEAD = root.house.house_head
 			LEGITIMIZER = root
 		}
-		if = {
-			# Move the child to the legitimizer's court if relevant
+
+		if = { # Move the child to the legitimizer's court if relevant
 			limit = {
 				scope:child = {
-					NOT = {
-						is_in_the_same_court_as_or_guest = root
-					}
+					NOT = { is_in_the_same_court_as_or_guest = root }
 				}
 				exists = court_owner
 			}
 			if = {
 				limit = {
 					scope:child = {
-						NOT = {
-							is_courtier_of = ROOT
-						}						# Check that char is not already at your court (theoretical fix)
+						NOT = { is_courtier_of = ROOT } # Check that char is not already at your court (theoretical fix)
 					}
 					OR = {
 						this = court_owner
@@ -2478,11 +2185,10 @@ birth.2001 = {
 				add_courtier = scope:child
 			}
 			else = {
-				scope:child = {
-					visit_court_of = root.court_owner
-				}
+				scope:child = { visit_court_of = root.court_owner }
 			}
 		}
+
 		hidden_effect = {
 			scope:mother = {
 				every_child = {
@@ -2492,6 +2198,7 @@ birth.2001 = {
 							is_twin_of = scope:child
 						}
 					}
+
 					legitimize_bastard_interaction_opinions_effect = {
 						BASTARD = this
 						HOUSE_HEAD = root.house.house_head
@@ -2499,35 +2206,27 @@ birth.2001 = {
 					}
 				}
 			}
+
 			scope:other_parent = {
 				trigger_event = birth.2002
 			}
 		}
+
+
 		ai_chance = {
 			base = 10
+
 			modifier = {
 				is_playable_character = yes
-				NOT = {
-					exists = player_heir
-				}
+				NOT = { exists = player_heir }
 				NOR = {
 					AND = {
-						exists = primary_title
-						primary_title = {
-							has_title_law = male_only_law
-						}
-						scope:child = {
-							is_female = yes
-						}
+						primary_title ?= { has_title_law = male_only_law }
+						scope:child = { is_female = yes }
 					}
 					AND = {
-						exists = primary_title
-						primary_title = {
-							has_title_law = female_only_law
-						}
-						scope:child = {
-							is_male = yes
-						}
+						primary_title ?= { has_title_law = female_only_law }
+						scope:child = { is_male = yes }
 					}
 				}
 				age > 45
@@ -2543,6 +2242,7 @@ birth.2001 = {
 			}
 		}
 	}
+
 	#Child remains a normal bastard
 	option = {
 		name = {
@@ -2556,25 +2256,27 @@ birth.2001 = {
 				}
 			}
 		}
+
 		custom_tooltip = bastard_remains_bastard_tt
+
 		#other_parent gets the correct birth event
 		scope:other_parent = {
-			trigger_event = birth.2003			#The legitimizer did not legitimize
+			trigger_event = birth.2003 #The legitimizer did not legitimize
 		}
+
 		#Spouse of mother must know about baby
 		if = {
 			limit = {
 				scope:mother = {
 					is_married = yes
-					NOT = {
-						primary_spouse = scope:real_father
-					}
+					primary_spouse != scope:real_father
 				}
 			}
 			scope:mother.primary_spouse = {
 				trigger_event = birth.2102
 			}
 		}
+
 		ai_chance = {
 			base = 100
 		}
@@ -2589,45 +2291,33 @@ birth.2002 = {
 		desc = birth.2002.start
 		first_valid = {
 			triggered_desc = {
-				trigger = {
-					NOT = {
-						scope:child = {
-							has_trait = twin
-						}
-					}
-				}
+				trigger = { NOT = { scope:child = { has_trait = twin } } }
 				desc = birth.2002.desc.standard
 			}
 			triggered_desc = {
-				trigger = {
-					scope:child = {
-						has_trait = twin
-					}
-				}
+				trigger = { scope:child = { has_trait = twin } }
 				desc = birth.2002.desc.twins
 			}
 		}
 		desc = birth.2002.end
 	}
 	theme = pregnancy
-	override_background = {
-		reference = relaxing_room
-	}
+	override_background = { reference = relaxing_room }
 	left_portrait = {
 		character = scope:legitimizer
 		animation = newborn
 	}
 	lower_left_portrait = scope:child
+
 	immediate = {
-		play_music_cue_once = {
-			TRACK = mx_cue_birth
-		}
+		play_music_cue_once = { TRACK = mx_cue_birth }
 		show_as_tooltip = {
 			scope:child = {
 				add_trait_force_tooltip = legitimized_bastard
 			}
 		}
 	}
+
 	#Child was legitimized
 	option = {
 		name = birth.2002.a
@@ -2642,39 +2332,31 @@ birth.2003 = {
 	desc = {
 		first_valid = {
 			triggered_desc = {
-				trigger = {
-					scope:child = {
-						has_trait = twin
-					}
-				}
+				trigger = { scope:child = { has_trait = twin } }
 				desc = birth.2003.desc.twin_start
 			}
 			desc = birth.2003.desc.standard_start
 		}
 		first_valid = {
 			triggered_desc = {
-				trigger = {
-					scope:legitimizer = {
-						is_playable_character = yes
-					}
-				}
+				trigger = { scope:legitimizer = { is_playable_character = yes } }
 				desc = birth.2003.desc.landed_end
 			}
 			desc = birth.2003.desc.unlanded_end
 		}
 	}
 	theme = pregnancy
-	override_background = {
-		reference = relaxing_room
-	}
+	override_background = { reference = relaxing_room }
 	left_portrait = {
 		character = scope:legitimizer
 		animation = dismissal
 	}
 	lower_left_portrait = scope:child
+
 	immediate = {
 		play_music_cue = mx_cue_seduction
 	}
+
 	#Child was not legitimized
 	option = {
 		name = birth.2003.a
@@ -2682,15 +2364,14 @@ birth.2003 = {
 	}
 }
 
+
 ### Legitimizer's Faith does not have bastardy
 birth.2011 = {
 	type = character_event
 	title = birth.2011.t
 	desc = birth.2011.desc
 	theme = pregnancy
-	override_background = {
-		reference = relaxing_room
-	}
+	override_background = { reference = relaxing_room }
 	left_portrait = {
 		character = scope:other_parent
 		animation = happiness
@@ -2700,14 +2381,14 @@ birth.2011 = {
 		animation = disapproval
 		trigger = {
 			exists = scope:mother.primary_partner
-			NOT = {
-				root = scope:mother.primary_partner
-			}
+			root != scope:mother.primary_partner
 		}
 	}
 	lower_left_portrait = scope:child
+
 	immediate = {
 		play_music_cue = mx_cue_seduction
+
 		#To get the picture of the other parent, and send correct follow-up events
 		if = {
 			limit = {
@@ -2723,6 +2404,8 @@ birth.2011 = {
 			}
 		}
 		save_scope_as = legitimizer
+
+
 		# It's already added elsewhere, but we want this here for tooltip reasons.
 		scope:child = {
 			show_as_tooltip = {
@@ -2730,29 +2413,26 @@ birth.2011 = {
 			}
 		}
 	}
+
 	#NAMING WIDGET
 	widgets = {
 		widget = {
 			is_shown = {
-				allow_naming_on_birth_of_child_trigger = {
-					CHILD = scope:child
-				}
+				allow_naming_on_birth_of_child_trigger = { CHILD = scope:child }
 			}
 			gui = "event_window_widget_name_child"
 			container = "dynamic_birth_name"
 			controller = name_character
-			setup_scope = {
-				scope:child = {
-					save_scope_as = name_character_target
-				}
-			}
+			setup_scope = { scope:child = { save_scope_as = name_character_target } }
 		}
 	}
+
 	option = {
 		name = birth.1001.a
 		scope:other_parent = {
 			trigger_event = birth.2012
 		}
+
 		#Spouse of mother must know about baby
 		if = {
 			limit = {
@@ -2772,15 +2452,14 @@ birth.2011 = {
 	}
 }
 
+
 # Event for "non-legitimizer"
 birth.2012 = {
 	type = character_event
 	title = birth.2011.t
 	desc = birth.2011.desc
 	theme = pregnancy
-	override_background = {
-		reference = relaxing_room
-	}
+	override_background = { reference = relaxing_room }
 	left_portrait = {
 		character = scope:legitimizer
 		animation = love
@@ -2792,6 +2471,7 @@ birth.2012 = {
 		}
 		character = primary_partner
 	}
+
 	immediate = {
 		scope:child = {
 			# It's already added elsewhere, but we want this here for tooltip reasons.
@@ -2800,24 +2480,26 @@ birth.2012 = {
 			}
 		}
 	}
+
 	option = {
 		name = birth.1001.a
 	}
 }
 
+
 ###################
 # Notifications for the birth of an unlegitimizable bastard
 # 2100-2199
 ##################
+
+
 #Event for the Mother's Spouse/Concubinist, unlegitimizable bastard
 birth.2102 = {
 	type = character_event
 	title = birth.2102.t
 	desc = birth.2102.desc
 	theme = pregnancy
-	override_background = {
-		reference = relaxing_room
-	}
+	override_background = { reference = relaxing_room }
 	left_portrait = {
 		character = scope:mother
 		animation = newborn
@@ -2827,9 +2509,11 @@ birth.2102 = {
 		character = scope:real_father
 		animation = worry
 	}
+
 	immediate = {
 		play_music_cue = mx_cue_seduction
 	}
+
 	option = {
 		name = birth.2102.a
 	}
@@ -2839,14 +2523,12 @@ birth.2102 = {
 birth.2104 = {
 	type = character_event
 	title = birth.2104.t
-	orphan = yes	#TODO_CD - Figure out why
+	orphan = yes
 	desc = {
 		first_valid = {
 			triggered_desc = {
 				trigger = {
-					scope:child = {
-						has_trait = twin
-					}
+					scope:child = { has_trait = twin }
 				}
 				desc = birth.2104.desc.twin
 			}
@@ -2854,9 +2536,8 @@ birth.2104 = {
 		}
 	}
 	theme = pregnancy
-	override_background = {
-		reference = relaxing_room
-	}
+	override_background = { reference = relaxing_room }
+
 	left_portrait = {
 		character = scope:real_father
 		animation = flirtation
@@ -2866,33 +2547,33 @@ birth.2104 = {
 		character = scope:mother
 		animation = newborn
 	}
+
 	immediate = {
 		play_music_cue = mx_cue_seduction
 	}
+
 	option = {
 		name = birth.2104.a
 	}
 }
 
+
 ######################
 # Problematic births
 # by Linnéa Thimrén
 ######################
+
 #BIRTH: Mother: Child dies (no child created)
 birth.3001 = {
 	type = character_event
 	title = birth.3001.t
 	desc = birth.3001.desc_other_child
 	theme = death
-	override_background = {
-		reference = bedchamber
-	}
+	override_background = { reference = bedchamber}
 	left_portrait = {
 		character = root
 		animation = grief
-		outfit_tags = {
-			nightgown
-		}
+		outfit_tags = { nightgown }
 	}
 	right_portrait = {
 		character = scope:father
@@ -2901,9 +2582,11 @@ birth.3001 = {
 		}
 		animation = disbelief
 	}
+
 	trigger = {
 		is_pregnant = yes
 	}
+
 	immediate = {
 		play_music_cue = mx_cue_death
 		create_character_memory = {
@@ -2930,7 +2613,9 @@ birth.3001 = {
 		custom_tooltip = birth.3001.a.tt
 		pregnancy_cleanup_effect = yes
 	}
+
 	#NO NAMING WIDGET
+
 	option = {
 		name = birth.3001.a
 	}
@@ -2942,9 +2627,7 @@ birth.3002 = {
 	title = birth.3001.t
 	desc = birth.3002.desc
 	theme = death
-	override_background = {
-		reference = bedchamber
-	}
+	override_background = { reference = bedchamber }
 	left_portrait = {
 		character = root
 		animation = stunned
@@ -2952,11 +2635,11 @@ birth.3002 = {
 	right_portrait = {
 		character = scope:mother
 		animation = grief
-		outfit_tags = {
-			nightgown
-		}
+		outfit_tags = { nightgown }
 	}
+
 	#NO NAMING WIDGET
+
 	immediate = {
 		play_music_cue = mx_cue_death
 		create_character_memory = {
@@ -2967,6 +2650,7 @@ birth.3002 = {
 		}
 		custom_tooltip = birth.3001.a.tt
 	}
+
 	option = {
 		name = birth.3002.a
 	}
@@ -2988,86 +2672,63 @@ birth.3011 = {
 		}
 		first_valid = {
 			triggered_desc = {
-				trigger = {
-					is_landless_adventurer = yes
-				}
+				trigger = { has_government = landless_adventurer_government }
 				desc = birth.3011.adventurer
 			}
 			desc = birth.3011.landed
 		}
 	}
 	theme = death
-	override_background = {
-		reference = bedchamber
-	}
+	override_background = { reference = bedchamber }
 	left_portrait = {
 		character = root
 		animation = newborn
-		outfit_tags = {
-			nightgown
-		}
+		outfit_tags = { nightgown }
 	}
 	lower_center_portrait = scope:child
 	lower_left_portrait = scope:child_2
+
 	trigger = {
 		has_character_flag = birth_mother_will_die
 	}
+
 	immediate = {
 		play_music_cue = mx_cue_death
 		pregnancy_maintainance_effect = yes
 	}
+
 	#NAMING WIDGET
 	widgets = {
 		widget = {
 			is_shown = {
-				allow_naming_on_birth_of_child_trigger = {
-					CHILD = scope:child
-				}
+				allow_naming_on_birth_of_child_trigger = { CHILD = scope:child }
 			}
 			gui = "event_window_widget_name_child"
 			container = "dynamic_birth_name"
 			controller = name_character
-			setup_scope = {
-				scope:child = {
-					save_scope_as = name_character_target
-				}
-			}
+			setup_scope = { scope:child = { save_scope_as = name_character_target } }
 		}
 		widget = {
 			is_shown = {
-				allow_naming_on_birth_of_child_trigger = {
-					CHILD = scope:child_2
-				}
+				allow_naming_on_birth_of_child_trigger = { CHILD = scope:child_2 }
 			}
 			gui = "event_window_widget_name_child"
 			container = "dynamic_birth_name"
 			controller = name_character
-			setup_scope = {
-				scope:child_2 = {
-					save_scope_as = name_character_target
-				}
-			}
+			setup_scope = { scope:child_2 = { save_scope_as = name_character_target } }
 		}
 	}
+
 	option = {
 		name = {
-			trigger = {
-				scope:child = {
-					has_trait = twin
-				}
-			}
+			trigger = { scope:child = { has_trait = twin } }
 			text = birth.3011.twin.a
 		}
 		name = {
-			trigger = {
-				scope:child = {
-					NOT = {
-						has_trait = twin
-					}
-				}
-			}
+			trigger = { scope:child = { NOT = { has_trait = twin } } }
 			text = birth.3011.a
 		}
+
 		if = {
 			limit = {
 				exists = scope:father
@@ -3109,9 +2770,7 @@ birth.3012 = {
 		}
 	}
 	theme = death
-	override_background = {
-		reference = bedchamber
-	}
+	override_background = { reference = bedchamber }
 	left_portrait = {
 		character = root
 		animation = newborn
@@ -3119,45 +2778,33 @@ birth.3012 = {
 	right_portrait = {
 		character = scope:mother
 		animation = sick
-		outfit_tags = {
-			nightgown
-		}
+		outfit_tags = { nightgown }
 	}
 	lower_right_portrait = scope:child
 	lower_center_portrait = scope:child_2
+
 	#NAMING WIDGET
 	widgets = {
 		widget = {
 			is_shown = {
-				allow_naming_on_birth_of_child_trigger = {
-					CHILD = scope:child
-				}
+				allow_naming_on_birth_of_child_trigger = { CHILD = scope:child }
 			}
 			gui = "event_window_widget_name_child"
 			container = "dynamic_birth_name"
 			controller = name_character
-			setup_scope = {
-				scope:child = {
-					save_scope_as = name_character_target
-				}
-			}
+			setup_scope = { scope:child = { save_scope_as = name_character_target } }
 		}
 		widget = {
 			is_shown = {
-				allow_naming_on_birth_of_child_trigger = {
-					CHILD = scope:child_2
-				}
+				allow_naming_on_birth_of_child_trigger = { CHILD = scope:child_2 }
 			}
 			gui = "event_window_widget_name_child"
 			container = "dynamic_birth_name"
 			controller = name_character
-			setup_scope = {
-				scope:child_2 = {
-					save_scope_as = name_character_target
-				}
-			}
+			setup_scope = { scope:child_2 = { save_scope_as = name_character_target } }
 		}
 	}
+
 	immediate = {
 		play_music_cue = mx_cue_death
 		show_as_tooltip = {
@@ -3168,8 +2815,10 @@ birth.3012 = {
 			}
 		}
 	}
+
 	option = {
 		name = birth.3012.a
+
 		add_stress = minor_stress_gain
 	}
 }
@@ -3180,19 +2829,17 @@ birth.3021 = {
 	title = birth.3001.t
 	desc = birth.3021.desc
 	theme = death
-	override_background = {
-		reference = bedchamber
-	}
+	override_background = { reference = bedchamber }
 	left_portrait = {
 		character = root
 		animation = pain
-		outfit_tags = {
-			nightgown
-		}
+		outfit_tags = { nightgown }
 	}
+
 	trigger = {
 		is_pregnant = yes
 	}
+
 	immediate = {
 		play_music_cue = mx_cue_death
 		create_character_memory = {
@@ -3207,9 +2854,12 @@ birth.3021 = {
 		}
 		custom_tooltip = birth.3001.a.tt
 	}
+
 	#NO NAMING WIDGET
+
 	option = {
 		name = birth.3021.a
+
 		if = {
 			limit = {
 				exists = scope:father
@@ -3240,9 +2890,7 @@ birth.3022 = {
 	title = birth.3001.t
 	desc = birth.3022.desc
 	theme = death
-	override_background = {
-		reference = bedchamber
-	}
+	override_background = { reference = bedchamber}
 	left_portrait = {
 		character = root
 		animation = grief
@@ -3250,10 +2898,9 @@ birth.3022 = {
 	right_portrait = {
 		character = scope:mother
 		animation = pain
-		outfit_tags = {
-			nightgown
-		}
+		outfit_tags = { nightgown }
 	}
+
 	immediate = {
 		play_music_cue = mx_cue_death
 		create_character_memory = {
@@ -3271,24 +2918,16 @@ birth.3022 = {
 		}
 		custom_tooltip = birth.3001.a.tt
 	}
+
 	#NO NAMING WIDGET
+
 	option = {
 		name = {
-			trigger = {
-				NOT = {
-					faith = {
-						religion_tag = buddhism_religion
-					}
-				}
-			}
+			trigger = { NOT = { faith = { religion_tag = buddhism_religion } } }
 			text = birth.3022.a
 		}
 		name = {
-			trigger = {
-				faith = {
-					religion_tag = buddhism_religion
-				}
-			}
+			trigger = { faith = { religion_tag = buddhism_religion } }
 			text = birth.3022.a.buddhism
 		}
 		add_stress = medium_stress_gain
@@ -3304,11 +2943,7 @@ birth.3031 = {
 		first_valid = {
 			triggered_desc = {
 				trigger = {
-					scope:child = {
-						any_parent = {
-							highest_held_title_tier >= tier_kingdom
-						}
-					}
+					scope:child = { any_parent = { highest_held_title_tier >= tier_kingdom } }
 				}
 				desc = birth.3031.princessprince.desc
 			}
@@ -3328,12 +2963,14 @@ birth.3031 = {
 		}
 		animation = worry
 	}
+
 	immediate = {
 		play_music_cue = mx_cue_illness
 		scope:child = {
 			add_trait = sickly
 		}
 	}
+
 	option = {
 		name = birth.3031.a
 		if = {
@@ -3356,11 +2993,7 @@ birth.3032 = {
 		first_valid = {
 			triggered_desc = {
 				trigger = {
-					scope:child = {
-						any_parent = {
-							highest_held_title_tier >= tier_kingdom
-						}
-					}
+					scope:child = { any_parent = { highest_held_title_tier >= tier_kingdom } }
 				}
 				desc = birth.3031.princessprince.desc
 			}
@@ -3377,6 +3010,7 @@ birth.3032 = {
 		character = scope:child
 		animation = sick
 	}
+
 	immediate = {
 		show_as_tooltip = {
 			scope:child = {
@@ -3384,6 +3018,7 @@ birth.3032 = {
 			}
 		}
 	}
+
 	option = {
 		name = birth.3031.a
 	}
@@ -3392,16 +3027,15 @@ birth.3032 = {
 #Sickly child recovery management event
 birth.3033 = {
 	hidden = yes
+
 	trigger = {
 		has_trait = sickly
 	}
+
 	immediate = {
 		trigger_event = {
 			id = birth.3034
-			days = {
-				0
-				180
-			}
+			days = { 0 180 }
 		}
 	}
 }
@@ -3416,6 +3050,7 @@ birth.3034 = {
 		character = root
 		animation = happiness
 	}
+
 	immediate = {
 		play_music_cue = mx_cue_positive_effect
 		save_scope_as = child
@@ -3437,11 +3072,13 @@ birth.3034 = {
 			}
 		}
 	}
+
 	option = {
 		name = birth.3034.a
 		remove_trait = sickly
 	}
 }
+
 
 #Sickly child recovery - for mother and father
 birth.3035 = {
@@ -3453,6 +3090,7 @@ birth.3035 = {
 		character = scope:child
 		animation = happiness
 	}
+
 	immediate = {
 		play_music_cue = mx_cue_positive_effect
 		scope:child = {
@@ -3461,6 +3099,7 @@ birth.3035 = {
 			}
 		}
 	}
+
 	option = {
 		name = birth.3035.a
 	}
@@ -3488,29 +3127,30 @@ birth.3041 = {
 		character = root
 		animation = sick
 	}
+
 	trigger = {
-		can_contract_disease_trigger = {
-			DISEASE = ill
-		}
+		can_contract_disease_trigger = { DISEASE = ill }
 	}
+
 	immediate = {
-		contract_disease_effect = {
-			DISEASE = ill
-			TREATMENT_EVENT = yes
-		}
+		contract_disease_effect = { DISEASE = ill TREATMENT_EVENT = yes }
 	}
+
 	option = {
 		name = birth.3041.a
 	}
 }
 
+
+
 #############################################
 # 8001-8999: Misc birth management
 #############################################
-birth.8001 = {
-	#by Mathilda Bjarnehed
+
+birth.8001 = { #by Mathilda Bjarnehed
 	type = character_event
 	hidden = yes
+
 	trigger = {
 		can_become_reincarnation_trigger = yes
 		any_close_or_extended_family_member = {
@@ -3518,9 +3158,11 @@ birth.8001 = {
 			is_grandparent_of = root
 		}
 	}
+
 	weight_multiplier = {
 		base = 1
 	}
+
 	immediate = {
 		random = {
 			chance = reincarnation_chance
@@ -3537,7 +3179,9 @@ birth.8001 = {
 				}
 				factor = 2
 			}
+
 			###Decide who you're an reincarnation of!###
+
 			#Build list of grandparents...
 			every_close_or_extended_family_member = {
 				even_if_dead = yes
@@ -3556,6 +3200,7 @@ birth.8001 = {
 				}
 				debug_log = "Adding great grandparents"
 			}
+
 			#Pick a random appropriate one
 			random_in_list = {
 				list = grandparents_and_great_grandparents
@@ -3577,16 +3222,19 @@ birth.8001 = {
 				debug_log = "Finding ancestor"
 				save_temporary_scope_as = ancestor
 			}
+
 			if = {
 				limit = {
 					exists = scope:ancestor
 				}
+
 				set_variable = {
 					name = reincarnation_of
 					value = scope:ancestor
 				}
 				copy_inheritable_appearance_from = scope:ancestor
 			}
+
 		}
 	}
 }
@@ -3596,6 +3244,7 @@ birth.8001 = {
 birth.8011 = {
 	type = character_event
 	hidden = yes
+
 	trigger = {
 		any_parent = {
 			culture = {
@@ -3604,13 +3253,9 @@ birth.8011 = {
 			trigger_if = {
 				limit = {
 					has_ach_dlc_trigger = yes
-					NOT = {
-						has_game_rule = coronation_laws_off
-					}
+					NOT = { has_game_rule = coronation_laws_off }
 				}
-				NOT = {
-					has_realm_law = uncrowned
-				}				# Must be coronated
+				NOT = { has_realm_law = uncrowned } # Must be coronated
 			}
 			trigger_if = {
 				limit = {
@@ -3618,27 +3263,20 @@ birth.8011 = {
 				}
 				liege_has_co_emperorship_trigger = yes
 				liege = {
-					OR = {
-						has_title = title:e_byzantium						#Must be the current emperor.
-						has_title = title:e_roman_empire						#Or the other emperor.
-					}
-					capital_county = title:c_byzantion					#Must rule from the Bucoleon Palace.
+					is_roman_emperor_trigger = yes
+					capital_county = title:c_byzantion	#Must rule from the Bucoleon Palace.
 				}
 			}
 			trigger_else = {
-				OR = {
-					has_title = title:e_byzantium					#Must be the current emperor.
-					has_title = title:e_roman_empire					#Or the other emperor.
-				}
-				capital_county = title:c_byzantion				#Must rule from the Bucoleon Palace.
+				is_roman_emperor_trigger = yes
+				capital_county = title:c_byzantion	#Must rule from the Bucoleon Palace.
 			}
 		}
 		mother = {
 			OR = {
-				AND = {
-					#Landless mothers must be actually at court to use the chamber.
+				AND = {	#Landless mothers must be actually at court to use the chamber.
 					is_ruler = no
-					exists = location					# Security check
+					exists = location # Security check
 					OR = {
 						location = title:c_byzantion.title_province
 						# Be a bit more lenient with co-emperors.
@@ -3646,91 +3284,71 @@ birth.8011 = {
 							is_diarch = yes
 							liege_has_co_emperorship_trigger = yes
 						}
-						AND = {
-							root.father ?= {
-								is_diarch = yes
-								liege_has_co_emperorship_trigger = yes
-							}
+						root.father ?= {
+							is_diarch = yes
+							liege_has_co_emperorship_trigger = yes
 						}
 					}
+
 				}
-				AND = {
-					#Landed rulers can be assumed to make the journey, unless they have some extremely pressing reason not to.
+				AND = {	#Landed rulers can be assumed to make the journey, unless they have some extremely pressing reason not to.
 					is_ruler = yes
-					NOT = {
-						is_at_war_with = root.father
-					}
+					NOT = { is_at_war_with = root.father }
 				}
 			}
-			is_imprisoned = no			#Cannot use the purple chamber from prison.
-			is_commanding_army = no			#Cannot use the purple chamber whilst commanding an army.
+			is_imprisoned = no	#Cannot use the purple chamber from prison.
+			is_commanding_army = no	#Cannot use the purple chamber whilst commanding an army.
 		}
 	}
-	immediate = {
-		add_trait = born_in_the_purple
-	}
+
+	immediate = { add_trait = born_in_the_purple }
 }
+
 
 #################
 # NAMING EVENTS # by Mathilda Bjarnehed
 #################
-scripted_trigger
-birth_9003_same_gender_as_baby_trigger = {
+
+
+scripted_trigger birth_9003_same_gender_as_baby_trigger = {
 	OR = {
 		AND = {
 			is_female = yes
-			scope:child = {
-				is_female = yes
-			}
+			scope:child = { is_female = yes }
 		}
 		AND = {
 			is_male = yes
-			scope:child = {
-				is_male = yes
-			}
+			scope:child = { is_male = yes }
 		}
-		scope:suggester = {
-			has_trait = lunatic
-		}
+		scope:suggester = { has_trait = lunatic }
 	}
 }
 
-scripted_trigger
-birth_9002_suggester_relative_trigger = {
+scripted_trigger birth_9002_suggester_relative_trigger = {
 	OR = {
 		OR = {
 			age > scope:suggester.age
 			is_alive = no
 		}
-		any_sibling = {
-			this = scope:suggester
-		}
+		any_sibling = { this = scope:suggester }
 	}
-	NOT = {
-		is_child_of = scope:suggester
-	}
+	NOT = { is_child_of = scope:suggester }
 	birth_9003_same_gender_as_baby_trigger = yes
 }
 
-scripted_trigger
-birth_9002_namer_relative_trigger = {
+scripted_trigger birth_9002_namer_relative_trigger = {
 	OR = {
 		OR = {
 			age > scope:namer.age
 			is_alive = no
 		}
-		any_sibling = {
-			this = scope:namer
-		}
+		any_sibling = { this = scope:namer }
 	}
-	NOT = {
-		is_child_of = scope:namer
-	}
+	NOT = { is_child_of = scope:namer }
 	birth_9003_same_gender_as_baby_trigger = yes
 }
 
-scripted_effect
-birth_9002_name_setting_effect = {
+scripted_effect birth_9002_name_setting_effect = {
 	if = {
 		limit = {
 			OR = {
@@ -3740,13 +3358,7 @@ birth_9002_name_setting_effect = {
 				scope:name_type = flag:namers_name
 			}
 		}
-		hidden_effect = {
-			scope:child = {
-				change_first_name = {
-					template_character = scope:namesake
-				}
-			}
-		}
+		hidden_effect = { scope:child = { change_first_name = { template_character = scope:namesake } } }
 		custom_tooltip = birth.9002.a.tt.1
 	}
 	else_if = {
@@ -3821,7 +3433,7 @@ birth_9002_name_setting_effect = {
 		}
 		hidden_effect = {
 			scope:child = {
-				change_first_name = scope:name_suggestion
+				change_first_name = birth.9002.a.rename
 			}
 		}
 		custom_tooltip = birth.9002.a.tt.2
@@ -3834,8 +3446,7 @@ birth.9002 = {
 	title = birth.9002.t
 	desc = {
 		desc = birth.9002.start.desc
-		first_valid = {
-			#Face expression
+		first_valid = { #Face expression
 			random_valid = {
 				triggered_desc = {
 					trigger = {
@@ -3849,9 +3460,7 @@ birth.9002 = {
 							}
 							AND = {
 								scope:name_type = flag:real_father
-								scope:suggester = {
-									intrigue < mediocre_skill_rating
-								}
+								scope:suggester = { intrigue < mediocre_skill_rating }
 							}
 						}
 					}
@@ -3906,9 +3515,7 @@ birth.9002 = {
 							scope:name_type = flag:lunatic
 							scope:name_type = flag:creator
 							scope:name_type = flag:possessed
-							scope:suggester = {
-								has_personality_emotional_trigger = yes
-							}
+							scope:suggester = { has_personality_emotional_trigger = yes }
 						}
 					}
 					desc = birth.9002.surprisingly_calm.desc
@@ -3941,8 +3548,7 @@ birth.9002 = {
 			desc = birth.9002.calm.desc
 		}
 		desc = newline.desc
-		random_valid = {
-			#Addressing you
+		random_valid = { #Addressing you
 			first_valid = {
 				triggered_desc = {
 					trigger = {
@@ -3965,30 +3571,21 @@ birth.9002 = {
 				desc = birth.9002.spouse.desc
 			}
 		}
-		first_valid = {
-			#Suggesting name
+		first_valid = { #Suggesting name
 			triggered_desc = {
-				trigger = {
-					scope:name_type = flag:suggester_relative
-				}
+				trigger = { scope:name_type = flag:suggester_relative }
 				desc = birth.9002.suggester_relative.desc
 			}
 			triggered_desc = {
-				trigger = {
-					scope:name_type = flag:namer_relative
-				}
+				trigger = { scope:name_type = flag:namer_relative }
 				desc = birth.9002.namer_relative.desc
 			}
 			triggered_desc = {
-				trigger = {
-					scope:name_type = flag:suggesters_name
-				}
+				trigger = { scope:name_type = flag:suggesters_name }
 				desc = birth.9002.suggesters_name.desc
 			}
 			triggered_desc = {
-				trigger = {
-					scope:name_type = flag:namers_name
-				}
+				trigger = { scope:name_type = flag:namers_name }
 				desc = birth.9002.namers_name.desc
 			}
 			triggered_desc = {
@@ -4042,79 +3639,59 @@ birth.9002 = {
 				desc = birth.9002.religious_holy_virgin.desc
 			}
 			triggered_desc = {
-				trigger = {
-					scope:name_type = flag:religious
-				}
+				trigger = { scope:name_type = flag:religious }
 				desc = birth.9002.religious_fallback.desc
 			}
 			triggered_desc = {
-				trigger = {
-					scope:name_type = flag:lunatic
-				}
+				trigger = { scope:name_type = flag:lunatic }
 				desc = birth.9002.lunatic.desc
 			}
 			triggered_desc = {
-				trigger = {
-					scope:name_type = flag:creator
-				}
+				trigger = { scope:name_type = flag:creator }
 				desc = birth.9002.creator.desc
 			}
 			triggered_desc = {
-				trigger = {
-					scope:name_type = flag:possessed
-				}
+				trigger = { scope:name_type = flag:possessed }
 				desc = birth.9002.possessed.desc
 			}
 		}
 	}
 	theme = family
-	override_background = {
-		reference = relaxing_room
-	}
+	override_background = { reference = relaxing_room }
 	left_portrait = {
 		character = scope:suggester
 		animation = happiness
 	}
 	right_portrait = scope:child
 	lower_right_portrait = scope:namesake_official
+
 	trigger = {
-		scope:child = {
-			is_alive = yes
-		}
+		scope:child = { is_alive = yes }
 		NOT = {
-			any_parent = {
-				has_variable = borte_first_child_var
-			}
+			any_parent = { has_variable = borte_first_child_var }
 		}
 	}
+
 	immediate = {
-		play_music_cue_once = {
-			TRACK = mx_cue_birth
-		}
+		play_music_cue_once = { TRACK = mx_cue_birth }
 		hidden_effect = {
 			save_scope_as = namer
 			scope:child = {
 				random_parent = {
-					limit = {
-						NOT = {
-							this = scope:namer
-						}
-					}
+					limit = { this != scope:namer }
 					save_scope_as = suggester
 				}
 			}
+
 			random_list = {
-				4 = {
-					#Suggester's relatives
+				4 = { #Suggester's relatives
 					trigger = {
 						scope:suggester = {
 							any_close_or_extended_family_member = {
 								even_if_dead = yes
 								birth_9002_suggester_relative_trigger = yes
 								trigger_if = {
-									limit = {
-										is_alive = yes
-									}
+									limit = { is_alive = yes }
 									reverse_opinion = {
 										target = scope:suggester
 										value >= 20
@@ -4147,15 +3724,14 @@ birth.9002 = {
 						}
 						factor = 2
 					}
+
 					scope:suggester = {
 						random_close_or_extended_family_member = {
 							even_if_dead = yes
 							limit = {
 								birth_9002_suggester_relative_trigger = yes
 								trigger_if = {
-									limit = {
-										is_alive = yes
-									}
+									limit = { is_alive = yes }
 									reverse_opinion = {
 										target = scope:suggester
 										value >= 20
@@ -4181,8 +3757,7 @@ birth.9002 = {
 									is_playable_character = yes
 									factor = 2
 								}
-								modifier = {
-									#Honor the dead
+								modifier = { #Honor the dead
 									is_alive = no
 									factor = 2
 								}
@@ -4202,9 +3777,7 @@ birth.9002 = {
 							even_if_dead = yes
 							birth_9002_namer_relative_trigger = yes
 							trigger_if = {
-								limit = {
-									is_alive = yes
-								}
+								limit = { is_alive = yes }
 								reverse_opinion = {
 									target = scope:namer
 									value >= 20
@@ -4245,9 +3818,7 @@ birth.9002 = {
 							limit = {
 								birth_9002_namer_relative_trigger = yes
 								trigger_if = {
-									limit = {
-										is_alive = yes
-									}
+									limit = { is_alive = yes }
 									reverse_opinion = {
 										target = scope:namer
 										value >= 20
@@ -4277,8 +3848,7 @@ birth.9002 = {
 									is_playable_character = yes
 									factor = 2
 								}
-								modifier = {
-									#Honor the dead
+								modifier = { #Honor the dead
 									is_alive = no
 									factor = 2
 								}
@@ -4291,32 +3861,24 @@ birth.9002 = {
 						}
 					}
 				}
-				1 = {
-					#Suggester's name
+				1 = { #Suggester's name
 					trigger = {
 						scope:suggester = {
 							birth_9003_same_gender_as_baby_trigger = yes
-							NOT = {
-								has_trait = humble
-							}
+							NOT = { has_trait = humble }
 						}
 					}
 					modifier = {
-						scope:suggester = {
-							has_trait = arrogant
-						}
+						scope:suggester = { has_trait = arrogant }
 						factor = 5
 					}
-					scope:suggester = {
-						save_scope_as = namesake
-					}
+					scope:suggester = { save_scope_as = namesake }
 					save_scope_value_as = {
 						name = name_type
 						value = flag:suggesters_name
 					}
 				}
-				1 = {
-					#Namer's name
+				1 = { #Namer's name
 					trigger = {
 						birth_9003_same_gender_as_baby_trigger = yes
 						reverse_opinion = {
@@ -4342,30 +3904,23 @@ birth.9002 = {
 						has_relation_lover = scope:suggester
 						factor = 10
 					}
-					scope:namer = {
-						save_scope_as = namesake
-					}
+					scope:namer = { save_scope_as = namesake }
 					save_scope_value_as = {
 						name = name_type
 						value = flag:namers_name
 					}
 				}
-				1 = {
-					#A nice name from your realm
+				1 = { #A nice name from your realm
 					trigger = {
 						any_vassal_or_below = {
 							birth_9003_same_gender_as_baby_trigger = yes
-							NOT = {
-								this = scope:suggester
-							}
+							this != scope:suggester
 						}
 					}
 					random_vassal_or_below = {
 						limit = {
 							birth_9003_same_gender_as_baby_trigger = yes
-							NOT = {
-								this = scope:suggester
-							}
+							this != scope:suggester
 						}
 						save_scope_as = namesake
 						save_scope_value_as = {
@@ -4374,8 +3929,7 @@ birth.9002 = {
 						}
 					}
 				}
-				1 = {
-					#A nice name from suggester's realm
+				1 = { #A nice name from suggester's realm
 					trigger = {
 						scope:suggester = {
 							any_parent = {
@@ -4415,18 +3969,11 @@ birth.9002 = {
 						}
 					}
 				}
-				4 = {
-					#Real father name
+				4 = { #Real father name
 					trigger = {
 						scope:child = {
-							mother = {
-								this = scope:suggester
-							}
-							NOT = {
-								real_father = {
-									this = scope:namer
-								}
-							}
+							mother = { this = scope:suggester }
+							NOT = { real_father = { this = scope:namer } }
 						}
 					}
 					modifier = {
@@ -4446,27 +3993,18 @@ birth.9002 = {
 						}
 					}
 				}
-				1 = {
-					#Religious names
+				1 = { #Religious names
 					trigger = {
-						scope:suggester = {
-							ai_zeal > 0
-						}
+						scope:suggester = { ai_zeal > 0 }
 						scope:child = {
 							OR = {
-								faith = {
-									religion_tag = germanic_religion
-								}
-								faith = {
-									religion_tag = christianity_religion
-								}
+								faith = { religion_tag = germanic_religion }
+								faith = { religion_tag = christianity_religion }
 							}
 						}
 					}
 					modifier = {
-						scope:suggester = {
-							ai_zeal >= medium_positive_ai_value
-						}
+						scope:suggester = { ai_zeal >= medium_positive_ai_value }
 						factor = 5
 					}
 					random_list = {
@@ -4474,141 +4012,91 @@ birth.9002 = {
 							trigger = {
 								scope:child = {
 									is_male = yes
-									faith = {
-										religion_tag = germanic_religion
-									}
+									faith = { religion_tag = germanic_religion }
 								}
 							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Thor
-							}
+							save_scope_value_as = { name = name_suggestion value = flag:Thor }
 						}
 						1 = {
 							trigger = {
 								scope:child = {
 									is_male = yes
-									faith = {
-										religion_tag = germanic_religion
-									}
+									faith = { religion_tag = germanic_religion }
 								}
 							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Balder
-							}
+							save_scope_value_as = { name = name_suggestion value = flag:Balder }
 						}
 						1 = {
 							trigger = {
 								scope:child = {
 									is_male = yes
-									faith = {
-										religion_tag = germanic_religion
-									}
+									faith = { religion_tag = germanic_religion }
 								}
 							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Odin
-							}
+							save_scope_value_as = { name = name_suggestion value = flag:Odin }
 						}
 						1 = {
 							trigger = {
 								scope:child = {
 									is_female = yes
-									faith = {
-										religion_tag = germanic_religion
-									}
+									faith = { religion_tag = germanic_religion }
 								}
 							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Freja
-							}
+							save_scope_value_as = { name = name_suggestion value = flag:Freja }
 						}
 						1 = {
 							trigger = {
 								scope:child = {
 									is_female = yes
-									faith = {
-										religion_tag = germanic_religion
-									}
+									faith = { religion_tag = germanic_religion }
 								}
 							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Idun
-							}
+							save_scope_value_as = { name = name_suggestion value = flag:Idun }
 						}
 						1 = {
 							trigger = {
 								scope:child = {
 									is_female = yes
-									faith = {
-										religion_tag = germanic_religion
-									}
+									faith = { religion_tag = germanic_religion }
 								}
 							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Frigg
-							}
+							save_scope_value_as = { name = name_suggestion value = flag:Frigg }
 						}
 						1 = {
 							trigger = {
 								scope:child = {
 									is_male = yes
-									faith = {
-										religion_tag = christianity_religion
-									}
+									faith = { religion_tag = christianity_religion }
 								}
 							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Peter
-							}							#Apostle
+							save_scope_value_as = { name = name_suggestion value = flag:Peter } #Apostle
 						}
 						1 = {
 							trigger = {
 								scope:child = {
 									is_male = yes
-									faith = {
-										religion_tag = christianity_religion
-									}
+									faith = { religion_tag = christianity_religion }
 								}
 							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Paul
-							}							#Apostle
+							save_scope_value_as = { name = name_suggestion value = flag:Paul } #Apostle
 						}
 						1 = {
 							trigger = {
 								scope:child = {
 									is_male = yes
-									faith = {
-										religion_tag = christianity_religion
-									}
+									faith = { religion_tag = christianity_religion }
 								}
 							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:John
-							}							#Apostle
+							save_scope_value_as = { name = name_suggestion value = flag:John } #Apostle
 						}
 						1 = {
 							trigger = {
 								scope:child = {
 									is_female = yes
-									faith = {
-										religion_tag = christianity_religion
-									}
+									faith = { religion_tag = christianity_religion }
 								}
 							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Maria
-							}							#Holy virgin
+							save_scope_value_as = { name = name_suggestion value = flag:Maria } #Holy virgin
 						}
 					}
 					save_scope_value_as = {
@@ -4616,104 +4104,24 @@ birth.9002 = {
 						value = flag:religious
 					}
 				}
-				20 = {
-					#Lunatic names
-					trigger = {
-						scope:suggester = {
-							has_trait = lunatic
-						}
-					}
+				20 = { #Lunatic names
+					trigger = { scope:suggester = { has_trait = lunatic } }
 					random_list = {
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Babby
-							}
-						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Oats
-							}
-						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Mittens
-							}
-						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Glitterhoof
-							}
-						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Lord
-							}
-						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Lady
-							}
-						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Snowflake
-							}
-						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Bambosh
-							}
-						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Fustian
-							}
-						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Nugament
-							}
-						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Pigwash
-							}
-						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Poppycock
-							}
-						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Tootle
-							}
-						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Scripty
-							}
-						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Gandolf
-							}
-						}
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Babby } }
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Oats } }
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Mittens } }
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Glitterhoof } }
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Lord } }
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Lady } }
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Snowflake } }
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Bambosh } }
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Fustian } }
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Nugament } }
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Pigwash } }
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Poppycock } }
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Tootle } }
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Scripty } }
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Gandolf } }
 					}
 					save_scope_value_as = {
 						name = name_type
@@ -4721,323 +4129,122 @@ birth.9002 = {
 					}
 				}
 				5 = {
-					trigger = {
-						#Our creator
-						scope:suggester = {
-							has_trait = lunatic
-						}
-						scope:suggester = {
-							has_trait = possessed
-						}
+					trigger = { #Our creator
+						scope:suggester = { has_trait = lunatic }
+						scope:suggester = { has_trait = possessed }
 					}
 					random_list = {
 						1 = {
-							trigger = {
-								scope:child = {
-									is_female = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Anna
-							}							#Project lead
+							trigger = { scope:child = { is_female = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Anna } #Project lead
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_female = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Linda
-							}							#Project lead
+							trigger = { scope:child = { is_female = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Linda } #Project lead
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Rikard
-							}							#Project lead
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Rikard } #Project lead
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Henrik
-							}							#Game Director
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Henrik } #Game Director
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Joakim
-							}							#Designer
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Joakim } #Designer
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Alex
-							}							#Designer
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Alex } #Designer
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Maximilian
-							}							#Content designer
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Maximilian } #Content designer
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Petter
-							}							#Content designer
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Petter } #Content designer
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_female = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Linnéa
-							}							#Content designer
+							trigger = { scope:child = { is_female = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Linnéa } #Content designer
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_female = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Mathilda
-							}							#Content designer
+							trigger = { scope:child = { is_female = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Mathilda } #Content designer
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Sean
-							}							#Content designer
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Sean } #Content designer
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Stephen
-							}							#Content designer
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Stephen } #Content designer
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Tobias
-							}							#Content designer
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Tobias } #Content designer
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Ewan
-							}							#Content designer
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Ewan } #Content designer
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_female = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Milla
-							}							#Content designer
+							trigger = { scope:child = { is_female = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Milla } #Content designer
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Ismael
-							}							#Programmer
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Ismael } #Programmer
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_female = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Sara
-							}							#Programmer
+							trigger = { scope:child = { is_female = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Sara } #Programmer
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Igor
-							}							#Programmer
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Igor } #Programmer
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Daniel
-							}							#Programmer
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Daniel } #Programmer
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Olle
-							}							#Programmer
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Olle } #Programmer
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_female = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Lysann
-							}							#Programmer
+							trigger = { scope:child = { is_female = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Lysann } #Programmer
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Pontus
-							}							#Artist
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Pontus } #Artist
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Carlos
-							}							#Artist
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Carlos } #Artist
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Jonas
-							}							#Artist
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Jonas } #Artist
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Emil
-							}							#QA
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Emil } #QA
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_male = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Matt
-							}							#QA
+							trigger = { scope:child = { is_male = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Matt } #QA
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_female = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Katya
-							}							#QA
+							trigger = { scope:child = { is_female = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Katya } #QA
 						}
 						1 = {
-							trigger = {
-								scope:child = {
-									is_female = yes
-								}
-							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Filippa
-							}							#Content designer
+							trigger = { scope:child = { is_female = yes } }
+							save_scope_value_as = { name = name_suggestion value = flag:Filippa } #Content designer
 						}
 					}
 					save_scope_value_as = {
@@ -5046,127 +4253,67 @@ birth.9002 = {
 					}
 				}
 				20 = {
-					trigger = {
-						scope:suggester = {
-							has_trait = possessed
-						}
-					}
+					trigger = { scope:suggester = { has_trait = possessed } }
 					random_list = {
 						1 = {
 							trigger = {
 								scope:child = {
 									is_male = yes
 									OR = {
-										faith = {
-											religion_tag = christianity_religion
-										}
-										faith = {
-											religion_tag = judaism_religion
-										}
+										faith = { religion_tag = christianity_religion }
+										faith = { religion_tag = judaism_religion }
 									}
 								}
 							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Satan
-							}
+							save_scope_value_as = { name = name_suggestion value = flag:Satan }
 						}
 						1 = {
 							trigger = {
 								scope:child = {
 									is_male = yes
 									OR = {
-										faith = {
-											religion_tag = christianity_religion
-										}
-										faith = {
-											religion_tag = judaism_religion
-										}
+										faith = { religion_tag = christianity_religion }
+										faith = { religion_tag = judaism_religion }
 									}
 								}
 							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Beelzebub
-							}
+							save_scope_value_as = { name = name_suggestion value = flag:Beelzebub }
 						}
 						1 = {
 							trigger = {
 								scope:child = {
 									is_female = yes
 									OR = {
-										faith = {
-											religion_tag = christianity_religion
-										}
-										faith = {
-											religion_tag = judaism_religion
-										}
+										faith = { religion_tag = christianity_religion }
+										faith = { religion_tag = judaism_religion }
 									}
 								}
 							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Lilith
-							}
+							save_scope_value_as = { name = name_suggestion value = flag:Lilith }
 						}
 						1 = {
 							trigger = {
 								scope:child = {
 									is_male = yes
-									faith = {
-										religion_tag = islam_religion
-									}
+									faith = { religion_tag = islam_religion }
 								}
 							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Iblis
-							}
+							save_scope_value_as = { name = name_suggestion value = flag:Iblis }
 						}
 						1 = {
 							trigger = {
 								scope:child = {
 									is_female = yes
-									faith = {
-										religion_tag = germanic_religion
-									}
+									faith = { religion_tag = germanic_religion }
 								}
 							}
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Hel
-							}
+							save_scope_value_as = { name = name_suggestion value = flag:Hel }
 						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Deceiver
-							}
-						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Whisperer
-							}
-						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Reaper
-							}
-						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Tengil
-							}
-						}
-						1 = {
-							save_scope_value_as = {
-								name = name_suggestion
-								value = flag:Katla
-							}
-						}
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Deceiver } }
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Whisperer } }
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Reaper } }
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Tengil } }
+						1 = { save_scope_value_as = { name = name_suggestion value = flag:Katla } }
 					}
 					save_scope_value_as = {
 						name = name_type
@@ -5174,6 +4321,7 @@ birth.9002 = {
 					}
 				}
 			}
+
 			if = {
 				limit = {
 					exists = scope:namesake
@@ -5185,10 +4333,9 @@ birth.9002 = {
 						scope:name_type = flag:real_father
 					}
 				}
-				scope:namesake = {
-					save_scope_as = namesake_official
-				}
+				scope:namesake = { save_scope_as = namesake_official }
 			}
+
 			#Fallback (either parents' name)
 			if = {
 				limit = {
@@ -5197,33 +4344,15 @@ birth.9002 = {
 						exists = scope:name_suggestion
 					}
 				}
-				if = {
-					#Name after father
-					limit = {
-						scope:child = {
-							is_male = yes
-						}
-					}
-					scope:child = {
-						father = {
-							save_scope_as = namesake
-						}
-					}
+				if = { #Name after father
+					limit = { scope:child = { is_male = yes } }
+					scope:child = { father = { save_scope_as = namesake } }
 				}
-				else = {
-					#Name after mother
-					scope:child = {
-						mother = {
-							save_scope_as = namesake
-						}
-					}
+				else = { #Name after mother
+					scope:child = { mother = { save_scope_as = namesake } }
 				}
 				if = {
-					limit = {
-						scope:namesake = {
-							this = scope:suggester
-						}
-					}
+					limit = { scope:namesake = { this = scope:suggester } }
 					save_scope_value_as = {
 						name = name_type
 						value = flag:suggesters_name
@@ -5236,55 +4365,51 @@ birth.9002 = {
 					}
 				}
 			}
+
 			#Name them, and then you can rename them later
 			birth_9002_name_setting_effect = yes
 		}
 	}
+
 	#Yes
 	option = {
 		name = {
-			trigger = {
-				exists = scope:namesake
-			}
+			trigger = { exists = scope:namesake }
 			text = birth.9002.a1
 		}
 		name = {
-			trigger = {
-				exists = scope:name_suggestion
-			}
+			trigger = { exists = scope:name_suggestion }
 			text = birth.9002.a2
 		}
-		show_as_tooltip = {
-			birth_9002_name_setting_effect = yes
-		}
+
+		show_as_tooltip = { birth_9002_name_setting_effect = yes }
 		reverse_add_opinion = {
-			target = scope:suggester
-			modifier = grateful_opinion
-			opinion = 15
-		}
-		if = {
+	 		target = scope:suggester
+	 		modifier = grateful_opinion
+	 		opinion = 15
+	 	}
+	 	if = {
 			limit = {
 				exists = scope:namesake_official
-				scope:namesake_official = {
-					is_alive = yes
-				}
-			}
-			reverse_add_opinion = {
-				target = scope:namesake_official
-				modifier = grateful_opinion
-				opinion = 15
-			}
-			hidden_effect = {
-				scope:suggester = {
-					reverse_add_opinion = {
-						target = scope:namesake_official
-						modifier = grateful_opinion
-						opinion = 15
-					}
-				}
-			}
+				scope:namesake_official = { is_alive = yes }
+		 	}
+		 	reverse_add_opinion = {
+		 		target = scope:namesake_official
+		 		modifier = grateful_opinion
+		 		opinion = 15
+		 	}
+		 	hidden_effect = {
+		 		scope:suggester = {
+		 			reverse_add_opinion = {
+				 		target = scope:namesake_official
+				 		modifier = grateful_opinion
+				 		opinion = 15
+				 	}
+		 		}
+		 	}
 		}
 	}
+
 	#No
 	option = {
 		name = {
@@ -5308,46 +4433,41 @@ birth.9002 = {
 			text = birth.9002.b2
 		}
 		custom_tooltip = birth.9002.b.tt
+
 		trigger_event = birth.9003
 	}
+
 	after = {
 		bastard_real_father_discovery_on_birth_effect = yes
 	}
 }
 
 #You said no to their suggestion and pick a name of your own
-birth.9003 = {
-	#by Mathilda Bjarnehed
+birth.9003 = { #by Mathilda Bjarnehed
 	type = character_event
 	title = birth.9002.t
 	desc = birth.9003.desc
 	theme = family
-	override_background = {
-		reference = relaxing_room
-	}
+	override_background = { reference = relaxing_room }
 	left_portrait = scope:child
 	right_portrait = {
 		character = scope:suggester
 		animation = happiness
 	}
+
 	#NAMING WIDGET
 	widgets = {
 		widget = {
 			is_shown = {
-				allow_naming_on_birth_of_child_trigger = {
-					CHILD = scope:child
-				}
+				allow_naming_on_birth_of_child_trigger = { CHILD = scope:child }
 			}
 			gui = "event_window_widget_name_child"
 			container = "dynamic_birth_name"
 			controller = name_character
-			setup_scope = {
-				scope:child = {
-					save_scope_as = name_character_target
-				}
-			}
+			setup_scope = { scope:child = { save_scope_as = name_character_target } }
 		}
 	}
+
 	option = {
 		name = birth.9003.a
 	}
@@ -5370,11 +4490,10 @@ birth.9004 = {
 				desc = birth.9004.desc
 			}
 		}
+
 	}
 	theme = family
-	override_background = {
-		reference = relaxing_room
-	}
+	override_background = { reference = relaxing_room }
 	right_portrait = {
 		character = scope:child
 		animation = happiness
@@ -5383,17 +4502,13 @@ birth.9004 = {
 	widgets = {
 		widget = {
 			is_shown = {
-				allow_naming_on_birth_of_child_trigger = {
-					CHILD = scope:child
-				}
+				allow_naming_on_birth_of_child_trigger = { CHILD = scope:child }
 			}
 			gui = "event_window_widget_name_child"
 			container = "dynamic_birth_name"
 			controller = name_character
 			setup_scope = {
-				scope:child = {
-					save_scope_as = name_character_target
-				}
+				scope:child = { save_scope_as = name_character_target }
 			}
 		}
 	}
@@ -5408,9 +4523,7 @@ birth.9004 = {
 				first_valid = {
 					#If we're renaming ourself
 					triggered_desc = {
-						trigger = {
-							root = scope:child
-						}
+						trigger = { root = scope:child }
 						desc = birth.9004.b
 					}
 					#If we're renaming someone else
@@ -5424,9 +4537,7 @@ birth.9004 = {
 			first_valid = {
 				#If we're renaming ourself
 				triggered_desc = {
-					trigger = {
-						root = scope:child
-					}
+					trigger = { root = scope:child }
 					desc = birth.9004.b.tt
 				}
 				#If we're renaming someone else
