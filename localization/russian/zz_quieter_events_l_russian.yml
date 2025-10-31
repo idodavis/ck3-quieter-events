@@ -1,4 +1,4 @@
-﻿l_english:
+﻿l_russian:
   quieter.prisonrelease.title:0 "Заключенный согласен на освобождение"
   quieter.prisonrelease.message:0 "[recipient.GetShortUINameNoTooltip] [Select_CString(recipient.IsFemale, 'согласна', 'согласен' )] на ваши условия освобождения."
 
@@ -8,6 +8,6 @@
   quieter.seduce_outcome.3901.t:0 "Змея при дворе"
   quieter.seduce_outcome.desc:0 "[owner.Custom2('YourCharacterIntroduction', ROOT.Char)|U] имеет дело с [target.Custom2('YourCharacterIntroductionNoComma', ROOT.Char)]. Это  [owner.Custom('InsultAdjective')] [owner.Custom('InsultNounSexual')]!"
 
-  quieter.birth.dynastic.title:0 "Child Of My Dynasty"
-  quieter.birth.dynastic.message:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] has given birth to a [child.Custom('GetDaughterSon')]! They're calling the little one [child.GetFirstNameNoTooltip]."
-  quieter.birth.dynastic.message.twin:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] has given birth to two [child.Custom('TwinDaughtersSonsChildren')]!"
+  quieter.birth.dynastic.title:0 "Дитя моей династии"
+  quieter.birth.dynastic.message:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] родила [child.Custom('GetDaughterSon')]! Они зовут маленького ребенка  [child.GetFirstNameNoTooltip]."
+  quieter.birth.dynastic.message.twin:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] родила двоих [child.Custom('TwinDaughtersSonsChildren')]!"

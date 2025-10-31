@@ -1,13 +1,13 @@
-﻿l_english:
+﻿l_german: 
   quieter.prisonrelease.title:0 "Gefangener freigelassen"
   quieter.prisonrelease.message:0 "[recipient.GetShortUINameNoTooltip] hat Euren Kerker verlassen."
 
   quieter.marriage.title:0 "Heiratsantrag angenommen"
-  quieter.marriage.desc:0 "[secondary_recipient.GetFirstName] wird [secondary_actor.GetFirstName] heiraten." 
+  quieter.marriage.desc:0 "[secondary_recipient.GetFirstName] wird [secondary_actor.GetFirstName] heiraten."
 
   quieter.seduce_outcome.3901.t:0 "Ein Lustmolch am Hofe"
   quieter.seduce_outcome.desc:0 "[owner.Custom2('YourCharacterIntroduction', ROOT.Char)|U] hat eine Affäre mit [target.Custom2('YourCharacterIntroductionNoComma', ROOT.Char)]. Welch [owner.Custom('InsultAdjective')] [owner.Custom('InsultNounSexual')]!"
 
-  quieter.birth.dynastic.title:0 "Child Of My Dynasty"
-  quieter.birth.dynastic.message:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] has given birth to a [child.Custom('GetDaughterSon')]! They're calling the little one [child.GetFirstNameNoTooltip]."
-  quieter.birth.dynastic.message.twin:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] has given birth to two [child.Custom('TwinDaughtersSonsChildren')]!"
+  quieter.birth.dynastic.title:0 "Unsere Dynastie wächst"
+  quieter.birth.dynastic.message:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] hat ein Kind zur Welt gebracht! Das Kleine soll [child.GetFirstNameNoTooltip] heißen."
+  quieter.birth.dynastic.message.twin:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] hat zwei [child.Custom('TwinDaughtersSonsChildren')] zur Welt gebracht!"

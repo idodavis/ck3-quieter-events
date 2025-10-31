@@ -1,4 +1,4 @@
-﻿l_english:
+﻿l_simp_chinese:
   quieter.prisonrelease.title:0 "囚犯同意释放"
   quieter.prisonrelease.message:0 "[recipient.GetShortUINameNoTooltip]已同意你的释放条件。"
 
@@ -8,6 +8,6 @@
   quieter.seduce_outcome.3901.t:0 "宫廷里的蛇"
   quieter.seduce_outcome.desc:0 "[owner.Custom2('YourCharacterIntroduction', ROOT.Char)|U]承认与[target.Custom2('YourCharacterIntroductionNoComma', ROOT.Char)]，[owner.Custom('InsultAdjective')][owner.Custom('InsultNounSexual')]有染！"
 
-  quieter.birth.dynastic.title:0 "Child Of My Dynasty"
-  quieter.birth.dynastic.message:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] has given birth to a [child.Custom('GetDaughterSon')]! They're calling the little one [child.GetFirstNameNoTooltip]."
-  quieter.birth.dynastic.message.twin:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] has given birth to two [child.Custom('TwinDaughtersSonsChildren')]!"
+  quieter.birth.dynastic.title:0 "吾族的子嗣"
+  quieter.birth.dynastic.message:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U]生下了一个[child.Custom('GetDaughterSon')]！\n小家伙叫[child.GetFirstNameNoTooltip]。"
+  quieter.birth.dynastic.message.twin:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U]生下了两个[child.Custom('TwinDaughtersSonsChildren')]！"
