@@ -823,8 +823,8 @@ char_interaction.0151 = {
 	}
 }
 
-##Quieter Events
 # (Conditional) Release from Prison: Accepted
+# QUIETER: Event modified by Quieter Events Mod
 char_interaction.0160 = {
 	hidden = yes
 	immediate = {
@@ -1248,8 +1248,8 @@ char_interaction.0230 = {
 	}
 }
 
-##Quieter Events
 #Vassal Imprison Attempt succeeded.
+# QUIETER: Event modified by Quieter Events Mod
 char_interaction.0231 = {
 	hidden = yes
 	immediate = {

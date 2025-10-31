@@ -380,8 +380,8 @@ marriage_interaction.0009 = {
 }
 
 
-##Quieter Events
 # Marriage Proposal: Accepted
+# QUIETER: Event modified by Quieter Events Mod
 marriage_interaction.0010 = {
 	hidden = yes
 	immediate = {

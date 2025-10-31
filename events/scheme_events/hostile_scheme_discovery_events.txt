@@ -233,9 +233,9 @@ hostile_scheme_discovery.1001 = {
 }
 
 
-##Quieter Events
 #Owner discovered
 # by Linnéa Thimrén
+# QUIETER: Event modified by Quieter Events Mod
 hostile_scheme_discovery.1002 = {
 	hidden = yes
 	immediate = {
@@ -355,10 +355,8 @@ hostile_scheme_discovery.1002 = {
 	}
 }
 
-
-
-##Quieter Events
 #Discover Scheme
+# QUIETER: Event modified by Quieter Events Mod
 hostile_scheme_discovery.2001 = {
 	hidden = yes
 	immediate = {

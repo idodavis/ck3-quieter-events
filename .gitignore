@@ -1,4 +1,9 @@
 .vscode/
 *.log
 *.tmp
+
+# Script to sync mod files over to the documents mod directory so the game can actually use them.
 mod-sync.sh
+
+# Merged output files
+vanilla-mod-merger/merge-output/*

@@ -1073,7 +1073,7 @@ spymaster_task.0346 = {
 }
 
 #Spymaster found Secret Unbeliever
-##Quieter Events
+# QUIETER: Event modified by Quieter Events Mod
 spymaster_task.0347 = {
 	hidden = yes
 	immediate = {

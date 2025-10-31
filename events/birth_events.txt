@@ -1959,8 +1959,8 @@ birth.1006 = {
 	}
 }
 
-##Quieter Events -- Thanks #VLindermann for the fix from Less Event
 #Host of the same dynasty (not ai) get to name the child
+# QUIETER: Event modified by Quieter Events Mod
 birth.1010 = {
 	hidden = yes
 	immediate = {
