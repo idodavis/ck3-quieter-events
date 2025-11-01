@@ -1,4 +1,5 @@
-﻿game_root: /mnt/c/Program Files (x86)/Steam/steamapps/common/Crusader Kings III/game
+game_root: "/mnt/c/Program Files (x86)/Steam/steamapps/common/Crusader Kings III/game"
+mod_root: "/home/idhis/dev/mods/CK3/ck3-quieter-events"
 custom_comment_prefix: "# QUIETER:"
 files:
   - relative_path: events/councillor_task_events/spymaster_task_events.txt

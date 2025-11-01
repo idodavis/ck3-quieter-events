@@ -6,5 +6,5 @@
 mod-sync.sh
 
 # Merged output files
-vanilla-mod-merger/merge-output/*
-vanilla-mod-merger/parser/.antlr
+paradox-file-utils/vanilla-synchronizer/sync-output/
+paradox-file-utils/parser/.antlr
