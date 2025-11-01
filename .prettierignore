@@ -1,0 +1,5 @@
+# Files/Directories to ignore for prettier
+
+common/
+events/
+localization/

@@ -7,3 +7,4 @@ mod-sync.sh
 
 # Merged output files
 vanilla-mod-merger/merge-output/*
+vanilla-mod-merger/parser/.antlr

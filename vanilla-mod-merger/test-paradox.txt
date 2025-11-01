@@ -1,0 +1,453 @@
+##Events for hostile scheme discovery
+
+namespace = hostile_scheme_discovery
+
+## 1001-1999: Agent discovered
+## 2001-2999: Scheme discovered
+
+scripted_effect forbid_agent_from_scheme_effect = {
+	scope:agent = {
+		forbid_from_scheme = scope:scheme
+		add_prestige = major_prestige_loss
+		add_stress = major_stress_gain
+		add_opinion = {
+			target = scope:target
+			modifier = accused_of_scheming_opinion
+		}
+	}
+}
+
+#Agent discovered
+hostile_scheme_discovery.1001 = {
+	type = character_event
+	title = hostile_scheme_discovery.1001.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:agent = {
+						OR = {
+							has_friendly_relationship_with_root_trigger = yes
+							is_close_family_of = root
+							is_consort_of = root
+						}
+					}
+				}
+				desc = {
+					first_valid = {
+						triggered_desc = {
+						    trigger = {
+								scope:scheme = { scheme_target_character = root }
+						    }
+						    desc = {
+						    	first_valid = {
+									triggered_desc = {
+										trigger = {
+											exists = scope:spymaster
+											exists = cp:councillor_spymaster
+										}
+										desc = hostile_scheme_discovery.1001.close_relation
+									}
+									desc = hostile_scheme_discovery.1001.close_relation_no_spymaster
+								}
+						    }
+						}
+						desc = {
+							first_valid = {
+								triggered_desc = {
+									trigger = {
+										exists = scope:spymaster
+										exists = cp:councillor_spymaster
+										scope:targeted_courtier = scope:spymaster
+									}
+									desc = hostile_scheme_discovery.1001.close_relation_spymaster_other_target
+								}
+								triggered_desc = {
+									trigger = {
+										exists = scope:spymaster
+										exists = cp:councillor_spymaster
+									}
+									desc = hostile_scheme_discovery.1001.close_relation_other_target
+								}
+								desc = hostile_scheme_discovery.1001.close_relation_no_spymaster_other_target
+							}
+						}
+					}
+				}
+			}
+			desc = {
+				first_valid = {
+					triggered_desc = {
+					    trigger = {
+							scope:scheme = { scheme_target_character = root }
+					    }
+					    desc = {
+					    	first_valid = {
+								triggered_desc = {
+									trigger = {
+										exists = scope:spymaster
+										exists = cp:councillor_spymaster
+									}
+									desc = hostile_scheme_discovery.1001.desc
+								}
+								desc = hostile_scheme_discovery.1001.desc_no_spymaster
+							}
+					    }
+					}
+					desc = {
+						first_valid = {
+							triggered_desc = {
+								trigger = {
+									exists = scope:spymaster
+									exists = cp:councillor_spymaster
+									scope:targeted_courtier = scope:spymaster
+								}
+								desc = hostile_scheme_discovery.1001.desc_other_target_spymaster
+							}
+							triggered_desc = {
+								trigger = {
+									exists = scope:spymaster
+									exists = cp:councillor_spymaster
+								}
+								desc = hostile_scheme_discovery.1001.desc_other_target
+							}
+							desc = hostile_scheme_discovery.1001.desc_no_spymaster_other_target
+						}
+					}
+				}
+			}
+		}
+	}
+	theme = generic_intrigue_scheme
+	left_portrait = scope:spymaster
+	lower_left_portrait = {
+		trigger = {
+			scope:targeted_courtier != scope:spymaster
+		}
+		character = scope:targeted_courtier
+		animation = shock
+	}
+	right_portrait = {
+		character = scope:agent
+		animation = fear
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_murder"
+		if = {
+			limit = {
+				scope:target_character != root
+			}
+			scope:target_character = { save_scope_as = targeted_courtier }
+		}
+	}
+
+	#Accuse and let go
+	option = {
+		name = hostile_scheme_discovery.1001.a
+		forbid_agent_from_scheme_effect = yes
+		save_scope_value_as = {
+			name = agent_treatment
+			value = flag:accused
+		}
+		ai_chance = {
+			base = 40
+		}
+	}
+
+	#Accuse and imprison
+	option = {
+		name = hostile_scheme_discovery.1001.b
+		trigger = {
+			custom_tooltip = {
+				text = hostile_scheme_discovery.1001.b.tt_not_your_courtier_or_vassal
+				basic_allowed_to_imprison_character_trigger = {
+					CHARACTER = scope:agent
+				}
+			}
+		}
+		show_as_unavailable = { always = yes }
+		forbid_agent_from_scheme_effect = yes
+		rightfully_imprison_character_effect = { #Exposing scheme agent above will add opinion making the imprisonment rightful
+			TARGET = scope:agent
+			IMPRISONER = root
+		}
+		save_scope_value_as = {
+			name = agent_treatment
+			value = flag:imprisoned
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	#Let them go
+	option = {
+		name = hostile_scheme_discovery.1001.c
+		scope:scheme = {
+			expose_scheme_agent = scope:agent
+		}
+		scope:agent = {
+			add_character_flag = {
+				flag = free_to_scheme
+				days = 1825
+			}
+		}
+		if = {
+			limit = {
+				can_add_hook = {
+					target = scope:agent
+					type = suspicious_activity_hook
+				}
+			}
+			add_hook = {
+				type = suspicious_activity_hook
+				target = scope:agent
+			}
+		}
+		else = {
+			custom_tooltip = hostile_scheme_discovery.1001.c.tt
+			add_piety = miniscule_piety_gain
+		}
+		
+		ai_chance = {
+			base = 20
+			modifier = {
+				add = 20
+				has_trait = forgiving
+			}
+		}
+	}
+
+	after = {
+		#If the agent has not been let go, send notification to scheme owner
+		if = {
+			limit = {
+				exists = scope:agent_treatment
+			}
+			scope:owner = {
+				trigger_event = hostile_scheme_discovery.3001
+			}
+		}
+	}
+}
+
+
+#Owner discovered
+# by Linnéa Thimrén
+# QUIETER: Event modified by Quieter Events Mod
+hostile_scheme_discovery.1002 = {
+	hidden = yes
+	immediate = {
+		if = {
+			limit = {
+				scope:scheme = {
+					scheme_target_character = {
+						NOT = {
+							this = root
+						}
+					}
+				}
+			}
+			scope:scheme = {
+				scheme_target_character = {
+					trigger_event = hostile_scheme_discovery.1002
+					save_scope_as = targeted_courtier
+				}
+			}
+		}
+		scope:owner = {
+			add_dread = minor_dread_gain
+		}
+		attempted_murder_opinion_effect = {
+			VICTIM = scope:target
+			MURDERER = scope:owner
+		}
+		if = {
+			limit = {
+				#Double check since it seems the scheme sometimes hangs around as a scope
+				exists = scope:scheme
+				exists = scope:scheme.scheme_target_character
+			}
+			scope:scheme = {
+				end_scheme = yes
+			}
+		}
+		if = {
+			#Only send it from the host's event so that owner doesn't get duplication if the host and the target isn't the same person
+			limit = {
+				exists = scope:scheme.scheme_target_character
+				scope:scheme.scheme_target_character = {
+					this = root
+				}
+			}
+			scope:owner = {
+				#Event for the owner that actually ends the scheme
+				trigger_event = hostile_scheme_discovery.3003
+			}
+		}
+		send_interface_message = {
+			type = msg_spymaster_task_good
+			title = hostile_scheme_discovery.1002.t
+			desc = {
+				desc = {
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								exists = scope:spymaster
+								exists = cp:councillor_spymaster
+							}
+							desc = hostile_scheme_discovery.1002.intro
+						}
+						desc = hostile_scheme_discovery.1002.intro_no_spymaster
+					}
+				}
+				first_valid = {
+					triggered_desc = {
+						trigger = {
+							scope:scheme = {
+								scheme_type = murder
+							}
+						}
+						desc = hostile_scheme_discovery.1002.murder
+					}
+					triggered_desc = {
+						trigger = {
+							scope:scheme = {
+								scheme_type = abduct
+							}
+						}
+						desc = hostile_scheme_discovery.1002.abduction
+					}
+					triggered_desc = {
+						trigger = {
+							scope:scheme = {
+								scheme_type = elope
+							}
+						}
+						desc = hostile_scheme_discovery.1002.elope
+					}
+					triggered_desc = {
+						trigger = {
+							scope:scheme = {
+								scheme_type = steal_back_artifact
+							}
+						}
+						desc = hostile_scheme_discovery.1002.steal_back_artifact
+					}
+					desc = hostile_scheme_discovery.1002.fallback
+				}
+				first_valid = {
+					triggered_desc = {
+						trigger = {
+							NOT = {
+								scope:target = root
+							}
+						}
+						desc = hostile_scheme_discovery.2001.target_other
+					}
+					desc = hostile_scheme_discovery.2001.target_me
+				}
+			}
+			left_icon = scope:owner
+			right_icon = scope:targeted_courtier
+		}
+	}
+}
+
+#Discover Scheme
+# QUIETER: Event modified by Quieter Events Mod
+hostile_scheme_discovery.2001 = {
+	hidden = yes
+	immediate = {
+		scope:scheme = {
+			expose_scheme = yes
+		}
+		scope:owner = {
+			trigger_event = hostile_scheme_discovery.3002
+		}
+		send_interface_message = {
+			type = msg_spymaster_task_good
+			title = hostile_scheme_discovery.1001.t
+			desc = {
+				desc = {
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								exists = scope:spymaster
+								exists = cp:councillor_spymaster
+							}
+							desc = hostile_scheme_discovery.2001.intro
+						}
+						desc = hostile_scheme_discovery.2001.intro_no_spymaster
+					}
+				}
+				first_valid = {
+					triggered_desc = {
+						trigger = {
+							scope:scheme = {
+								scheme_type = murder
+							}
+						}
+						desc = hostile_scheme_discovery.2001.murder
+					}
+					triggered_desc = {
+						trigger = {
+							scope:scheme = {
+								scheme_type = abduct
+							}
+						}
+						desc = hostile_scheme_discovery.2001.abduction
+					}
+					triggered_desc = {
+						trigger = {
+							scope:scheme = {
+								scheme_type = elope
+							}
+						}
+						desc = hostile_scheme_discovery.2001.elope
+					}
+					triggered_desc = {
+						trigger = {
+							scope:scheme = {
+								scheme_type = steal_back_artifact
+							}
+						}
+						desc = hostile_scheme_discovery.2001.steal_back_artifact
+					}
+					triggered_desc = {
+						trigger = {
+							scope:scheme = {
+								scheme_type = depose
+							}
+						}
+						desc = hostile_scheme_discovery.2001.depose
+					}
+					desc = hostile_scheme_discovery.2001.fallback
+				}
+				first_valid = {
+					triggered_desc = {
+						trigger = {
+							NOT = {
+								scope:target = root
+							}
+							scope:target = scope:spymaster
+						}
+						desc = hostile_scheme_discovery.2001.target_spymaster
+					}
+					triggered_desc = {
+						trigger = {
+							NOT = {
+								scope:target = root
+							}
+						}
+						desc = hostile_scheme_discovery.2001.target_other
+					}
+					desc = hostile_scheme_discovery.2001.target_me
+				}
+			}
+			left_icon = scope:spymaster
+			right_icon = scope:target
+		}
+	}
+}
