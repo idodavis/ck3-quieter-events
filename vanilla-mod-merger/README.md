@@ -1,1 +1,0 @@
-I'll add a guide here on how to use vanilla_mod_merge binary as well as some of the ideosyncacies with the existing merge code and how someone could edit it themselves.
