@@ -1,7 +1,9 @@
+> [!WARNING]
+> This is a personal project of mine so expect bugs and other issues until this codebase is ironed out. If interested in this codebase's future or want to contribute look down at [Future Plans](#future-plans)
 
 # Vanilla Synchronizer
 
-A tool for Crusader Kings III modders to easily synchronize and update modded files with the latest vanilla game files, while preserving changes to top-level entities and their comments.
+A tool for Crusader Kings III modders to easily synchronize and update modded files with the latest vanilla game (script) files, while preserving changes to top-level entities and their comments.
 
 ## What Does It Do?
 
@@ -81,6 +83,7 @@ go build -o vanilla-synchronizer vanilla_synchronizer.go
 
 - **Config not working?**:
   - Make sure you renamed and edited `sync-config.example.yaml`.
+  - Also ensure that the config yaml is saved as `UTF-8` Encoding **NOT** `UTF-8 With BOM` like game files (such as localizations).
 - **Can't seem to find your files?**:
   - Ensure that both the game root path and mod paths are absolute or Go will likely fail to find them. 
   - Also make sure that the `relative_path` in the config is based on the files path in the game root dir, your modded versions should mirror that structure.
@@ -96,10 +99,17 @@ go build -o vanilla-synchronizer vanilla_synchronizer.go
 - Currently It's based only on grammar need to work with event files, it should work with most other game files but **I have not tested any non-event files** to know for sure. This is definitely something that can be extended so please feel free to PR or message me with requests.
 - If you want to see another example of something using this parser look at [`../examples/getting-events.go`](../examples/getting-events.go) where I wrote a smaller script that travers a given event file and outputs all the event blocks and the total number of events in the file. There's so much more you can do though.
 
+## Future Plans
+
+1. I currently plan on improving the synchronizer to also provide a diff either via commandline or through some kind of output diff file. Best case would be GUI but I have no experiance in that realm so unless I find someone who knows how that's currently a pipe dream.
+2. I also do plan on extending parser support at some point in the future to handle files beyond events although I believe a good deal of files in the game scripts will likely be parsed pretty accurately.
+3. If this gets any kind of traction I'll likely move this to it's own repo but we'll see...
+
 ## Contributing
 
-Pull requests and issues are welcome!  
-If you want to extend the parser or add new features, see the `parser/` directory for the ANTLR grammar and Go integration.
+Pull requests and issues are welcome! Feel free to hit my up on github or open an issue and I'll try to respond as soon as I have time.
+
+If you want to extend the parser or add new features, see the [Parser Information](#parser-information).
 
 
 ## License
