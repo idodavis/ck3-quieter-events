@@ -1,5 +1,13 @@
 package main
 
+// This is a simple example program that demonstrates how to use the Paradox Script parser
+// to extract event blocks from a Paradox event file.
+//
+// Usage: `go run getting-events.go <input_file>`
+// The program will print out all event keys and their fields found in the specified file.
+// It also prints the total number of events found.
+// You'll have to build a struct for event fields as needed for your use case if you wish to do more with them.
+//
 import (
 	"fmt"
 	"os"

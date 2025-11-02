@@ -5,6 +5,7 @@
 # Script to sync mod files over to the documents mod directory so the game can actually use them.
 mod-sync.sh
 
-# Merged output files
+# Util files not meant for the publics eye
 paradox-file-utils/vanilla-synchronizer/sync-output/
 paradox-file-utils/parser/.antlr
+paradox-file-utils/vanilla-synchronizer/sync-config.yaml

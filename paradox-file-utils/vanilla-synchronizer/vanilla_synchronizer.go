@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 
 	"paradox-file-utils/parser"
 
@@ -27,6 +28,11 @@ type Config struct {
 	} `yaml:"files"`
 }
 
+type ModdedEvent struct {
+	Event   *parser.AssignmentContext
+	Comment string
+}
+
 func loadConfig(path string) (*Config, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
@@ -39,14 +45,43 @@ func loadConfig(path string) (*Config, error) {
 	return &cfg, nil
 }
 
-func collectEvents(tree *parser.FileContext) map[string]*parser.AssignmentContext {
-	events := make(map[string]*parser.AssignmentContext)
+func writeLine(out *os.File, s string) {
+	if _, err := out.WriteString(s); err != nil {
+		fmt.Println("Error writing to output file:", err)
+		out.Close()
+		return
+	}
+}
+
+// Goes through the parsed tree and finds block assignments,
+// and if using normal event key syntax, adds them to a list
+// Also grabs comments if they contain the specified prefix in the config
+func collectEventsAndComments(tree *parser.FileContext, prefix string) map[string]ModdedEvent {
+	events := make(map[string]ModdedEvent)
+	var pendingComments []string
 	for _, line := range tree.AllLine() {
+
+		// Grabbing custom comments
+		// These will be attached to the next event block found
+		if c := line.COMMENT(); c != nil {
+			comment := c.GetText()
+			if strings.HasPrefix(comment, prefix) {
+				pendingComments = append(pendingComments, comment)
+			}
+			continue
+		}
+
+		// Grabbing events
 		if stmt := line.Statement(); stmt != nil {
 			if assign := stmt.Assignment(); assign != nil {
 				key := assign.Key().GetText()
 				if assign.Value().Block() != nil && EVENT_KEY_PATTERN.MatchString(key) {
-					events[key] = assign.(*parser.AssignmentContext)
+					comment := ""
+					if len(pendingComments) > 0 {
+						comment = strings.Join(pendingComments, "\n") + "\n"
+						pendingComments = nil
+					}
+					events[key] = ModdedEvent{assign.(*parser.AssignmentContext), comment}
 				}
 			}
 		}
@@ -65,10 +100,12 @@ func main() {
 		return
 	}
 
-	for _, f := range cfg.Files {
-		relPath := f.RelativePath
+	for _, file := range cfg.Files {
+		relPath := file.RelativePath
+
+		// Using map to make quick key lookup/access
 		modKeys := make(map[string]struct{})
-		for _, k := range f.ModifiedEntityKeys {
+		for _, k := range file.ModifiedEntityKeys {
 			modKeys[k] = struct{}{}
 		}
 
@@ -88,9 +125,6 @@ func main() {
 		modParser := parser.NewParadoxParser(modStream)
 		modTree := modParser.File()
 
-		// Collect modded events
-		modEvents := collectEvents(modTree.(*parser.FileContext))
-
 		// Prepare output file
 		outPath := SYNC_OUTPUT_DIR + "/" + filepath.Base(relPath)
 		out, err := os.Create(outPath)
@@ -99,43 +133,41 @@ func main() {
 			return
 		}
 
+		// Collect events from mod file (all of them, not just ones that were actually modified)
+		modFileEvents := collectEventsAndComments(modTree.(*parser.FileContext), cfg.CustomCommentPrefix)
+
 		// Walk vanilla lines, swap event blocks if needed
 		for _, line := range vanillaTree.AllLine() {
 			if stmt := line.Statement(); stmt != nil {
 				if assign := stmt.Assignment(); assign != nil {
 					key := assign.Key().GetText()
+
+					// Swap event block if key is in modified event keys list
 					if _, ok := modKeys[key]; ok {
-						if modAssign, ok := modEvents[key]; ok {
-							if _, err := out.WriteString(modAssign.GetText()); err != nil {
-								fmt.Println("Error writing to output file:", err)
-								out.Close()
-								return
+						if modEvent, ok := modFileEvents[key]; ok {
+							// Write mod comment if exists
+							if modEvent.Comment != "" {
+								writeLine(out, modEvent.Comment)
 							}
+
+							writeLine(out, modEvent.Event.GetText())
 							continue
 						}
 					}
-					if _, err := out.WriteString(assign.GetText()); err != nil {
-						fmt.Println("Error writing to output file:", err)
-						out.Close()
-						return
-					}
+
+					// Otherwise, write vanilla assignment as-is
+					writeLine(out, assign.GetText())
 					continue
 				}
 			}
-			// Write comments/whitespace as-is
+
+			// Write vanilla comments as-is
 			if c := line.COMMENT(); c != nil {
-				if _, err := out.WriteString(c.GetText()); err != nil {
-					fmt.Println("Error writing to output file:", err)
-					out.Close()
-					return
-				}
+				writeLine(out, c.GetText())
 			}
+			// Write vanilla whitespace as-is
 			if ws := line.WS(); ws != nil {
-				if _, err := out.WriteString(ws.GetText()); err != nil {
-					fmt.Println("Error writing to output file:", err)
-					out.Close()
-					return
-				}
+				writeLine(out, ws.GetText())
 			}
 		}
 		fmt.Println("Merged file written to:", outPath)
