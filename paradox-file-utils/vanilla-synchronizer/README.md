@@ -44,44 +44,37 @@ cp sync-config.example.yaml sync-config.yaml
     - `custom_comment_prefix`: Prefix for your custom comments inside the files you wish to keep (Only works for standalone line comments above top-level entity blocks (events/histories/etc.)
     - `files`: List of files and the keys of your modded entities you want to preserve
 
-### 3. Build the Synchronizer
+### 3. Run the Synchronizer
 
-#### Option A: Using Make (Linux/macOS/WSL)
+Either option will write your synced version files to the `sync-output/` directory
+
+#### Option A: Using ***Make*** (Linux/macOS/WSL)
+
+  ```sh
+  make build
+  ```
+
+#### Option B: Using ***Go***
+
+  ```sh
+  ./vanilla-synchronizer sync-config.yaml
+  ```
+
+### 4. (Optional) Building the Synchronizer
+
+In case you want to make changes to the synchronizer code and need to rebuild it yourself.
+Both options will generate executable binary named `vanilla_synchronizer`
+
+#### Option A: Using ***Make*** (Linux/macOS/WSL)
 
 ```sh
 make build
 ```
 
-This will build the `vanilla-synchronizer` binary.
-
-#### Option B: Using Go Directly
+#### Option B: Using ***Go*** Directly
 
 ```sh
 go build -o vanilla-synchronizer vanilla_synchronizer.go
-```
-
-### 4. Run the Synchronizer
-
-```sh
-./vanilla-synchronizer sync-config.yaml
-```
-
-- The merged files will be written to the `sync-output/` directory.
-
----
-
-### Example `sync-config.yaml`
-
-```yaml
-game_root: "/path/to/CK3/game"
-mod_root: "/path/to/your/mod"
-custom_comment_prefix: "# QUIETER:"
-files:
-  - relative_path: birth_events.txt
-    modified_entity_keys:
-      - birth.1001
-      - birth.9004
-  # Add more files and event keys as needed
 ```
 
 ## Troubleshooting
