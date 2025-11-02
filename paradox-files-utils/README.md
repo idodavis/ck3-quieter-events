@@ -1,0 +1,2 @@
+# Looking for Vanilla-Synchronizer or Paradox Parser?
+I've moved paradox-file-utils to it's own repo for maintainability's sake. You can find it [here](https://github.com/idodavis/paradox-file-utils/tree/main)
