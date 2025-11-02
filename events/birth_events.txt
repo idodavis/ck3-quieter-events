@@ -1961,6 +1961,7 @@ birth.1006 = {
 
 #Host of the same dynasty (not ai) get to name the child
 # QUIETER: Event modified by Quieter Events Mod
+# QUIETER: Might look into still allowing naming for AI hosts somehow later
 birth.1010 = {
 	hidden = yes
 	immediate = {
