@@ -3256,18 +3256,25 @@ seduce_outcome.3901 = {
 	#by Mathilda Bjarnehed
 	hidden = yes
 	immediate = {
-		send_interface_message = {
-			type = quieter_seduce
-			title = quieter.seduce_outcome.3901.t
-			desc = quieter.seduce_outcome.desc
-			left_icon = scope:owner
-			right_icon = scope:target
-			#No scheme, no widget
+		if = {
+			limit = {
+				has_game_rule = ssd_quieter
+			}
+			send_interface_message = {
+				type = quieter_events_bad
+				title = quieter.seduce_outcome.3901.t
+				desc = quieter.seduce_outcome.desc
+				left_icon = scope:owner
+				right_icon = scope:target
+			}
+			random_dummy_gender_servant_effect = yes
+			scope:target = {
+				seduce_outcome_success_discovered_effect = yes
+			}
 		}
-		random_dummy_gender_servant_effect = yes
-		scope:target = {
-			seduce_outcome_success_discovered_effect = yes
-		}
+		else = {
+			trigger_event = qe_vanilla_events.0005
+		}	
 	}
 }
 

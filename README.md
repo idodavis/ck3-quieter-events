@@ -6,7 +6,20 @@
 This mod is a successor to ***"Less Event Spam"*** mod by the wonderful **Night** and **Pingvin**. Please see the original: https://steamcommunity.com/sharedfiles/filedetails/?id=2750102888&searchtext=less+even
 
 # What It Does
-This mod, as it's predecessor did, simply changes character events and large popups to hidden ones that will still be logged or sent to the interface as less obtrusive alerts styles so they don't show up in the players face time and time again. To be clear: **Events are hidden or relegated to toasts/notifications**
+This mod converts multiple frequently occuring events and converts them from full events that require intervention by the player and into smaller toasts/notifications. Thus getting them out of your way so you can actually enjoy the game.
+
+# New Features!
+Added two new major features. Added a picture of both in action to the mod pictures here in workshop.
+
+## Game Rules:
+This mod now supports game rules! There's a game rule to switch between the mods "out-of-the-way" messages and the vanilla.
+  - Every 'Quieted Event' has a rule to switch back to vanilla.
+  - Mod game rules are grouped via mod name & are fully localized.
+
+## Message Settings Filter:
+I've now put all the modified events into the mods own custom messages.
+  - Modded events now share custom message filter and can be filtered together in message log.
+  - Modded events can now be toggled (together) between ***Toast/Feed/Popup/Hidden*** via Message Settings.
 
 # Current Events Affected
 * **A Seduction Scheme at Court**: Spymaster notifies player of ongoing scheme against character at court. 
@@ -17,7 +30,7 @@ This mod, as it's predecessor did, simply changes character events and large pop
 * **Child of My Dynasty**: Sends a simple toast message with the ai chosen name and who the mother is instead of the larger window and prompting you to name using the widgets.
 
 # Compatibility
-**This mod overwrites the following event files in their entirety as it's the only way to ensure the events are actually affected and overridden.** *If there's an alternative let me know*
+**This mod overwrites the following event files in their entirety as it's the only way to ensure the events are actually affected and overridden.**
 
 - *councillor_task_events/spymaster_task_events.txt*
 - *interaction_events/character_interaction_events.txt*
@@ -25,10 +38,6 @@ This mod, as it's predecessor did, simply changes character events and large pop
 - *scheme_events/hostile_scheme_discovery_events.txt*
 - *scheme_events/seduce_scheme/seduce_scheme_outcome_events.txt*
 - *birth_events.txt*
-
-# Disclaimer
-**I'm completely new to modding so it might take me a bit to patch bugs when they are found.
-I do plan on making further updates to this mod however and plan on adding more events. If you have suggestions, please add them to the comments and/or open a discussion.**
 
 ## Localization
 English, Russian, German, Chinese.

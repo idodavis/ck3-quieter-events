@@ -1,9 +1,0 @@
-﻿##Event sway in court
-quieter_seduce = {
-	icon = "sway_scheme"
-	title = event_message_title
-	desc = event_message_text
-	style = bad
-	soundeffect = @msg_bad_soundeffect
-	message_filter_type = event_outcome
-}

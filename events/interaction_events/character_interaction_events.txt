@@ -828,11 +828,24 @@ char_interaction.0151 = {
 char_interaction.0160 = {
 	hidden = yes
 	immediate = {
-		send_interface_message = {
-			type = event_prison_good
-			title = quieter.prisonrelease.title
-			desc = quieter.prisonrelease.message
-			right_icon = scope:recipient
+		if = {
+			limit = {
+				has_game_rule = pra_quieter
+			}
+			send_interface_message = {
+				type = quieter_events_good
+				title = quieter.prisonrelease.title
+				desc = quieter.prisonrelease.message
+				right_icon = scope:recipient
+			}
+		}
+		else = {
+			trigger_event = qe_vanilla_events.0002
+		}
+	}
+	trigger = {
+		scope:recipient = {
+			NOT = { has_character_flag = block_for_prison_release_message }
 		}
 	}
 }
@@ -1253,32 +1266,40 @@ char_interaction.0230 = {
 char_interaction.0231 = {
 	hidden = yes
 	immediate = {
-		send_interface_message = {
-			type = event_generic_neutral_with_text
-			title = char_interaction.0231.title
-			desc = {
-				first_valid = {
-					triggered_desc = {
-						trigger = {
-							scope:recipient = {
-								is_in_prison_type = house_arrest
-							}
-						}
-						desc = char_interaction.0231.desc_house_arrest
-					}
-					triggered_desc = {
-						trigger = {
-							scope:actor = {
-								is_landless_ruler = yes
-							}
-						}
-						desc = char_interaction.0231.desc_stockade
-					}
-					desc = char_interaction.0231.desc_prison
-				}
+		if = {
+			limit = {
+				has_game_rule = vis_quieter
 			}
-			right_icon = scope:recipient
+			send_interface_message = {
+				type = quieter_events_neutral
+				title = char_interaction.0231.title
+				desc = {
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								scope:recipient = {
+									is_in_prison_type = house_arrest
+								}
+							}
+							desc = char_interaction.0231.desc_house_arrest
+						}
+						triggered_desc = {
+							trigger = {
+								scope:actor = {
+									is_landless_ruler = yes
+								}
+							}
+							desc = char_interaction.0231.desc_stockade
+						}
+						desc = char_interaction.0231.desc_prison
+					}
+				}
+				right_icon = scope:recipient
+			}
 		}
+		else = {
+			trigger_event = qe_vanilla_events.0003
+		}	
 	}
 }
 
