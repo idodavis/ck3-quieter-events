@@ -10,12 +10,10 @@ This mod converts multiple frequently occuring events and converts them from ful
 
 # New Features!
 Added two new major features. Added a picture of both in action to the mod pictures here in workshop.
-
 ## Game Rules:
-This mod now supports game rules! There's a game rule to switch between the mods "out-of-the-way" messages and the vanilla.
+This mod now supports game rules! There's a game rule to switch between the mods version of events and the base games version.
   - Every 'Quieted Event' has a rule to switch back to vanilla.
   - Mod game rules are grouped via mod name & are fully localized.
-
 ## Message Settings Filter:
 I've now put all the modified events into the mods own custom messages.
   - Modded events now share custom message filter and can be filtered together in message log.
