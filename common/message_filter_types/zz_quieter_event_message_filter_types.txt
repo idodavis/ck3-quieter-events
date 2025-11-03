@@ -1,0 +1,4 @@
+﻿quieter_events = {
+	display = toast
+	group = character
+}

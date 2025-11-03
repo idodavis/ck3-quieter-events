@@ -1,4 +1,4 @@
-version="1.1.18"
+version="2.0.0"
 tags={
 	"Fixes"
 	"Events"

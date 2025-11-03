@@ -11,3 +11,54 @@
   quieter.birth.dynastic.title:0 "Дитя моей династии"
   quieter.birth.dynastic.message:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] родила [child.Custom('GetDaughterSon')]! Они зовут маленького ребенка  [child.GetFirstNameNoTooltip]."
   quieter.birth.dynastic.message.twin:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] родила двоих [child.Custom('TwinDaughtersSonsChildren')]!"
+
+  # Game Rules
+  game_rule_category_quieter_events:0 "Quieter Events"
+
+  rule_secret_unbeliever_found_rule:0 "QE: Найден тайный неверующий"
+  setting_suf_vanilla:0 "Ваниль"
+  setting_suf_vanilla_desc:0 "Стандартное событие сработает как обычно."
+  setting_suf_quieter:0 "Quieter" 
+  setting_suf_quieter_desc:0 "О находке вас уведомит простое сообщение."
+
+  rule_prison_release_acceptance_rule:0 "QE: Принятие решения об освобождении заключенного"
+  setting_pra_vanilla:0 "Ваниль"
+  setting_pra_vanilla_desc:0 "Стандартное событие сработает как обычно."
+  setting_pra_quieter:0 "Quieter"
+  setting_pra_quieter_desc:0 "Хорошее тостовое событие уведомит вас о принятии освобождения."
+
+  rule_vassal_imprison_success_rule:0 "QE: Успех вассального заключения"
+  setting_vis_vanilla:0 "Ваниль"
+  setting_vis_vanilla_desc:0 "Стандартное событие сработает как обычно."
+  setting_vis_quieter:0 "Quieter"
+  setting_vis_quieter_desc:0 "Нейтральное тостовое событие уведомит вас о успешном заключении в тюрьму."
+
+  rule_marriage_proposal_accepted_rule:0 "QE: Предложение руки и сердца принято"
+  setting_mpa_vanilla:0 "Ваниль"
+  setting_mpa_vanilla_desc:0 "Стандартное событие сработает как обычно."
+  setting_mpa_quieter:0 "Quieter"
+  setting_mpa_quieter_desc:0 "Хорошее тостовое событие уведомит вас о принятии предложения о браке."
+
+  rule_seduction_scheme_discovery_rule:0 "QE: Открытие схемы соблазнения"
+  setting_ssd_vanilla:0 "Ваниль"
+  setting_ssd_vanilla_desc:0 "Стандартное событие сработает как обычно."
+  setting_ssd_quieter:0 "Quieter"
+  setting_ssd_quieter_desc:0 "Плохое сообщение уведомит вас о плане соблазнения вашего сюзерена/супруга."
+
+  rule_hostile_scheme_discovery_rule:0 "QE: Обнаружение враждебных схем"
+  setting_hsd_vanilla:0 "Ваниль"
+  setting_hsd_vanilla_desc:0 "Стандартное событие сработает как обычно."
+  setting_hsd_quieter:0 "Quieter"
+  setting_hsd_quieter_desc:0 "Хорошее сообщение сообщит вам о враждебном замысле, обнаруженном с помощью Spymaster."
+
+  rule_hostile_scheme_owner_discovery_rule:0 "QE: Раскрытие владельца враждебной схемы"
+  setting_hso_vanilla:0 "Ваниль"
+  setting_hso_vanilla_desc:0 "Стандартное событие сработает как обычно."
+  setting_hso_quieter:0 "Quieter"
+  setting_hso_quieter_desc:0 "Хорошее сообщение сообщит вам о том, кто является владельцем враждебного замысла через Spymaster."
+
+  rule_child_of_my_dynasty_rule:0 "QE: Дитя моей династии"
+  setting_cod_vanilla:0 "Ваниль"
+  setting_cod_vanilla_desc:0 "Стандартное событие сработает как обычно."
+  setting_cod_quieter:0 "Quieter"
+  setting_cod_quieter_desc:0 "Хорошее тостовое событие уведомит вас, когда родится новый член вашей династии и кто его родители. Больше нет возможности называть ребенка через событие."

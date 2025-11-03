@@ -385,12 +385,20 @@ marriage_interaction.0009 = {
 marriage_interaction.0010 = {
 	hidden = yes
 	immediate = {
-		send_interface_message = {
-			type = event_generic_good_text
-			title = quieter.marriage.title
-			desc = quieter.marriage.desc
-			left_icon = scope:secondary_actor
-			right_icon = scope:secondary_recipient
+		if = {
+			limit = {
+				has_game_rule = mpa_quieter
+			}
+			send_interface_message = {
+				type = quieter_events_good
+				title = quieter.marriage.title
+				desc = quieter.marriage.desc
+				left_icon = scope:secondary_actor
+				right_icon = scope:secondary_recipient
+			}
+		}
+		else = {
+			trigger_event = qe_vanilla_events.0004
 		}
 	}
 }

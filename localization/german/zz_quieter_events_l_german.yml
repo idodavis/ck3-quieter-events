@@ -1,13 +1,68 @@
 ﻿l_german: 
+  # Prisoner Release Acceptance
   quieter.prisonrelease.title:0 "Gefangener freigelassen"
   quieter.prisonrelease.message:0 "[recipient.GetShortUINameNoTooltip] hat Euren Kerker verlassen."
 
+  # Marriage Proposal Accepted
   quieter.marriage.title:0 "Heiratsantrag angenommen"
   quieter.marriage.desc:0 "[secondary_recipient.GetFirstName] wird [secondary_actor.GetFirstName] heiraten."
 
+  # Seduction Scheme Discovery
   quieter.seduce_outcome.3901.t:0 "Ein Lustmolch am Hofe"
   quieter.seduce_outcome.desc:0 "[owner.Custom2('YourCharacterIntroduction', ROOT.Char)|U] hat eine Affäre mit [target.Custom2('YourCharacterIntroductionNoComma', ROOT.Char)]. Welch [owner.Custom('InsultAdjective')] [owner.Custom('InsultNounSexual')]!"
 
-  quieter.birth.dynastic.title:0 "Unsere Dynastie wächst"
+  # Child of My Dynasty Birth
+  quieter.birth.dynastic.title:0 "Kind meiner Dynastie"
   quieter.birth.dynastic.message:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] hat ein Kind zur Welt gebracht! Das Kleine soll [child.GetFirstNameNoTooltip] heißen."
   quieter.birth.dynastic.message.twin:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] hat zwei [child.Custom('TwinDaughtersSonsChildren')] zur Welt gebracht!"
+
+  # Game Rules
+  game_rule_category_quieter_events:0 "Quieter Events"
+
+  rule_secret_unbeliever_found_rule:0 "QE: Ein geheimer Ungläubiger wird gefunden"
+  setting_suf_vanilla:0 "Vanille"
+  setting_suf_vanilla_desc:0 "Das Standardereignis wird wie gewohnt ausgelöst."
+  setting_suf_quieter:0 "Quieter" 
+  setting_suf_quieter_desc:0 "Sie erhalten eine kurze Benachrichtigung über die Entdeckung."
+
+  rule_prison_release_acceptance_rule:0 "QE: Annahme der Gefangenenentlassung"
+  setting_pra_vanilla:0 "Vanille"
+  setting_pra_vanilla_desc:0 "Das Standardereignis wird wie gewohnt ausgelöst."
+  setting_pra_quieter:0 "Quieter"
+  setting_pra_quieter_desc:0 "Ein gutes Toastereignis wird Sie über die Annahme der Freilassung informieren."
+
+  rule_vassal_imprison_success_rule:0 "QE: Vasallen-Gefängniserfolg"
+  setting_vis_vanilla:0 "Vanille"
+  setting_vis_vanilla_desc:0 "Das Standardereignis wird wie gewohnt ausgelöst."
+  setting_vis_quieter:0 "Quieter"
+  setting_vis_quieter_desc:0 "Ein neutrales Toastereignis wird Sie über die erfolgreiche Inhaftierung informieren."
+
+  rule_marriage_proposal_accepted_rule:0 "QE: Heiratsantrag angenommen"
+  setting_mpa_vanilla:0 "Vanille"
+  setting_mpa_vanilla_desc:0 "Das Standardereignis wird wie gewohnt ausgelöst."
+  setting_mpa_quieter:0 "Quieter"
+  setting_mpa_quieter_desc:0 "Ein gutes Toastereignis wird Sie über die Annahme des Heiratsantrags informieren."
+
+  rule_seduction_scheme_discovery_rule:0 "QE: Entdeckung eines Verführungsplans"
+  setting_ssd_vanilla:0 "Vanille"
+  setting_ssd_vanilla_desc:0 "Das Standardereignis wird wie gewohnt ausgelöst."
+  setting_ssd_quieter:0 "Quieter"
+  setting_ssd_quieter_desc:0 "Ein unerfreuliches Ereignis wird Sie über einen Verführungsversuch Ihres Lehnsherrn/Ehepartners informieren."
+
+  rule_hostile_scheme_discovery_rule:0 "QE: Entdeckung eines feindlichen Plans"
+  setting_hsd_vanilla:0 "Vanille"
+  setting_hsd_vanilla_desc:0 "Das Standardereignis wird wie gewohnt ausgelöst."
+  setting_hsd_quieter:0 "Quieter"
+  setting_hsd_quieter_desc:0 "Eine gute Nachricht informiert Sie über ein feindliches Vorhaben, das über Spymaster entdeckt wurde."
+
+  rule_hostile_scheme_owner_discovery_rule:0 "QE: Entdeckung des Eigentümers eines feindseligen Betrugs"
+  setting_hso_vanilla:0 "Vanille"
+  setting_hso_vanilla_desc:0 "Das Standardereignis wird wie gewohnt ausgelöst."
+  setting_hso_quieter:0 "Quieter"
+  setting_hso_quieter_desc:0 "Eine gute Nachricht informiert Sie darüber, wer der Besitzer eines feindlichen Komplotts ist, das über den Spionagechef gefunden wurde."
+
+  rule_child_of_my_dynasty_rule:0 "QE: Kind meiner Dynastie"
+  setting_cod_vanilla:0 "Vanille"
+  setting_cod_vanilla_desc:0 "Das Standardereignis wird wie gewohnt ausgelöst."
+  setting_cod_quieter:0 "Quieter"
+  setting_cod_quieter_desc:0 "Ein gutes Toastereignis wird Sie informieren, wenn ein neues Mitglied Ihrer Dynastie geboren wird und wer die Eltern sind. Es besteht nicht mehr die Möglichkeit, das Kind über ein Ereignis zu benennen."

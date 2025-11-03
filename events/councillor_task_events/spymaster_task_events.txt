@@ -1077,55 +1077,63 @@ spymaster_task.0346 = {
 spymaster_task.0347 = {
 	hidden = yes
 	immediate = {
-		scope:secret_to_reveal = {
-			reveal_to = root
-		}
-		send_interface_message = {
-			type = msg_spymaster_task_good
-			title = spymaster_task.0347.t
-			desc = {
-				first_valid = {
-					triggered_desc = {
-						trigger = {
-							root = scope:councillor_liege
-						}
-						desc = spymaster_task.0311.councillor_liege_opening
-					}
-					desc = spymaster_task.0311.spymaster_opening
-				}
-				first_valid = {
-					triggered_desc = {
-						trigger = {
-							NOT = {
-								religion = scope:secret_holder.religion
+		if = {
+			limit = {
+				has_game_rule = suf_quieter
+			}
+			scope:secret_to_reveal = {
+				reveal_to = root
+			}
+			send_interface_message = {
+				type = quieter_events_good
+				title = spymaster_task.0347.t
+				desc = {
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								root = scope:councillor_liege
 							}
+							desc = spymaster_task.0311.councillor_liege_opening
 						}
-						desc = spymaster_task.0311.secret_non_believer.other_faith
+						desc = spymaster_task.0311.spymaster_opening
 					}
-					triggered_desc = {
-						trigger = {
-							NOT = {
-								faith = scope:secret_holder.faith
-							}
-						}
-						desc = spymaster_task.0311.secret_non_believer.other_sect
-					}
-					triggered_desc = {
-						trigger = {
-							OR = {
-								has_character_modifier = known_non_believer
-								any_secret = {
-									secret_type = secret_non_believer
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								NOT = {
+									religion = scope:secret_holder.religion
 								}
 							}
+							desc = spymaster_task.0311.secret_non_believer.other_faith
 						}
-						desc = spymaster_task.0311.secret_non_believer.shared
+						triggered_desc = {
+							trigger = {
+								NOT = {
+									faith = scope:secret_holder.faith
+								}
+							}
+							desc = spymaster_task.0311.secret_non_believer.other_sect
+						}
+						triggered_desc = {
+							trigger = {
+								OR = {
+									has_character_modifier = known_non_believer
+									any_secret = {
+										secret_type = secret_non_believer
+									}
+								}
+							}
+							desc = spymaster_task.0311.secret_non_believer.shared
+						}
+						desc = spymaster_task.0311.secret_non_believer
 					}
-					desc = spymaster_task.0311.secret_non_believer
 				}
+				left_icon = scope:councillor
+				right_icon = scope:secret_holder
 			}
-			left_icon = scope:councillor
-			right_icon = scope:secret_holder
+		} 
+		else = {
+			trigger_event = qe_vanilla_events.0001
 		}
 	}
 	trigger = {

@@ -241,116 +241,124 @@ hostile_scheme_discovery.1002 = {
 	immediate = {
 		if = {
 			limit = {
-				scope:scheme = {
-					scheme_target_character = {
-						NOT = {
-							this = root
+				has_game_rule = hsd_quieter
+			}
+			if = {
+				limit = {
+					scope:scheme = {
+						scheme_target_character = {
+							NOT = {
+								this = root
+							}
 						}
 					}
 				}
-			}
-			scope:scheme = {
-				scheme_target_character = {
-					trigger_event = hostile_scheme_discovery.1002
-					save_scope_as = targeted_courtier
-				}
-			}
-		}
-		scope:owner = {
-			add_dread = minor_dread_gain
-		}
-		attempted_murder_opinion_effect = {
-			VICTIM = scope:target
-			MURDERER = scope:owner
-		}
-		if = {
-			limit = {
-				#Double check since it seems the scheme sometimes hangs around as a scope
-				exists = scope:scheme
-				exists = scope:scheme.scheme_target_character
-			}
-			scope:scheme = {
-				end_scheme = yes
-			}
-		}
-		if = {
-			#Only send it from the host's event so that owner doesn't get duplication if the host and the target isn't the same person
-			limit = {
-				exists = scope:scheme.scheme_target_character
-				scope:scheme.scheme_target_character = {
-					this = root
+				scope:scheme = {
+					scheme_target_character = {
+						trigger_event = hostile_scheme_discovery.1002
+						save_scope_as = targeted_courtier
+					}
 				}
 			}
 			scope:owner = {
-				#Event for the owner that actually ends the scheme
-				trigger_event = hostile_scheme_discovery.3003
+				add_dread = minor_dread_gain
 			}
-		}
-		send_interface_message = {
-			type = msg_spymaster_task_good
-			title = hostile_scheme_discovery.1002.t
-			desc = {
+			attempted_murder_opinion_effect = {
+				VICTIM = scope:target
+				MURDERER = scope:owner
+			}
+			if = {
+				limit = {
+					#Double check since it seems the scheme sometimes hangs around as a scope
+					exists = scope:scheme
+					exists = scope:scheme.scheme_target_character
+				}
+				scope:scheme = {
+					end_scheme = yes
+				}
+			}
+			if = {
+				#Only send it from the host's event so that owner doesn't get duplication if the host and the target isn't the same person
+				limit = {
+					exists = scope:scheme.scheme_target_character
+					scope:scheme.scheme_target_character = {
+						this = root
+					}
+				}
+				scope:owner = {
+					#Event for the owner that actually ends the scheme
+					trigger_event = hostile_scheme_discovery.3003
+				}
+			}
+			send_interface_message = {
+				type = quieter_events_good
+				title = hostile_scheme_discovery.1002.t
 				desc = {
+					desc = {
+						first_valid = {
+							triggered_desc = {
+								trigger = {
+									exists = scope:spymaster
+									exists = cp:councillor_spymaster
+								}
+								desc = hostile_scheme_discovery.1002.intro
+							}
+							desc = hostile_scheme_discovery.1002.intro_no_spymaster
+						}
+					}
 					first_valid = {
 						triggered_desc = {
 							trigger = {
-								exists = scope:spymaster
-								exists = cp:councillor_spymaster
+								scope:scheme = {
+									scheme_type = murder
+								}
 							}
-							desc = hostile_scheme_discovery.1002.intro
+							desc = hostile_scheme_discovery.1002.murder
 						}
-						desc = hostile_scheme_discovery.1002.intro_no_spymaster
+						triggered_desc = {
+							trigger = {
+								scope:scheme = {
+									scheme_type = abduct
+								}
+							}
+							desc = hostile_scheme_discovery.1002.abduction
+						}
+						triggered_desc = {
+							trigger = {
+								scope:scheme = {
+									scheme_type = elope
+								}
+							}
+							desc = hostile_scheme_discovery.1002.elope
+						}
+						triggered_desc = {
+							trigger = {
+								scope:scheme = {
+									scheme_type = steal_back_artifact
+								}
+							}
+							desc = hostile_scheme_discovery.1002.steal_back_artifact
+						}
+						desc = hostile_scheme_discovery.1002.fallback
+					}
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								NOT = {
+									scope:target = root
+								}
+							}
+							desc = hostile_scheme_discovery.2001.target_other
+						}
+						desc = hostile_scheme_discovery.2001.target_me
 					}
 				}
-				first_valid = {
-					triggered_desc = {
-						trigger = {
-							scope:scheme = {
-								scheme_type = murder
-							}
-						}
-						desc = hostile_scheme_discovery.1002.murder
-					}
-					triggered_desc = {
-						trigger = {
-							scope:scheme = {
-								scheme_type = abduct
-							}
-						}
-						desc = hostile_scheme_discovery.1002.abduction
-					}
-					triggered_desc = {
-						trigger = {
-							scope:scheme = {
-								scheme_type = elope
-							}
-						}
-						desc = hostile_scheme_discovery.1002.elope
-					}
-					triggered_desc = {
-						trigger = {
-							scope:scheme = {
-								scheme_type = steal_back_artifact
-							}
-						}
-						desc = hostile_scheme_discovery.1002.steal_back_artifact
-					}
-					desc = hostile_scheme_discovery.1002.fallback
-				}
-				first_valid = {
-					triggered_desc = {
-						trigger = {
-							NOT = {
-								scope:target = root
-							}
-						}
-						desc = hostile_scheme_discovery.2001.target_other
-					}
-					desc = hostile_scheme_discovery.2001.target_me
-				}
+				left_icon = scope:owner
+				right_icon = scope:targeted_courtier
 			}
-			left_icon = scope:owner
-			right_icon = scope:targeted_courtier
+		}
+		else = {
+			trigger_event = qe_vanilla_events.0006
 		}
 	}
 }
@@ -360,94 +368,103 @@ hostile_scheme_discovery.1002 = {
 hostile_scheme_discovery.2001 = {
 	hidden = yes
 	immediate = {
-		scope:scheme = {
-			expose_scheme = yes
-		}
-		scope:owner = {
-			trigger_event = hostile_scheme_discovery.3002
-		}
-		send_interface_message = {
-			type = msg_spymaster_task_good
-			title = hostile_scheme_discovery.1001.t
-			desc = {
+		if = {
+			limit = {
+				has_game_rule = hso_quieter
+			}
+			scope:scheme = {
+				expose_scheme = yes
+			}
+			scope:owner = {
+				trigger_event = hostile_scheme_discovery.3002
+			}
+			send_interface_message = {
+				type = msg_spymaster_task_good
+				title = hostile_scheme_discovery.1001.t
 				desc = {
+					desc = {
+						first_valid = {
+							triggered_desc = {
+								trigger = {
+									exists = scope:spymaster
+									exists = cp:councillor_spymaster
+								}
+								desc = hostile_scheme_discovery.2001.intro
+							}
+							desc = hostile_scheme_discovery.2001.intro_no_spymaster
+						}
+					}
 					first_valid = {
 						triggered_desc = {
 							trigger = {
-								exists = scope:spymaster
-								exists = cp:councillor_spymaster
+								scope:scheme = {
+									scheme_type = murder
+								}
 							}
-							desc = hostile_scheme_discovery.2001.intro
+							desc = hostile_scheme_discovery.2001.murder
 						}
-						desc = hostile_scheme_discovery.2001.intro_no_spymaster
+						triggered_desc = {
+							trigger = {
+								scope:scheme = {
+									scheme_type = abduct
+								}
+							}
+							desc = hostile_scheme_discovery.2001.abduction
+						}
+						triggered_desc = {
+							trigger = {
+								scope:scheme = {
+									scheme_type = elope
+								}
+							}
+							desc = hostile_scheme_discovery.2001.elope
+						}
+						triggered_desc = {
+							trigger = {
+								scope:scheme = {
+									scheme_type = steal_back_artifact
+								}
+							}
+							desc = hostile_scheme_discovery.2001.steal_back_artifact
+						}
+						triggered_desc = {
+							trigger = {
+								scope:scheme = {
+									scheme_type = depose
+								}
+							}
+							desc = hostile_scheme_discovery.2001.depose
+						}
+						desc = hostile_scheme_discovery.2001.fallback
+					}
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								NOT = {
+									scope:target = root
+								}
+								scope:target = scope:spymaster
+							}
+							desc = hostile_scheme_discovery.2001.target_spymaster
+						}
+						triggered_desc = {
+							trigger = {
+								NOT = {
+									scope:target = root
+								}
+							}
+							desc = hostile_scheme_discovery.2001.target_other
+						}
+						desc = hostile_scheme_discovery.2001.target_me
 					}
 				}
-				first_valid = {
-					triggered_desc = {
-						trigger = {
-							scope:scheme = {
-								scheme_type = murder
-							}
-						}
-						desc = hostile_scheme_discovery.2001.murder
-					}
-					triggered_desc = {
-						trigger = {
-							scope:scheme = {
-								scheme_type = abduct
-							}
-						}
-						desc = hostile_scheme_discovery.2001.abduction
-					}
-					triggered_desc = {
-						trigger = {
-							scope:scheme = {
-								scheme_type = elope
-							}
-						}
-						desc = hostile_scheme_discovery.2001.elope
-					}
-					triggered_desc = {
-						trigger = {
-							scope:scheme = {
-								scheme_type = steal_back_artifact
-							}
-						}
-						desc = hostile_scheme_discovery.2001.steal_back_artifact
-					}
-					triggered_desc = {
-						trigger = {
-							scope:scheme = {
-								scheme_type = depose
-							}
-						}
-						desc = hostile_scheme_discovery.2001.depose
-					}
-					desc = hostile_scheme_discovery.2001.fallback
-				}
-				first_valid = {
-					triggered_desc = {
-						trigger = {
-							NOT = {
-								scope:target = root
-							}
-							scope:target = scope:spymaster
-						}
-						desc = hostile_scheme_discovery.2001.target_spymaster
-					}
-					triggered_desc = {
-						trigger = {
-							NOT = {
-								scope:target = root
-							}
-						}
-						desc = hostile_scheme_discovery.2001.target_other
-					}
-					desc = hostile_scheme_discovery.2001.target_me
-				}
+				left_icon = scope:spymaster
+				right_icon = scope:target
+				message_filter_type = quieter_events
 			}
-			left_icon = scope:spymaster
-			right_icon = scope:target
+		}
+		else = {
+			trigger_event = qe_vanilla_events.0007
 		}
 	}
 }

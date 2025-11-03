@@ -1965,20 +1965,28 @@ birth.1006 = {
 birth.1010 = {
 	hidden = yes
 	immediate = {
-		send_interface_message = {
-			type = event_generic_good_text
-			title = quieter.birth.dynastic.title
-			desc = {
-				first_valid = {
-					triggered_desc = {
-						trigger = { exists = scope:child_2 }
-						desc = quieter.birth.dynastic.message.twin
-					}
-					desc = quieter.birth.dynastic.message
-				}
+		if = {
+			limit = {
+				has_game_rule = cod_quieter
 			}
-			left_icon = scope:mother
-			right_icon = scope:child
+			send_interface_message = {
+				type = quieter_events_good
+				title = quieter.birth.dynastic.title
+				desc = {
+					first_valid = {
+						triggered_desc = {
+							trigger = { exists = scope:child_2 }
+							desc = quieter.birth.dynastic.message.twin
+						}
+						desc = quieter.birth.dynastic.message
+					}
+				}
+				left_icon = scope:mother
+				right_icon = scope:child
+			}
+		}
+		else = {
+			trigger_event = qe_vanilla_events.0008
 		}
 	}
 }
