@@ -1260,7 +1260,6 @@ char_interaction.0230 = {
 		}
 	}
 }
-
 #Vassal Imprison Attempt succeeded.
 # QUIETER: Event modified by Quieter Events Mod
 char_interaction.0231 = {
