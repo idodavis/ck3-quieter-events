@@ -66,3 +66,9 @@
   setting_cod_vanilla_desc:0 "Das Standardereignis wird wie gewohnt ausgelöst."
   setting_cod_quieter:0 "Quieter"
   setting_cod_quieter_desc:0 "Ein gutes Toastereignis wird Sie informieren, wenn ein neues Mitglied Ihrer Dynastie geboren wird und wer die Eltern sind. Es besteht nicht mehr die Möglichkeit, das Kind über ein Ereignis zu benennen."
+
+  rule_travel_a_new_start_rule:0 "QE: Ein Neuanfang (Reisebeginn)"
+  setting_tans_vanilla:0 "Vanille"
+  setting_tans_vanilla_desc:0 "Das Standardereignis wird wie gewohnt ausgelöst."
+  setting_tans_quieter:0 "Quieter"
+  setting_tans_quieter_desc:0 "Eine neutrale Benachrichtigung informiert Sie, sobald Sie Ihre Reise beginnen. Dies gilt für allgemeine Reisen, d. h. nicht für Reisen im Rahmen einer bestimmten Aktivität."

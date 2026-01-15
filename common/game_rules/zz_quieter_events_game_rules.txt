@@ -101,3 +101,16 @@ child_of_my_dynasty_rule = {
 	
 	cod_quieter = { flag = GG_can_change_rule }
 }
+
+travel_a_new_start_rule = {
+	
+	categories = {
+		quieter_events
+	}
+	
+	default = tans_quieter
+	
+	tans_vanilla = { flag = GG_can_change_rule }
+	
+	tans_quieter = { flag = GG_can_change_rule }
+}
