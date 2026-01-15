@@ -16,6 +16,8 @@
   quieter.birth.dynastic.message:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] has given birth to a [child.Custom('GetDaughterSon')]! They're calling the little one [child.GetFirstNameNoTooltip]."
   quieter.birth.dynastic.message.twin:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] has given birth to two [child.Custom('TwinDaughtersSonsChildren')]!"
 
+# TODO: Add localization for tavel events
+
   # Message Filter
   message_filter_quieter_events:0 "@catch_all_icon! Quieter Events Mod"
   message_filter_quieter_events_desc:0 "Filters Quieter Events Mod messages. Only works with Quieter Game Rules set."
@@ -70,3 +72,9 @@
   setting_cod_vanilla_desc:0 "The standard event will fire as normal."
   setting_cod_quieter:0 "Quieter"
   setting_cod_quieter_desc:0 "A good toast event will notify you when a new member of your dynasty is born and who the parents are. No longer an option to name the child via event."
+
+  rule_travel_a_new_start_rule:0 "QE: A New Start (Travel Start)"
+  setting_tans_vanilla:0 "Vanilla"
+  setting_tans_vanilla_desc:0 "The standard event will fire as normal."
+  setting_tans_quieter:0 "Quieter"
+  setting_tans_quieter_desc:0 "A neutral toast event will notify you when you begin traveling. Applies to generic travels, i.e. no activity travel."

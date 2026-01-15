@@ -26,6 +26,7 @@ I've now put all the modified events into the mods own custom messages.
 * **Marriage Accepted Letter**: Just like Prisoner release, we know when we send offer, so no need to get a large reply.
 * **A Snake at Court**: Attempted seduction of courtier & ongoing affair between courtier and someone else. Still uses the games random insults that Less Event Spam mod used...may change in the future.
 * **Child of My Dynasty**: Sends a simple toast message with the ai chosen name and who the mother is instead of the larger window and prompting you to name using the widgets.
+* **A Fesh Start**: When travel is initiated in non-activity scenarios. Outputs the same desc/title as vanilla but as a toast. (No portraits, just text).
 
 # Compatibility
 **This mod overwrites the following event files in their entirety as it's the only way to ensure the events are actually affected and overridden.**
@@ -36,6 +37,7 @@ I've now put all the modified events into the mods own custom messages.
 - *scheme_events/hostile_scheme_discovery_events.txt*
 - *scheme_events/seduce_scheme/seduce_scheme_outcome_events.txt*
 - *birth_events.txt*
+- *travel_events/travel_start_events.txt*
 
 ## Localization
 English, Russian, German, Chinese.
