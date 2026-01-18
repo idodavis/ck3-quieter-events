@@ -1,4 +1,4 @@
-#Starting a travel plan (starting to travel to the first destination)
+﻿#Starting a travel plan (starting to travel to the first destination)
 
 namespace = travel_start_event
 
