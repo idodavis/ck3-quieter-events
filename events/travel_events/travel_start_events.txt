@@ -202,9 +202,9 @@ travel_start_event.0001 = {
 	}
 }
 
-# QUIETER: Event modified by Quieter Events Mod
 #Generic start (no activity)
 #Should probably mostly be used for DEBUG purposes
+# QUIETER: Event modified by Quieter Events Mod
 travel_start_event.1000 = {
 	hidden = yes
   trigger = {

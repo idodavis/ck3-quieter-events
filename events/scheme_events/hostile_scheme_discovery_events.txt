@@ -136,9 +136,9 @@ hostile_scheme_discovery.1001 = {
 		play_music_cue = "mx_cue_murder"
 		if = {
 			limit = {
-				scope:target_character != root
+				scope:target != root
 			}
-			scope:target_character = { save_scope_as = targeted_courtier }
+			scope:target = { save_scope_as = targeted_courtier }
 		}
 	}
 

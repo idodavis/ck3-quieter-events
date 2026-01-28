@@ -1157,7 +1157,7 @@ qe_vanilla_events.0008 = {
 	}
 }
 
-# OG Event Key: travel_start_event:1000
+# OG Event Key: travel_start_event.1000
 #Generic start (no activity)
 qe_vanilla_events.0009 = {
 	type = character_event
