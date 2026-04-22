@@ -25,11 +25,11 @@
   setting_suf_quieter:0 "Quieter" 
   setting_suf_quieter_desc:0 "Sie erhalten eine kurze Benachrichtigung über die Entdeckung."
 
-  rule_prison_release_acceptance_rule:0 "QE: Annahme der Gefangenenentlassung"
-  setting_pra_vanilla:0 "Vanille"
-  setting_pra_vanilla_desc:0 "Das Standardereignis wird wie gewohnt ausgelöst."
-  setting_pra_quieter:0 "Quieter"
-  setting_pra_quieter_desc:0 "Ein gutes Toastereignis wird Sie über die Annahme der Freilassung informieren."
+  rule_vassal_imprison_success_rule:0 "QE: Vasallen-Gefängniserfolg"
+  setting_vis_vanilla:0 "Vanille"
+  setting_vis_vanilla_desc:0 "Das Standardereignis wird wie gewohnt ausgelöst."
+  setting_vis_quieter:0 "Quieter"
+  setting_vis_quieter_desc:0 "Ein neutrales Toastereignis wird Sie über die erfolgreiche Inhaftierung informieren."
 
   rule_marriage_proposal_accepted_rule:0 "QE: Heiratsantrag angenommen"
   setting_mpa_vanilla:0 "Vanille"
