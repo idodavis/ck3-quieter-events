@@ -11,19 +11,6 @@
 	suf_quieter = { flag = GG_can_change_rule }
 }
 
-prison_release_acceptance_rule = {
-	
-	categories = {
-		quieter_events
-	}
-	
-	default = pra_quieter
-	
-	pra_vanilla = { flag = GG_can_change_rule }
-	
-	pra_quieter = { flag = GG_can_change_rule }
-}
-
 vassal_imprison_success_rule = {
 	
 	categories = {

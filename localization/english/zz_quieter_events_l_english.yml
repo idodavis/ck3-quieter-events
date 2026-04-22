@@ -16,8 +16,6 @@
   quieter.birth.dynastic.message:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] has given birth to a [child.Custom('GetDaughterSon')]! They're calling the little one [child.GetFirstNameNoTooltip]."
   quieter.birth.dynastic.message.twin:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] has given birth to two [child.Custom('TwinDaughtersSonsChildren')]!"
 
-# TODO: Add localization for tavel events
-
   # Message Filter
   message_filter_quieter_events:0 "@catch_all_icon! Quieter Events Mod"
   message_filter_quieter_events_desc:0 "Filters Quieter Events Mod messages. Only works with Quieter Game Rules set."
@@ -30,12 +28,6 @@
   setting_suf_vanilla_desc:0 "The standard event will fire as normal."
   setting_suf_quieter:0 "Quieter" 
   setting_suf_quieter_desc:0 "A simple message will notify you of the discovery."
-
-  rule_prison_release_acceptance_rule:0 "QE: Prisoner Release Acceptance"
-  setting_pra_vanilla:0 "Vanilla"
-  setting_pra_vanilla_desc:0 "The standard event will fire as normal."
-  setting_pra_quieter:0 "Quieter"
-  setting_pra_quieter_desc:0 "A good toast event will notify you of release acceptance."
 
   rule_vassal_imprison_success_rule:0 "QE: Vassal Imprison Success"
   setting_vis_vanilla:0 "Vanilla"

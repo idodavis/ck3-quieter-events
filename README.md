@@ -20,13 +20,14 @@ I've now put all the modified events into the mods own custom messages.
   - Modded events can now be toggled (together) between ***Toast/Feed/Popup/Hidden*** via Message Settings.
 
 # Current Events Affected
+* **Spymaster found Secret Unbeliever**: Spymaster found secret unbeliever in your court and notifies you.
+* **Vassal Imprison Attempt succeeded**: When your attempt to imprison a vassal succeeds.
+* **Marriage Accepted Letter**: Just like Prisoner release, we know when we send offer, so no need to get a large reply.
 * **A Seduction Scheme at Court**: Spymaster notifies player of ongoing scheme against character at court. 
 * **Schemer Discovered**: Your spymaster has discovered the schemer, but you can't take action. If you can imprison the schemer (i.e. they're your courtier/vassal), you still get the event.
-* **Prisoner Release Acceptance**: Since you already know whether your prisoner will accept their release conditions, there's no point in giving you a large event popup.
-* **Marriage Accepted Letter**: Just like Prisoner release, we know when we send offer, so no need to get a large reply.
 * **A Snake at Court**: Attempted seduction of courtier & ongoing affair between courtier and someone else. Still uses the games random insults that Less Event Spam mod used...may change in the future.
 * **Child of My Dynasty**: Sends a simple toast message with the ai chosen name and who the mother is instead of the larger window and prompting you to name using the widgets.
-* **A Fesh Start**: When travel is initiated in non-activity scenarios. Outputs the same desc/title as vanilla but as a toast. (No portraits, just text).
+* **A Fresh Start**: When travel is initiated in non-activity scenarios. Outputs the same desc/title as vanilla but as a toast. (No portraits, just text).
 
 # Compatibility
 **This mod overwrites the following event files in their entirety as it's the only way to ensure the events are actually affected and overridden.**

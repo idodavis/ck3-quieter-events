@@ -1,4 +1,4 @@
-#Starting a travel plan (starting to travel to the first destination)
+﻿#Starting a travel plan (starting to travel to the first destination)
 
 namespace = travel_start_event
 
@@ -276,6 +276,7 @@ travel_start_event.1000 = {
 
 #Travelling to a Tournament
 travel_start_event.1010 = {
+	orphan = yes
 	type = character_event
 	title = {
 		first_valid = {
@@ -733,6 +734,7 @@ travel_start_event.1020 = {
 
 #Travelling to a Wedding
 travel_start_event.1030 = {
+	orphan = yes
 	type = character_event
 	title = {
 		first_valid = {
@@ -1275,6 +1277,7 @@ travel_start_event.1030 = {
 
 #Travelling to a Feast
 travel_start_event.1040 = {
+	orphan = yes
 	type = character_event
 	title = {
 		first_valid = {
@@ -1605,6 +1608,7 @@ travel_start_event.1040 = {
 
 #Travelling to a Playdate
 travel_start_event.1050 = {
+	orphan = yes
 	type = character_event
 	title = {
 		first_valid = {
@@ -2013,7 +2017,7 @@ travel_start_event.1051 = {
 	}
 
 	# Ok!
-	option = { 
+	option = {
 		name = {
 			text = {
 				first_valid = {
@@ -2556,6 +2560,7 @@ travel_start_event.1060 = {
 
 #Travelling to a Hunt
 travel_start_event.1070 = {
+	orphan = yes
 	type = character_event
 	title = {
 		first_valid = {
@@ -2834,6 +2839,7 @@ travel_start_event.1070 = {
 
 #Travelling to a Witch Ritual
 travel_start_event.1080 = {
+	orphan = yes
 	type = character_event
 	title = {
 		first_valid = {
@@ -3496,6 +3502,7 @@ travel_start_event.1100 = {
 
 #Traveling to a Mandala Contract
 travel_start_event.1110 = {
+	orphan = yes
 	type = character_event
 	title = {
 		first_valid = {
@@ -3819,6 +3826,41 @@ travel_start_event.1120 = {
 		remove_from_activity = involved_activity # This reroutes you home
 		ai_chance = {
 			base = 100
+		}
+	}
+}
+
+#Generic Travel Start Toast
+travel_start_event.1130 = {
+	hidden = yes
+	trigger = {
+		is_available_travelling = yes
+	}
+	immediate = {
+		play_music_cue = mx_cue_travel_start
+		save_scope_as = root_scope
+		if = {
+			limit = {
+				exists = involved_activity
+			}
+			involved_activity = { save_scope_as = activity }
+			involved_activity.activity_location.barony = { save_scope_as = location }
+			involved_activity.activity_host = { save_scope_as = host }
+			send_interface_toast = {
+				title = travel_starts
+				left_icon = scope:host
+				right_icon = scope:location
+				custom_tooltip = travel_destination_activity
+			}
+		}
+		else = {
+			current_travel_plan.final_destination_province.barony = { save_scope_as = location }
+			send_interface_toast = {
+				title = travel_starts
+				left_icon = scope:root_scope
+				right_icon = scope:location
+				custom_tooltip = travel_destination_location
+			}
 		}
 	}
 }

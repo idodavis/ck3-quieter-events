@@ -21,12 +21,6 @@
   setting_suf_quieter:0 "Quieter" 
   setting_suf_quieter_desc:0 "您将收到一条简单的消息通知。"
 
-  rule_prison_release_acceptance_rule:0 "QE: 囚犯释放接受"
-  setting_pra_vanilla:0 "香草"
-  setting_pra_vanilla_desc:0 "标准事件将照常触发。"
-  setting_pra_quieter:0 "Quieter"
-  setting_pra_quieter_desc:0 "一个好的庆祝活动会通知您版本已被接受。"
-
   rule_vassal_imprison_success_rule:0 "QE: 附庸囚禁成功"
   setting_vis_vanilla:0 "香草"
   setting_vis_vanilla_desc:0 "标准事件将照常触发。"

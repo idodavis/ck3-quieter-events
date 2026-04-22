@@ -21,12 +21,6 @@
   setting_suf_quieter:0 "Quieter" 
   setting_suf_quieter_desc:0 "О находке вас уведомит простое сообщение."
 
-  rule_prison_release_acceptance_rule:0 "QE: Принятие решения об освобождении заключенного"
-  setting_pra_vanilla:0 "Ваниль"
-  setting_pra_vanilla_desc:0 "Стандартное событие сработает как обычно."
-  setting_pra_quieter:0 "Quieter"
-  setting_pra_quieter_desc:0 "Хорошее тостовое событие уведомит вас о принятии освобождения."
-
   rule_vassal_imprison_success_rule:0 "QE: Успех вассального заключения"
   setting_vis_vanilla:0 "Ваниль"
   setting_vis_vanilla_desc:0 "Стандартное событие сработает как обычно."

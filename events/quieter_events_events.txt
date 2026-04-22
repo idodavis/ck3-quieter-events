@@ -6,145 +6,121 @@ namespace = qe_vanilla_events
 # OG Event Key: spymaster_task.0347
 #Spymaster found Secret Unbeliever
 qe_vanilla_events.0001 = {
-	type = character_event
-	title = spymaster_task.0347.t
-	desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					root = scope:councillor_liege
-				}
-				desc = spymaster_task.0311.councillor_liege_opening
-			}
-			desc = spymaster_task.0311.spymaster_opening
-		}
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					religion != scope:secret_holder.religion
-				}
-				desc = spymaster_task.0311.secret_non_believer.other_faith
-			}
-			triggered_desc = {
-				trigger = {
-					faith != scope:secret_holder.faith
-				}
-				desc = spymaster_task.0311.secret_non_believer.other_sect
-			}
-			triggered_desc = {
-				trigger = {
-					OR = {
-						has_character_modifier = known_non_believer
-						any_secret = {	
-							type = secret_non_believer
-						}
-					}
-				}
-				desc = spymaster_task.0311.secret_non_believer.shared
-			}
-			desc = spymaster_task.0311.secret_non_believer
-		}
-	}
-	theme = intrigue
-	left_portrait = {
-		character = scope:councillor
-		animation = disapproval
-	}
-	right_portrait = {
-		character = scope:secret_holder
-		animation = dismissal
-	}
+  type = character_event
+  title = spymaster_task.0347.t
+  desc = {
+    first_valid = {
+      triggered_desc = {
+        trigger = {
+          root = scope:councillor_liege
+        }
+        desc = spymaster_task.0311.councillor_liege_opening
+      }
+      desc = spymaster_task.0311.spymaster_opening
+    }
+    first_valid = {
+      triggered_desc = {
+        trigger = {
+          religion != scope:secret_holder.religion
+        }
+        desc = spymaster_task.0311.secret_non_believer.other_faith
+      }
+      triggered_desc = {
+        trigger = {
+          faith != scope:secret_holder.faith
+        }
+        desc = spymaster_task.0311.secret_non_believer.other_sect
+      }
+      triggered_desc = {
+        trigger = {
+          OR = {
+            has_character_modifier = known_non_believer
+            any_secret = {	
+              type = secret_non_believer
+            }
+          }
+        }
+        desc = spymaster_task.0311.secret_non_believer.shared
+      }
+      desc = spymaster_task.0311.secret_non_believer
+    }
+  }
+  theme = intrigue
+  left_portrait = {
+    character = scope:councillor
+    animation = disapproval
+  }
+  right_portrait = {
+    character = scope:secret_holder
+    animation = dismissal
+  }
   # Trigger in Modified Event
-	immediate = {}
-	option = {
-		name = spymaster_task.0347.a
-		scope:secret_to_reveal = {
-			reveal_to = root
-		}
-	}
+  immediate = {}
+  option = {
+    name = spymaster_task.0347.a
+    scope:secret_to_reveal = {
+      reveal_to = root
+    }
+  }
 }
 
-# OG Event Key: char_interaction.0160
-# (Conditional) Release from Prison: Accepted
-qe_vanilla_events.0002 = {
-	type = letter_event
-	opening = {
-		desc = char_interaction.0001.opening
-	}
-	desc = char_interaction.0160.desc
-  # Trigger in Modified Event
-	sender = scope:recipient
-	option = {
-		name = {
-			trigger = {
-				scope:recipient = {
-					OR = {
-						is_courtier_of = root
-						is_foreign_court_or_pool_guest_of = root
-						scope:recruit = yes
-					}
-					scope:banish = no
-				}
-			}
-			text = char_interaction.0160.a.courtier
-		}
-		name = {
-			text = char_interaction.0160.a
-		}
-	}
-}
+# Removed Prisoner Release Event "char_interaction.0160" ie. qe_vanilla_events.0002 as it was overhauled to serve as even for all "demand" events not just prisoners. 
+# Also they removed the full event and made it a toast/notification instead.
 
 # OG Event Key: char_interaction.0231
 #Vassal Imprison Attempt succeeded.
 qe_vanilla_events.0003 = {
-	type = character_event
-	title = char_interaction.0231.title
-	desc = { 
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					scope:recipient = { is_in_prison_type = house_arrest }
-				}
-				desc = char_interaction.0231.desc_house_arrest
-			}
-			triggered_desc = {
-				trigger = {
-					scope:actor = { is_landless_ruler = yes }
-				}
-				desc = char_interaction.0231.desc_stockade
-			}
-			desc = char_interaction.0231.desc_prison
-		}
-	}
-	left_portrait = {
-		character = scope:recipient
-		animation = prisonhouse
-		override_imprisonment_visuals = yes
-	}
-	theme = prison
-	immediate = {
-		# If you have no imprisonment reason and they're your rightful vassal you lose some legitimacy
-		if = {
-			limit = {
-				NOT = { has_imprisonment_reason = scope:recipient }
-			}
-			if = {
-				limit = {
-					scope:actor = { is_rightful_liege_of = scope:recipient }
-				}
-				scope:actor = { add_legitimacy = miniscule_legitimacy_loss }
-			}
-		}
-		show_as_tooltip = {
-			imprison = {
-				target = scope:recipient
-				type = dungeon
-			}
-		}
-	}
-	option = {
-		name = char_interaction.0231.a
-	}
+  type = character_event
+  title = char_interaction.0231.title
+  desc = { 
+    first_valid = {
+      triggered_desc = {
+        trigger = {
+          scope:recipient = { is_in_prison_type = house_arrest }
+        }
+        desc = char_interaction.0231.desc_house_arrest
+      }
+      triggered_desc = {
+        trigger = {
+          scope:actor = { is_landless_ruler = yes }
+        }
+        desc = char_interaction.0231.desc_stockade
+      }
+      desc = char_interaction.0231.desc_prison
+    }
+  }
+    
+  left_portrait = {
+    character = scope:recipient
+    animation = prisonhouse
+    override_imprisonment_visuals = yes
+  }
+  theme = prison
+  
+  immediate = {
+    # If you have no imprisonment reason and they're your rightful vassal you lose some legitimacy
+    if = {
+      limit = {
+        NOT = { has_imprisonment_reason = scope:recipient }
+      }
+      if = {
+        limit = {
+          scope:actor = { is_rightful_liege_of = scope:recipient }
+        }
+        scope:actor = { add_legitimacy = miniscule_legitimacy_loss }
+      }
+    }
+    show_as_tooltip = {
+      imprison = {
+        target = scope:recipient
+        type = dungeon
+      }
+    }
+  }
+
+  option = {
+    name = char_interaction.0231.a
+  }
 }
 
 # OG Event Key: marriage_interaction.0010
@@ -781,7 +757,9 @@ qe_vanilla_events.0004 = {
       desc = marriage_interaction.0010.gwedding.desc
     }
   }
+    
   sender = scope:recipient
+
   immediate = {
     show_as_tooltip = {
       scope:secondary_actor = {
@@ -801,6 +779,7 @@ qe_vanilla_events.0004 = {
       }
     }
   }
+
   option = {
     name = EXCELLENT
   }
@@ -809,463 +788,473 @@ qe_vanilla_events.0004 = {
 # OG Event Key: seduce_outcome.3901
 #Discovery event for spouse/liege
 qe_vanilla_events.0005 = {
-	type = character_event
-	title = seduce_outcome.3901.t
-	desc = seduce_outcome.3901.desc
-	theme = seduce_scheme
-	override_background = {
-		reference = bedchamber
-	}
-	left_portrait = {
-		character = scope:owner
-		animation = flirtation
-	}
-	right_portrait = {
-		character = scope:target
-		animation = admiration
-		outfit_tags = { nightgown }
-	}
-	#No scheme, no widget
-	immediate = {
-		random_dummy_gender_servant_effect = yes
-	}
-	option = {
-		name = seduce_outcome.3900.a
+  type = character_event
+  title = seduce_outcome.3901.t
+  desc = seduce_outcome.3901.desc
 
-		scope:target = { seduce_outcome_success_discovered_effect = yes }
-	}
+  theme = seduce_scheme
+  override_background = {
+    reference = bedchamber
+  }
+  left_portrait = {
+    character = scope:owner
+    animation = flirtation
+  }
+  right_portrait = {
+    character = scope:target
+    animation = admiration
+    outfit_tags = { nightgown }
+  }
+  #No scheme, no widget
+
+  immediate = {
+    random_dummy_gender_servant_effect = yes
+  }
+
+  option = {
+    name = seduce_outcome.3900.a
+
+    scope:target = { seduce_outcome_success_discovered_effect = yes }
+  }
 }
 
 # OG Event Key: hostile_scheme_discovery.1002
 #Owner discovered
 qe_vanilla_events.0006 = {
-	type = character_event
-	title = hostile_scheme_discovery.1002.t
-	desc = {
-		desc = {
-			first_valid = {
-				triggered_desc = {
-					trigger = {
-						exists = scope:spymaster
-						exists = cp:councillor_spymaster
-					}
-					desc = hostile_scheme_discovery.1002.intro
-				}
-				desc = hostile_scheme_discovery.1002.intro_no_spymaster
-			}
-		}
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					scope:scheme = {
-						scheme_type = murder
-					}
-				}
-				desc = hostile_scheme_discovery.1002.murder
-			}
-			triggered_desc = {
-				trigger = {
-					scope:scheme = {
-						scheme_type = abduct
-					}
-				}
-				desc = hostile_scheme_discovery.1002.abduction
-			}
-			triggered_desc = {
-				trigger = {
-					scope:scheme = {
-						scheme_type = elope
-					}
-				}
-				desc = hostile_scheme_discovery.1002.elope
-			}
-			triggered_desc = {
-				trigger = {
-					scope:scheme = {
-						scheme_type = steal_back_artifact
-					}
-				}
-				desc = hostile_scheme_discovery.1002.steal_back_artifact
-			}
-			desc = hostile_scheme_discovery.1002.fallback
-		}
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					scope:target != root
-				}
-				desc = hostile_scheme_discovery.2001.target_other
-			}
-			desc = hostile_scheme_discovery.2001.target_me
-		}
-	}
-	theme = generic_intrigue_scheme
-	left_portrait = scope:owner
-	right_portrait = scope:spymaster
-	lower_right_portrait = scope:targeted_courtier
-	immediate = {
-		play_music_cue = "mx_cue_murder"
-		if = {
-			limit = {
-				scope:target_character != root
-			}
-			scope:target_character = {
-				save_scope_as = targeted_courtier
-				trigger_event = hostile_scheme_discovery.1002
-			}
-		}
-	}
-	option = {
-		name = hostile_scheme_discovery.1002.a
-		show_as_tooltip = {
-			scope:owner = {
-				add_dread = minor_dread_gain
-				hostile_scheme_exposure_legitimacy_effect = yes
-			}
-			if = {
-				limit = {
-					scope:scheme = {
-						scheme_type = murder
-					}
-				}
-				attempted_murder_opinion_effect = {
-					VICTIM = scope:target
-					MURDERER = scope:owner
-				}
-			}
-			if = {
-				limit = { #Double check since it seems the scheme sometimes hangs around as a scope
-					exists = scope:scheme
-					exists = scope:scheme.scheme_target_character
-				}
-				scope:scheme = {
-					end_scheme = yes
-				}
-			}
-		}
-	}
-	after = {
-		if = { #Only send it from the host's event so that owner doesn't get duplication if the host and the target isn't the same person
-			limit = {
-				scope:target_character = root
-			}
-			scope:owner = { #Event for the owner that actually ends the scheme
-				trigger_event = hostile_scheme_discovery.3003
-			}
-		}
-	}
+  type = character_event
+  title = hostile_scheme_discovery.1002.t
+  desc = {
+    desc = {
+      first_valid = {
+        triggered_desc = {
+          trigger = {
+            exists = scope:spymaster
+            exists = cp:councillor_spymaster
+          }
+          desc = hostile_scheme_discovery.1002.intro
+        }
+        desc = hostile_scheme_discovery.1002.intro_no_spymaster
+      }
+    }
+    first_valid = {
+      triggered_desc = {
+        trigger = {
+          scope:scheme = {
+            scheme_type = murder
+          }
+        }
+        desc = hostile_scheme_discovery.1002.murder
+      }
+      triggered_desc = {
+        trigger = {
+          scope:scheme = {
+            scheme_type = abduct
+          }
+        }
+        desc = hostile_scheme_discovery.1002.abduction
+      }
+      triggered_desc = {
+        trigger = {
+          scope:scheme = {
+            scheme_type = elope
+          }
+        }
+        desc = hostile_scheme_discovery.1002.elope
+      }
+      triggered_desc = {
+        trigger = {
+          scope:scheme = {
+            scheme_type = steal_back_artifact
+          }
+        }
+        desc = hostile_scheme_discovery.1002.steal_back_artifact
+      }
+      desc = hostile_scheme_discovery.1002.fallback
+    }
+    first_valid = {
+      triggered_desc = {
+        trigger = {
+          scope:target != root
+        }
+        desc = hostile_scheme_discovery.2001.target_other
+      }
+      desc = hostile_scheme_discovery.2001.target_me
+    }
+  }
+  theme = generic_intrigue_scheme
+  left_portrait = scope:owner
+  right_portrait = scope:spymaster
+  lower_right_portrait = scope:targeted_courtier
+  immediate = {
+    play_music_cue = "mx_cue_murder"
+    if = {
+      limit = {
+        scope:target != root
+      }
+      scope:target = {
+        save_scope_as = targeted_courtier
+        trigger_event = hostile_scheme_discovery.1002
+      }
+    }
+  }
+  option = {
+    name = hostile_scheme_discovery.1002.a
+    show_as_tooltip = {
+      scope:owner = {
+        add_dread = minor_dread_gain
+        hostile_scheme_exposure_legitimacy_effect = yes
+      }
+      if = {
+        limit = {
+          scope:scheme = {
+            scheme_type = murder
+          }
+        }
+        attempted_murder_opinion_effect = {
+          VICTIM = scope:target
+          MURDERER = scope:owner
+        }
+      }
+      if = {
+        limit = { #Double check since it seems the scheme sometimes hangs around as a scope
+          exists = scope:scheme
+          exists = scope:scheme.scheme_target_character
+        }
+        scope:scheme = {
+          end_scheme = yes
+        }
+      }
+    }
+  }
+
+  after = {
+    if = { #Only send it from the host's event so that owner doesn't get duplication if the host and the target isn't the same person
+      limit = {
+        scope:target = root
+      }
+      scope:owner = { #Event for the owner that actually ends the scheme
+        trigger_event = hostile_scheme_discovery.3003
+      }
+    }
+  }
 }
 
 # OG Event Key: hostile_scheme_discovery.2001
 #Discover Scheme
 qe_vanilla_events.0007 = {
-	type = character_event
-	title = hostile_scheme_discovery.1001.t
-	desc = {
-		desc = {
-			first_valid = {
-				triggered_desc = {
-					trigger = {
-						exists = scope:spymaster
-						exists = cp:councillor_spymaster
-					}
-					desc = hostile_scheme_discovery.2001.intro
-				}
-				desc = hostile_scheme_discovery.2001.intro_no_spymaster
-			}
-		}
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					scope:scheme = {
-						scheme_type = murder
-					}
-				}
-				desc = hostile_scheme_discovery.2001.murder
-			}
-			triggered_desc = {
-				trigger = {
-					scope:scheme = {
-						scheme_type = abduct
-					}
-				}
-				desc = hostile_scheme_discovery.2001.abduction
-			}
-			triggered_desc = {
-				trigger = {
-					scope:scheme = {
-						scheme_type = elope
-					}
-				}
-				desc = hostile_scheme_discovery.2001.elope
-			}
-			triggered_desc = {
-				trigger = {
-					scope:scheme = {
-						scheme_type = steal_back_artifact
-					}
-				}
-				desc = hostile_scheme_discovery.2001.steal_back_artifact
-			}
-			triggered_desc = {
-				trigger = {
-					scope:scheme = {
-						scheme_type = depose
-					}
-				}
-				desc = hostile_scheme_discovery.2001.depose
-			}
-			desc = hostile_scheme_discovery.2001.fallback
-		}
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					scope:target != root
-					scope:target = scope:spymaster
-				}
-				desc = hostile_scheme_discovery.2001.target_spymaster
-			}
-			triggered_desc = {
-				trigger = {
-					scope:target != root
-				}
-				desc = hostile_scheme_discovery.2001.target_other
-			}
-			desc = hostile_scheme_discovery.2001.target_me
-		}
-	}
-	theme = generic_intrigue_scheme
-	left_portrait = {
-		character = scope:spymaster
-		animation = eavesdrop
-	}
-	right_portrait = {
-		trigger = {
-			scope:target != scope:spymaster
-		}
-		character = scope:target
-		animation = disbelief
-	}
-	immediate = {
-		play_music_cue = "mx_cue_murder"
-	}
-	#Schemes are bad
-	option = {
-		name = hostile_scheme_discovery.2001.a
-		scope:scheme = {
-			expose_scheme = yes
-		}
-		scope:owner = {
-			trigger_event = hostile_scheme_discovery.3002
-		}
-	}
+  type = character_event
+  title = hostile_scheme_discovery.1001.t
+  desc = {
+    desc = {
+      first_valid = {
+        triggered_desc = {
+          trigger = {
+            exists = scope:spymaster
+            exists = cp:councillor_spymaster
+          }
+          desc = hostile_scheme_discovery.2001.intro
+        }
+        desc = hostile_scheme_discovery.2001.intro_no_spymaster
+      }
+    }
+    first_valid = {
+      triggered_desc = {
+        trigger = {
+          scope:scheme = {
+            scheme_type = murder
+          }
+        }
+        desc = hostile_scheme_discovery.2001.murder
+      }
+      triggered_desc = {
+        trigger = {
+          scope:scheme = {
+            scheme_type = abduct
+          }
+        }
+        desc = hostile_scheme_discovery.2001.abduction
+      }
+      triggered_desc = {
+        trigger = {
+          scope:scheme = {
+            scheme_type = elope
+          }
+        }
+        desc = hostile_scheme_discovery.2001.elope
+      }
+      triggered_desc = {
+        trigger = {
+          scope:scheme = {
+            scheme_type = steal_back_artifact
+          }
+        }
+        desc = hostile_scheme_discovery.2001.steal_back_artifact
+      }
+      triggered_desc = {
+        trigger = {
+          scope:scheme = {
+            scheme_type = depose
+          }
+        }
+        desc = hostile_scheme_discovery.2001.depose
+      }
+      desc = hostile_scheme_discovery.2001.fallback
+    }
+    first_valid = {
+      triggered_desc = {
+        trigger = {
+          scope:target != root
+          scope:target = scope:spymaster
+        }
+        desc = hostile_scheme_discovery.2001.target_spymaster
+      }
+      triggered_desc = {
+        trigger = {
+          scope:target != root
+        }
+        desc = hostile_scheme_discovery.2001.target_other
+      }
+      desc = hostile_scheme_discovery.2001.target_me
+    }
+  }
+  theme = generic_intrigue_scheme
+  left_portrait = {
+    character = scope:spymaster
+    animation = eavesdrop
+  }
+  right_portrait = {
+    trigger = {
+      scope:target != scope:spymaster
+    }
+    character = scope:target
+    animation = disbelief
+  }
+
+  immediate = {
+    play_music_cue = "mx_cue_murder"
+  }
+
+  #Schemes are bad
+  option = {
+    name = hostile_scheme_discovery.2001.a
+    scope:scheme = {
+      expose_scheme = yes
+    }
+    scope:owner = {
+      trigger_event = hostile_scheme_discovery.3002
+    }
+  }
 }
 
 # Duplicating because CK3 is dumb and can't find it in the birth_events.txt file
 scripted_trigger allow_naming_on_birth_of_dynasty_child_trigger = {
-	save_temporary_scope_as = naming_dynasty_member
-	exists = $CHILD$
-	is_ai = no
-	#No parent is naming the kid, and it's not your child (at least not officially...)
-	$CHILD$ = {
-		any_parent = {
-			NOR = {
-				allow_naming_on_birth_of_child_trigger = { CHILD = $CHILD$ }
-				this = scope:naming_dynasty_member
-			}
-		}
-	}
-	$CHILD$.host = scope:naming_dynasty_member
+  save_temporary_scope_as = naming_dynasty_member
+  exists = $CHILD$
+  is_ai = no
+  #No parent is naming the kid, and it's not your child (at least not officially...)
+  $CHILD$ = {
+    any_parent = {
+      NOR = {
+        allow_naming_on_birth_of_child_trigger = { CHILD = $CHILD$ }
+        this = scope:naming_dynasty_member
+      }
+    }
+  }
+  $CHILD$.host = scope:naming_dynasty_member
 }
 
 # OG Event Key: birth.1010
 #Host of the same dynasty (not ai) get to name the child
 qe_vanilla_events.0008 = {
-	type = character_event
-	title = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					exists = scope:child_2
-				}
-				desc = birth.1010.t_twins
-			}
-			desc = birth.1010.t
-		}
-	}
-	desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = { exists = scope:child_2 }
-				desc = birth.1010.desc.twin
-			}
-			desc = birth.1010.desc
-		}
-	}
-	theme = pregnancy
-	override_background = { reference = bedchamber }
-	left_portrait = {
-		character = root
-		animation = thinking
-	}
-	right_portrait = {
-		character = scope:mother
-		animation = newborn
-		outfit_tags = { nightgown }
-	}
-	lower_left_portrait = scope:child
-	lower_center_portrait = scope:child_2
-	lower_right_portrait = scope:spouse_of_mother
-	immediate = {
-		play_music_cue_once = { TRACK = mx_cue_birth }
-		if = {
-			limit = {
-				exists = scope:mother.primary_spouse
-			}
-			scope:mother.primary_spouse = {
-				save_scope_as = spouse_of_mother
-			}
-		}
-		else_if = {
-			limit = { exists = scope:child.father }
-			scope:child.father = { save_scope_as = spouse_of_mother }
-		}
-	}
-	#NAMING WIDGET
-	widgets = {
-		widget = {
-			is_shown = {
-				allow_naming_on_birth_of_dynasty_child_trigger = { CHILD = scope:child }
-			}
-			gui = "event_window_widget_name_child"
-			container = "dynamic_birth_name"
-			controller = name_character
-			setup_scope = { scope:child = { save_scope_as = name_character_target } }
-		}
-		widget = {
-			is_shown = {
-				allow_naming_on_birth_of_dynasty_child_trigger = { CHILD = scope:child_2 }
-			}
-			gui = "event_window_widget_name_child"
-			container = "dynamic_birth_name"
-			controller = name_character
-			setup_scope = { scope:child_2 = { save_scope_as = name_character_target } }
-		}
-	}
-	option = {
-		name = birth.1003.b
-	}
+  type = character_event
+  title = {
+    first_valid = {
+      triggered_desc = {
+        trigger = {
+          exists = scope:child_2
+        }
+        desc = birth.1010.t_twins
+      }
+      desc = birth.1010.t
+    }
+  }
+  desc = {
+    first_valid = {
+      triggered_desc = {
+        trigger = { exists = scope:child_2 }
+        desc = birth.1010.desc.twin
+      }
+      desc = birth.1010.desc
+    }
+  }
+  theme = pregnancy
+  override_background = { reference = bedchamber }
+  left_portrait = {
+    character = root
+    animation = thinking
+  }
+  right_portrait = {
+    character = scope:mother
+    animation = newborn
+    outfit_tags = { nightgown }
+  }
+  lower_left_portrait = scope:child
+  lower_center_portrait = scope:child_2
+  lower_right_portrait = scope:spouse_of_mother
+
+  immediate = {
+    play_music_cue_once = { TRACK = mx_cue_birth }
+    if = {
+      limit = {
+        exists = scope:mother.primary_spouse
+      }
+      scope:mother.primary_spouse = {
+        save_scope_as = spouse_of_mother
+      }
+    }
+    else_if = {
+      limit = { exists = scope:child.father }
+      scope:child.father = { save_scope_as = spouse_of_mother }
+    }
+  }
+
+  #NAMING WIDGET
+  widgets = {
+    widget = {
+      is_shown = {
+        allow_naming_on_birth_of_dynasty_child_trigger = { CHILD = scope:child }
+      }
+      gui = "event_window_widget_name_child"
+      container = "dynamic_birth_name"
+      controller = name_character
+      setup_scope = { scope:child = { save_scope_as = name_character_target } }
+    }
+    widget = {
+      is_shown = {
+        allow_naming_on_birth_of_dynasty_child_trigger = { CHILD = scope:child_2 }
+      }
+      gui = "event_window_widget_name_child"
+      container = "dynamic_birth_name"
+      controller = name_character
+      setup_scope = { scope:child_2 = { save_scope_as = name_character_target } }
+    }
+  }
+
+  option = {
+    name = birth.1003.b
+  }
 }
 
-# OG Event Key: travel_start_event:1000
+# OG Event Key: travel_start_event.1000
 #Generic start (no activity)
 qe_vanilla_events.0009 = {
-	type = character_event
-	title = {
-		first_valid = {
-			#Migration start
-			triggered_desc = {
-				trigger = { is_migrating = yes }
-				desc = travel_start_event.1000.t_migrating
-			}
-			#Sick start
-			triggered_desc = {
-				trigger = { has_any_debilitating_illness = yes }
-				desc = travel_start_event.1000.t_sick
-			}
-			#Default
-			triggered_desc = {
-				desc = travel_start_event.1000.t
-			}
-		}
-	} 
-	desc = {
-		first_valid = {
-			#Migration start
-			triggered_desc = {
-				trigger = { is_migrating = yes }
-				desc = travel_start_event.1000.desc_migrating
-			}
-			#Sick start
-			triggered_desc = {
-				trigger = { has_any_debilitating_illness = yes }
-				desc = travel_start_event.1000.desc_sick
-			}
-			#Default
-			triggered_desc = {
-				desc = travel_start_event.1000.desc
-			}
-		}
-	}
-	theme = travel
-	left_portrait = {
-		character = root
-		triggered_animation = {
-			trigger = { is_nomad = yes }
-			animation = horse_surveying
-			camera = camera_event_horse_left
-		}
-		#Sick - sick animation
-		triggered_animation = {
-			trigger = { has_any_debilitating_illness = yes }
-			animation = sick
-		}
-		triggered_animation = {
-			trigger = {
-				OR = {
-					has_trait = lunatic
-					has_trait = possessed
-				}
-			}
-			animation = personality_irrational
-		}
-		#Default
-	   	animation = personality_rational
-	}
-	#Show our Travel Leader
-	right_portrait = {
-		trigger = { exists = scope:travel_leader }
-		character = scope:travel_leader
-	}
-	trigger = {
-		is_available_travelling = yes
-		OR = {
-			is_landed = yes
-			is_migrating = yes
-		}
-		NOR = { 
-			exists = involved_activity
-			has_an_active_mandala_contract_trigger = yes
-		}
-	}
-	immediate = {
-		play_music_cue = mx_cue_travel_start
-		if = {
-			limit = { exists = current_travel_plan.travel_leader }
-			current_travel_plan.travel_leader = { save_scope_as = travel_leader }
-		}
-	}
-	#Giddy up!
-	option = { 
-		name = {
-			text = {
-				first_valid = {
-					#Yeah, yeah ...
-					triggered_desc = {
-						trigger = {
-							OR = {
-								has_any_debilitating_illness = yes
-								has_trait = cynical
-							}
-						}
-						desc = travel_start_event.1000.a_cynical
-					}
-					#Everything is _awesome_
-					triggered_desc = {
-						desc = travel_start_event.1000.a
-					}
-				}
-			}
-		}
-	}
+  orphan = yes
+  type = character_event
+  title = {
+    first_valid = {
+      #Migration start
+      triggered_desc = {
+        trigger = { is_migrating = yes }
+        desc = travel_start_event.1000.t_migrating
+      }
+      #Sick start
+      triggered_desc = {
+        trigger = { has_any_debilitating_illness = yes }
+        desc = travel_start_event.1000.t_sick
+      }
+      #Default
+      triggered_desc = {
+        desc = travel_start_event.1000.t
+      }
+    }
+  } 
+  desc = {
+    first_valid = {
+      #Migration start
+      triggered_desc = {
+        trigger = { is_migrating = yes }
+        desc = travel_start_event.1000.desc_migrating
+      }
+      #Sick start
+      triggered_desc = {
+        trigger = { has_any_debilitating_illness = yes }
+        desc = travel_start_event.1000.desc_sick
+      }
+      #Default
+      triggered_desc = {
+        desc = travel_start_event.1000.desc
+      }
+    }
+  }
+  theme = travel
+  left_portrait = {
+    character = root
+    triggered_animation = {
+      trigger = { is_nomad = yes }
+      animation = horse_surveying
+      camera = camera_event_horse_left
+    }
+    #Sick - sick animation
+    triggered_animation = {
+      trigger = { has_any_debilitating_illness = yes }
+      animation = sick
+    }
+    triggered_animation = {
+      trigger = {
+        OR = {
+          has_trait = lunatic
+          has_trait = possessed
+        }
+      }
+      animation = personality_irrational
+    }
+    #Default
+       animation = personality_rational
+  }
+  #Show our Travel Leader
+  right_portrait = {
+    trigger = { exists = scope:travel_leader }
+    character = scope:travel_leader
+  }
+  trigger = {
+    is_available_travelling = yes
+    OR = {
+      is_landed = yes
+      is_migrating = yes
+    }
+    NOR = { 
+      exists = involved_activity
+      has_an_active_mandala_contract_trigger = yes
+    }
+  }
+  immediate = {
+    play_music_cue = mx_cue_travel_start
+    if = {
+      limit = { exists = current_travel_plan.travel_leader }
+      current_travel_plan.travel_leader = { save_scope_as = travel_leader }
+    }
+  }
+  #Giddy up!
+  option = { 
+    name = {
+      text = {
+        first_valid = {
+          #Yeah, yeah ...
+          triggered_desc = {
+            trigger = {
+              OR = {
+                has_any_debilitating_illness = yes
+                has_trait = cynical
+              }
+            }
+            desc = travel_start_event.1000.a_cynical
+          }
+          #Everything is _awesome_
+          triggered_desc = {
+            desc = travel_start_event.1000.a
+          }
+        }
+      }
+    }
+  }
 }

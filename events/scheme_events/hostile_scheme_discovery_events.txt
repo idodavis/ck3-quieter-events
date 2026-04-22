@@ -136,9 +136,9 @@ hostile_scheme_discovery.1001 = {
 		play_music_cue = "mx_cue_murder"
 		if = {
 			limit = {
-				scope:target_character != root
+				scope:target != root
 			}
-			scope:target_character = { save_scope_as = targeted_courtier }
+			scope:target = { save_scope_as = targeted_courtier }
 		}
 	}
 
@@ -344,9 +344,7 @@ hostile_scheme_discovery.1002 = {
 					first_valid = {
 						triggered_desc = {
 							trigger = {
-								NOT = {
-									scope:target = root
-								}
+                                scope:target != root
 							}
 							desc = hostile_scheme_discovery.2001.target_other
 						}
@@ -442,18 +440,14 @@ hostile_scheme_discovery.2001 = {
 					first_valid = {
 						triggered_desc = {
 							trigger = {
-								NOT = {
-									scope:target = root
-								}
+								scope:target != root
 								scope:target = scope:spymaster
 							}
 							desc = hostile_scheme_discovery.2001.target_spymaster
 						}
 						triggered_desc = {
 							trigger = {
-								NOT = {
-									scope:target = root
-								}
+								scope:target != root
 							}
 							desc = hostile_scheme_discovery.2001.target_other
 						}
