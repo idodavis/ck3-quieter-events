@@ -1,0 +1,52 @@
+**Currently Supports Game Version 1.19**
+
+This mod is a successor to ***"Less Event Spam"*** mod by the wonderful **Night** and **Pingvin**. Please see the original: [https://steamcommunity.com/sharedfiles/filedetails/?id=2750102888&amp;searchtext=less+even](https://steamcommunity.com/sharedfiles/filedetails/?id=2750102888&searchtext=less+even)
+
+# What It Does
+
+This mod converts multiple frequently occurring events and converts them from full events that require intervention by the player and into smaller toasts/notifications. Thus getting them out of your way so you can actually enjoy the game.
+
+# New Features!
+
+Added two new major features. Added a picture of both in action to the mod pictures here in workshop.
+
+## Game Rules:
+
+This mod now supports game rules! There's a game rule to switch between the mods version of events and the base games version.
+
+- Every 'Quieted Event' has a rule to switch back to vanilla.
+- Mod game rules are grouped via mod name &amp; are fully localized.
+
+## Message Settings Filter:
+
+I've now put all the modified events into the mods own custom messages.
+
+- Modded events now share custom message filter and can be filtered together in message log.
+- Modded events can now be toggled (together) between ***Toast/Feed/Popup/Hidden*** via Message Settings.
+
+# Current Events Affected
+
+- **Spymaster found Secret Unbeliever**: Spymaster found secret unbeliever in your court and notifies you.
+- **Vassal Imprison Attempt succeeded**: When your attempt to imprison a vassal succeeds.
+- **Marriage Accepted Letter**: Just like Prisoner release, we know when we send offer, so no need to get a large reply.
+- **A Seduction Scheme at Court**: Spymaster notifies player of ongoing scheme against character at court. 
+- **Schemer Discovered**: Your spymaster has discovered the schemer, but you can't take action. If you can imprison the schemer (i.e. they're your courtier/vassal), you still get the event.
+- **A Snake at Court**: Attempted seduction of courtier &amp; ongoing affair between courtier and someone else. Still uses the games random insults that Less Event Spam mod used...may change in the future.
+- **Child of My Dynasty**: Sends a simple toast message with the ai chosen name and who the mother is instead of the larger window and prompting you to name using the widgets.
+- **A Fresh Start**: When travel is initiated in non-activity scenarios. Outputs the same desc/title as vanilla but as a toast. (No portraits, just text).
+
+# Compatibility
+
+**This mod overwrites the following event files in their entirety as it's the only way to ensure the events are actually affected and overridden.**
+
+- *councillor\_task\_events/spymaster\_task\_events.txt*
+- *interaction\_events/character\_interaction\_events.txt*
+- *interaction\_events/marriage\_interaction\_events.txt*
+- *scheme\_events/hostile\_scheme\_discovery\_events.txt*
+- *scheme\_events/seduce\_scheme/seduce\_scheme\_outcome\_events.txt*
+- *birth\_events.txt*
+- *travel\_events/travel\_start\_events.txt*
+
+## Localization
+
+English, Russian, German, Chinese.

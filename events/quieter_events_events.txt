@@ -1,4 +1,4 @@
-﻿#########################################
+#########################################
 # Events Triggered When Vanilla Rule Set
 #########################################
 namespace = qe_vanilla_events
@@ -95,6 +95,7 @@ qe_vanilla_events.0003 = {
     animation = prisonhouse
     override_imprisonment_visuals = yes
   }
+  
   theme = prison
   
   immediate = {
@@ -1041,6 +1042,7 @@ qe_vanilla_events.0007 = {
       expose_scheme = yes
     }
     scope:owner = {
+      # trigger_event = hostile_scheme_discovery.3002
       trigger_event = hostile_scheme_discovery.3002
     }
   }

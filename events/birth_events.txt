@@ -1980,7 +1980,7 @@ birth.1010 = {
 					}
 				}
 				left_icon = scope:mother
-				right_icon = scope:child
+				right_icon = scope:title
 			}
 		}
 		else = {
