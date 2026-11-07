@@ -12,6 +12,12 @@
   quieter.birth.dynastic.message:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U]生下了一个[child.Custom('GetDaughterSon')]！\n小家伙叫[child.GetFirstNameNoTooltip]。"
   quieter.birth.dynastic.message.twin:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U]生下了两个[child.Custom('TwinDaughtersSonsChildren')]！"
 
+  # Message Filter
+  message_filter_quieter_events:0 "@catch_all_icon!Quieter Events 模组"
+  message_filter_quieter_events_desc:0 "筛选 Quieter Events 模组的消息。仅在游戏规则设为 Quieter 时生效。"
+  message_filter_quieter_events_tutor_education:0 "@jester_icon!QE: 教师教导儿童"
+  message_filter_quieter_events_tutor_education_desc:0 "教导你宫廷中儿童的教师或上师提升了一名儿童的技能。由 Quieter Events 模组添加，以便隐藏这些消息。"
+
   # Game Rules
   game_rule_category_quieter_events:0 "Quieter Events"
 
@@ -56,3 +62,22 @@
   setting_cod_vanilla_desc:0 "标准事件将照常触发。"
   setting_cod_quieter:0 "Quieter"
   setting_cod_quieter_desc:0 "一个好的祝酒活动会在家族新成员诞生时通知您，并显示其父母信息。但您现在无法通过活动为孩子命名。"
+
+  quieter.call_ally.accepted.title:0 "已接受召集参战"
+  quieter.call_ally.accepted.desc.war:0 "[recipient.GetShortUINameNoTooltip]已接受你的召集，将加入[target.GetName]。"
+  quieter.call_ally.accepted.desc:0 "[recipient.GetShortUINameNoTooltip]已接受你的召集，将加入你的战争。"
+
+  quieter.tributary.accepted.title:0 "已接受朝贡"
+  quieter.tributary.accepted.demand.desc:0 "[recipient.GetShortUINameNoTooltip]同意向你朝贡，成为你的[tributary|E]。"
+
+  rule_call_to_war_accepted_rule:0 "QE: 已接受召集参战"
+  setting_ctw_vanilla:0 "香草"
+  setting_ctw_vanilla_desc:0 "标准事件将照常触发。"
+  setting_ctw_quieter:0 "Quieter"
+  setting_ctw_quieter_desc:0 "当盟友、家族成员或家系成员接受你的召集参战时，一个好的祝酒活动会通知您。"
+
+  rule_tributary_accepted_rule:0 "QE: 已接受朝贡"
+  setting_tra_vanilla:0 "香草"
+  setting_tra_vanilla_desc:0 "标准事件将照常触发。"
+  setting_tra_quieter:0 "Quieter"
+  setting_tra_quieter_desc:0 "当统治者同意你的朝贡要求时，一个好的祝酒活动会通知您。当您自己被接受为朝贡者时，仍会触发标准事件。"

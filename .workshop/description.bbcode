@@ -14,7 +14,7 @@ I've now put all the modified events into the mods own custom messages.
 [list]
 [*]Modded events now share custom message filter and can be filtered together in message log.
 [*]Modded events can now be toggled (together) between [b][i]Toast/Feed/Popup/Hidden[/i][/b] via Message Settings.
-
+[*][b]QE: Tutor Educates Child[/b] (under Court): the base game's toast for when your Tutor or Guru improves a child's skills now has its own filter, so it can be set to [b][i]Toast/Feed/Popup/Hidden[/i][/b]. The base game only lets you choose Toast or Feed. Defaults to Feed.
 [/list]
 [h1]Current Events Affected[/h1]
 [list]
@@ -25,13 +25,19 @@ I've now put all the modified events into the mods own custom messages.
 [*][b]Schemer Discovered[/b]: Your spymaster has discovered the schemer, but you can't take action. If you can imprison the schemer (i.e. they're your courtier/vassal), you still get the event.
 [*][b]A Snake at Court[/b]: Attempted seduction of courtier & ongoing affair between courtier and someone else. Still uses the games random insults that Less Event Spam mod used...may change in the future.
 [*][b]Child of My Dynasty[/b]: Sends a simple toast message with the ai chosen name and who the mother is instead of the larger window and prompting you to name using the widgets.
+[*][b]Call to War Accepted[/b]: When an ally (or dynasty/house member) accepts your call to war, you get a toast instead of a letter.
+[*][b]Tributary Accepted[/b]: When a ruler agrees to your tribute demand, you get a toast instead of a letter. Being accepted as someone else's tributary is left as the full event.
 [*][b][strike]A Fresh Start[/strike][/b][strike]: [/strike]Removed as base game no longer fires this anyway as of 1.20.
 [/list]
 
 [h1]Latest Update![/h1]
 The way I overrode events before via entire files is no longer needed due to 1.20 so I updated to the new way. Now I ONLY override/maintain the specific events I call out below, so there should be much improved compatibility with other mods and less bugs with game updates.
 
+Also added a separate [b]QE: Tutor Educates Child[/b] message filter so the Tutor/Guru "Tutor Educates Child" spam can finally be hidden.
+
 [h1]Compatibility[/h1]
 [b]This mod only overrides the specific events listed in the event section via override priority. So as long as the other mod doesn't touch those event's (it can theoretically replace the file) that's still fine as long as they don't set a higher priority number.[/b]
+
+[i]It also redefines the base game's [/i][b][i]event_royal_court_good[/i][/b][i] message type (only used for the Tutor/Guru child education toast) to give it its own filter. Another mod that redefines that message type will conflict with it.[/i]
 [h2]Localization[/h2]
 English, Russian, German, Chinese.

@@ -2,3 +2,10 @@
 	display = toast
 	group = character
 }
+
+# Tutor/Guru "Educate Children" skill gains (vanilla on_birthday_education_events).
+# Vanilla sends these as event_outcome, which has always_show = yes and so cannot be hidden.
+quieter_events_tutor_education = {
+	display = feed
+	group = court
+}

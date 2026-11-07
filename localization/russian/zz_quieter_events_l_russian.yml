@@ -12,6 +12,12 @@
   quieter.birth.dynastic.message:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] родила [child.Custom('GetDaughterSon')]! Они зовут маленького ребенка  [child.GetFirstNameNoTooltip]."
   quieter.birth.dynastic.message.twin:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] родила двоих [child.Custom('TwinDaughtersSonsChildren')]!"
 
+  # Message Filter
+  message_filter_quieter_events:0 "@catch_all_icon! Quieter Events Mod"
+  message_filter_quieter_events_desc:0 "Фильтрует сообщения мода Quieter Events. Работает только при включенных правилах игры Quieter."
+  message_filter_quieter_events_tutor_education:0 "@jester_icon! QE: Наставник обучает ребенка"
+  message_filter_quieter_events_tutor_education_desc:0 "Наставник или гуру, обучающий детей вашего двора, улучшает навыки ребенка. Добавлено модом Quieter Events, чтобы эти сообщения можно было скрыть."
+
   # Game Rules
   game_rule_category_quieter_events:0 "Quieter Events"
 
@@ -56,3 +62,22 @@
   setting_cod_vanilla_desc:0 "Стандартное событие сработает как обычно."
   setting_cod_quieter:0 "Quieter"
   setting_cod_quieter_desc:0 "Хорошее тостовое событие уведомит вас, когда родится новый член вашей династии и кто его родители. Больше нет возможности называть ребенка через событие."
+
+  quieter.call_ally.accepted.title:0 "Призыв к войне принят"
+  quieter.call_ally.accepted.desc.war:0 "[recipient.GetShortUINameNoTooltip] [Select_CString(recipient.IsFemale, 'приняла', 'принял')] ваш призыв и присоединится к [target.GetName]."
+  quieter.call_ally.accepted.desc:0 "[recipient.GetShortUINameNoTooltip] [Select_CString(recipient.IsFemale, 'приняла', 'принял')] ваш призыв и присоединится к вашей войне."
+
+  quieter.tributary.accepted.title:0 "Данник принят"
+  quieter.tributary.accepted.demand.desc:0 "[recipient.GetShortUINameNoTooltip] [Select_CString(recipient.IsFemale, 'согласилась', 'согласился')] платить вам дань и теперь ваш [tributary|E]."
+
+  rule_call_to_war_accepted_rule:0 "QE: Призыв к войне принят"
+  setting_ctw_vanilla:0 "Ваниль"
+  setting_ctw_vanilla_desc:0 "Стандартное событие сработает как обычно."
+  setting_ctw_quieter:0 "Quieter"
+  setting_ctw_quieter_desc:0 "Хорошее тостовое событие уведомит вас, когда союзник, член династии или дома примет ваш призыв к войне."
+
+  rule_tributary_accepted_rule:0 "QE: Данник принят"
+  setting_tra_vanilla:0 "Ваниль"
+  setting_tra_vanilla_desc:0 "Стандартное событие сработает как обычно."
+  setting_tra_quieter:0 "Quieter"
+  setting_tra_quieter_desc:0 "Хорошее тостовое событие уведомит вас, когда правитель согласится на ваше требование дани. Когда вас самих принимают в качестве данника, по-прежнему срабатывает стандартное событие."

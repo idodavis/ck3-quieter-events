@@ -12,6 +12,7 @@ namespace = char_interaction
 namespace = marriage_interaction
 namespace = hostile_scheme_discovery
 namespace = seduce_outcome
+namespace = call_ally
 
 # Child of My Dynasty (host of the same dynasty, not ai, gets to name the child)
 # QUIETER: Might look into still allowing naming for AI hosts somehow later
@@ -438,6 +439,68 @@ seduce_outcome.3901 = {
 		}
 		else = {
 			trigger_event = qe_vanilla_events.0005
+		}
+	}
+}
+
+# Call to War Response: Accepted
+# Shared by Call to War, Call Dynasty Member to War and Call House Member to War.
+# scope:target (the war) is not set for every caller, so the desc falls back to a generic line.
+call_ally.0100 = {
+	id_override_priority = 1
+	hidden = yes
+	immediate = {
+		if = {
+			limit = {
+				has_game_rule = ctw_quieter
+			}
+			send_interface_message = {
+				type = quieter_events_good
+				title = quieter.call_ally.accepted.title
+				desc = {
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								exists = scope:target
+							}
+							desc = quieter.call_ally.accepted.desc.war
+						}
+						desc = quieter.call_ally.accepted.desc
+					}
+				}
+				right_icon = scope:recipient
+			}
+		}
+		else = {
+			trigger_event = qe_vanilla_events.0009
+		}
+	}
+}
+
+# Demand Tributary Response: Accepted (you demanded tribute, they agreed)
+# QUIETER: Deliberately NOT overriding char_interaction.0360 (Become Tributary: Accepted).
+# Gaining a suzerain is important enough that the player should still get the full letter.
+char_interaction.0362 = {
+	id_override_priority = 1
+	hidden = yes
+	immediate = {
+		if = {
+			limit = {
+				has_game_rule = tra_quieter
+			}
+			send_interface_message = {
+				type = quieter_events_good
+				title = quieter.tributary.accepted.title
+				desc = quieter.tributary.accepted.demand.desc
+				right_icon = scope:recipient
+			}
+			notify_puppeteer_of_outcome_effect = {
+				TYPE = event_toast_effect_good
+				TITLE = char_interaction.0362.toast_puppeteer
+			}
+		}
+		else = {
+			trigger_event = qe_vanilla_events.0011
 		}
 	}
 }

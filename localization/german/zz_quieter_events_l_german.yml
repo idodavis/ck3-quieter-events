@@ -16,6 +16,12 @@
   quieter.birth.dynastic.message:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] hat ein Kind zur Welt gebracht! Das Kleine soll [child.GetFirstNameNoTooltip] heißen."
   quieter.birth.dynastic.message.twin:0 "[mother.Custom2('MyCharacterIntroduction', ROOT.Char)|U] hat zwei [child.Custom('TwinDaughtersSonsChildren')] zur Welt gebracht!"
 
+  # Message Filter
+  message_filter_quieter_events:0 "@catch_all_icon! Quieter Events Mod"
+  message_filter_quieter_events_desc:0 "Filtert Nachrichten des Quieter-Events-Mods. Funktioniert nur, wenn die Quieter-Spielregeln gesetzt sind."
+  message_filter_quieter_events_tutor_education:0 "@jester_icon! QE: Lehrer unterrichtet Kind"
+  message_filter_quieter_events_tutor_education_desc:0 "Ein Tutor oder Guru, der die Kinder Eures Hofes unterrichtet, verbessert die Fertigkeiten eines Kindes. Vom Quieter-Events-Mod hinzugefügt, damit diese Nachrichten ausgeblendet werden können."
+
   # Game Rules
   game_rule_category_quieter_events:0 "Quieter Events"
 
@@ -60,3 +66,22 @@
   setting_cod_vanilla_desc:0 "Das Standardereignis wird wie gewohnt ausgelöst."
   setting_cod_quieter:0 "Quieter"
   setting_cod_quieter_desc:0 "Ein gutes Toastereignis wird Sie informieren, wenn ein neues Mitglied Ihrer Dynastie geboren wird und wer die Eltern sind. Es besteht nicht mehr die Möglichkeit, das Kind über ein Ereignis zu benennen."
+
+  quieter.call_ally.accepted.title:0 "Kriegsruf angenommen"
+  quieter.call_ally.accepted.desc.war:0 "[recipient.GetShortUINameNoTooltip] hat Euren Ruf angenommen und wird sich dem Krieg ([target.GetName]) anschließen."
+  quieter.call_ally.accepted.desc:0 "[recipient.GetShortUINameNoTooltip] hat Euren Ruf angenommen und wird sich Eurem Krieg anschließen."
+
+  quieter.tributary.accepted.title:0 "Tribut angenommen"
+  quieter.tributary.accepted.demand.desc:0 "[recipient.GetShortUINameNoTooltip] hat zugestimmt, Euch Tribut zu zahlen, und ist nun Euer [tributary|E]."
+
+  rule_call_to_war_accepted_rule:0 "QE: Kriegsruf angenommen"
+  setting_ctw_vanilla:0 "Vanille"
+  setting_ctw_vanilla_desc:0 "Das Standardereignis wird wie gewohnt ausgelöst."
+  setting_ctw_quieter:0 "Quieter"
+  setting_ctw_quieter_desc:0 "Ein gutes Toastereignis wird Sie informieren, wenn ein Verbündeter, Dynastie- oder Hausmitglied Ihren Kriegsruf annimmt."
+
+  rule_tributary_accepted_rule:0 "QE: Tributpflichtiger akzeptiert"
+  setting_tra_vanilla:0 "Vanille"
+  setting_tra_vanilla_desc:0 "Das Standardereignis wird wie gewohnt ausgelöst."
+  setting_tra_quieter:0 "Quieter"
+  setting_tra_quieter_desc:0 "Ein gutes Toastereignis wird Sie informieren, wenn ein Herrscher Ihrer Tributforderung zustimmt. Wenn Sie selbst als Tributpflichtiger angenommen werden, wird weiterhin das Standardereignis ausgelöst."
