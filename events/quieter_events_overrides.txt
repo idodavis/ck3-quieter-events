@@ -1,0 +1,443 @@
+#########################################
+# Vanilla Event Overrides
+#########################################
+# Each event below has the same id as a vanilla event and id_override_priority = 1,
+# so the game uses it in place of the vanilla one. No vanilla event file is replaced.
+# Every override is a hidden event that either sends a toast or, when the matching
+# game rule is set to vanilla, hands off to its copy in quieter_events_events.txt.
+
+namespace = birth
+namespace = spymaster_task
+namespace = char_interaction
+namespace = marriage_interaction
+namespace = hostile_scheme_discovery
+namespace = seduce_outcome
+
+# Child of My Dynasty (host of the same dynasty, not ai, gets to name the child)
+# QUIETER: Might look into still allowing naming for AI hosts somehow later
+birth.1010 = {
+	id_override_priority = 1
+	hidden = yes
+	immediate = {
+		if = {
+			limit = {
+				has_game_rule = cod_quieter
+			}
+			send_interface_message = {
+				type = quieter_events_good
+				title = quieter.birth.dynastic.title
+				desc = {
+					first_valid = {
+						triggered_desc = {
+							trigger = { exists = scope:child_2 }
+							desc = quieter.birth.dynastic.message.twin
+						}
+						desc = quieter.birth.dynastic.message
+					}
+				}
+				left_icon = scope:mother
+				right_icon = scope:title
+			}
+		}
+		else = {
+			trigger_event = qe_vanilla_events.0008
+		}
+	}
+}
+
+# Spymaster found Secret Unbeliever
+spymaster_task.0347 = {
+	id_override_priority = 1
+	hidden = yes
+	immediate = {
+		if = {
+			limit = {
+				has_game_rule = suf_quieter
+			}
+			scope:secret_to_reveal = {
+				reveal_to = root
+			}
+			send_interface_message = {
+				type = quieter_events_good
+				title = spymaster_task.0347.t
+				desc = {
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								root = scope:councillor_liege
+							}
+							desc = spymaster_task.0311.councillor_liege_opening
+						}
+						desc = spymaster_task.0311.spymaster_opening
+					}
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								religion != scope:secret_holder.religion
+							}
+							desc = spymaster_task.0311.secret_non_believer.other_faith
+						}
+						triggered_desc = {
+							trigger = {
+								faith != scope:secret_holder.faith
+							}
+							desc = spymaster_task.0311.secret_non_believer.other_sect
+						}
+						triggered_desc = {
+							trigger = {
+								OR = {
+									has_character_modifier = known_non_believer
+									any_secret = {
+										type = secret_non_believer
+									}
+								}
+							}
+							desc = spymaster_task.0311.secret_non_believer.shared
+						}
+						desc = spymaster_task.0311.secret_non_believer
+					}
+				}
+				left_icon = scope:councillor
+				right_icon = scope:secret_holder
+			}
+		}
+		else = {
+			trigger_event = qe_vanilla_events.0001
+		}
+	}
+	trigger = {
+		scope:secret_to_reveal = {
+			secret_type = secret_non_believer
+		}
+	}
+}
+
+# Vassal Imprison Attempt succeeded.
+char_interaction.0231 = {
+	id_override_priority = 1
+	hidden = yes
+	immediate = {
+		if = {
+			limit = {
+				has_game_rule = vis_quieter
+			}
+			send_interface_message = {
+				type = quieter_events_neutral
+				title = char_interaction.0231.title
+				desc = {
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								scope:recipient = {
+									is_in_prison_type = house_arrest
+								}
+							}
+							desc = char_interaction.0231.desc_house_arrest
+						}
+						triggered_desc = {
+							trigger = {
+								scope:puppet_or_actor = {
+									is_landless_ruler = yes
+								}
+							}
+							desc = char_interaction.0231.desc_stockade
+						}
+						desc = char_interaction.0231.desc_prison
+					}
+				}
+				right_icon = scope:recipient
+			}
+			notify_puppeteer_of_outcome_effect = {
+				TYPE = event_toast_effect_good
+				TITLE = char_interaction.0231.toast_puppeteer
+			}
+		}
+		else = {
+			trigger_event = qe_vanilla_events.0003
+		}
+	}
+}
+
+# Marriage Proposal: Accepted
+marriage_interaction.0010 = {
+	id_override_priority = 1
+	hidden = yes
+	immediate = {
+		if = {
+			limit = {
+				has_game_rule = mpa_quieter
+			}
+			send_interface_message = {
+				type = quieter_events_good
+				title = quieter.marriage.title
+				desc = quieter.marriage.desc
+				left_icon = scope:secondary_actor
+				right_icon = scope:secondary_recipient
+			}
+		}
+		else = {
+			trigger_event = qe_vanilla_events.0004
+		}
+	}
+}
+
+# Owner discovered
+hostile_scheme_discovery.1002 = {
+	id_override_priority = 1
+	hidden = yes
+	trigger = {
+		any_targeting_scheme = {
+			this = scope:scheme
+		}
+	}
+	immediate = {
+		if = {
+			limit = {
+				has_game_rule = hsd_quieter
+			}
+			if = {
+				limit = {
+					scope:scheme = {
+						scheme_target_character = {
+							NOT = {
+								this = root
+							}
+						}
+					}
+				}
+				scope:scheme = {
+					scheme_target_character = {
+						trigger_event = hostile_scheme_discovery.1002
+						save_scope_as = targeted_courtier
+					}
+				}
+			}
+			scope:owner = {
+				add_dread = minor_dread_gain
+			}
+			attempted_murder_opinion_effect = {
+				VICTIM = scope:target
+				MURDERER = scope:owner
+			}
+			if = {
+				limit = {
+					#Double check since it seems the scheme sometimes hangs around as a scope
+					exists = scope:scheme
+					exists = scope:scheme.scheme_target_character
+				}
+				scope:scheme = {
+					end_scheme = yes
+				}
+			}
+			if = {
+				#Only send it from the host's event so that owner doesn't get duplication if the host and the target isn't the same person
+				limit = {
+					exists = scope:scheme.scheme_target_character
+					scope:scheme.scheme_target_character = {
+						this = root
+					}
+				}
+				scope:owner = {
+					#Event for the owner that actually ends the scheme
+					trigger_event = hostile_scheme_discovery.3003
+				}
+			}
+			send_interface_message = {
+				type = quieter_events_good
+				title = hostile_scheme_discovery.1002.t
+				desc = {
+					desc = {
+						first_valid = {
+							triggered_desc = {
+								trigger = {
+									exists = scope:spymaster
+									exists = cp:councillor_spymaster
+								}
+								desc = hostile_scheme_discovery.1002.intro
+							}
+							desc = hostile_scheme_discovery.1002.intro_no_spymaster
+						}
+					}
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								scope:scheme = {
+									scheme_type = murder
+								}
+							}
+							desc = hostile_scheme_discovery.1002.murder
+						}
+						triggered_desc = {
+							trigger = {
+								scope:scheme = {
+									scheme_type = abduct
+								}
+							}
+							desc = hostile_scheme_discovery.1002.abduction
+						}
+						triggered_desc = {
+							trigger = {
+								scope:scheme = {
+									scheme_type = elope
+								}
+							}
+							desc = hostile_scheme_discovery.1002.elope
+						}
+						triggered_desc = {
+							trigger = {
+								scope:scheme = {
+									scheme_type = steal_back_artifact
+								}
+							}
+							desc = hostile_scheme_discovery.1002.steal_back_artifact
+						}
+						desc = hostile_scheme_discovery.1002.fallback
+					}
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								scope:target != root
+							}
+							desc = hostile_scheme_discovery.2001.target_other
+						}
+						desc = hostile_scheme_discovery.2001.target_me
+					}
+				}
+				left_icon = scope:owner
+				right_icon = scope:targeted_courtier
+			}
+		}
+		else = {
+			trigger_event = qe_vanilla_events.0006
+		}
+	}
+}
+
+# Discover Scheme
+hostile_scheme_discovery.2001 = {
+	id_override_priority = 1
+	hidden = yes
+	immediate = {
+		if = {
+			limit = {
+				has_game_rule = hso_quieter
+			}
+			scope:scheme = {
+				expose_scheme = yes
+			}
+			scope:owner = {
+				trigger_event = hostile_scheme_discovery.3002
+			}
+			send_interface_message = {
+				type = msg_spymaster_task_good
+				title = hostile_scheme_discovery.1001.t
+				desc = {
+					desc = {
+						first_valid = {
+							triggered_desc = {
+								trigger = {
+									exists = scope:spymaster
+									exists = cp:councillor_spymaster
+								}
+								desc = hostile_scheme_discovery.2001.intro
+							}
+							desc = hostile_scheme_discovery.2001.intro_no_spymaster
+						}
+					}
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								scope:scheme = {
+									scheme_type = murder
+								}
+							}
+							desc = hostile_scheme_discovery.2001.murder
+						}
+						triggered_desc = {
+							trigger = {
+								scope:scheme = {
+									scheme_type = abduct
+								}
+							}
+							desc = hostile_scheme_discovery.2001.abduction
+						}
+						triggered_desc = {
+							trigger = {
+								scope:scheme = {
+									scheme_type = elope
+								}
+							}
+							desc = hostile_scheme_discovery.2001.elope
+						}
+						triggered_desc = {
+							trigger = {
+								scope:scheme = {
+									scheme_type = steal_back_artifact
+								}
+							}
+							desc = hostile_scheme_discovery.2001.steal_back_artifact
+						}
+						triggered_desc = {
+							trigger = {
+								scope:scheme = {
+									scheme_type = depose
+								}
+							}
+							desc = hostile_scheme_discovery.2001.depose
+						}
+						desc = hostile_scheme_discovery.2001.fallback
+					}
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								scope:target != root
+								scope:target = scope:spymaster
+							}
+							desc = hostile_scheme_discovery.2001.target_spymaster
+						}
+						triggered_desc = {
+							trigger = {
+								scope:target != root
+							}
+							desc = hostile_scheme_discovery.2001.target_other
+						}
+						desc = hostile_scheme_discovery.2001.target_me
+					}
+				}
+				left_icon = scope:spymaster
+				right_icon = scope:target
+				message_filter_type = quieter_events
+			}
+		}
+		else = {
+			trigger_event = qe_vanilla_events.0007
+		}
+	}
+}
+
+# Discovery event for spouse/liege
+seduce_outcome.3901 = {
+	id_override_priority = 1
+	hidden = yes
+	immediate = {
+		if = {
+			limit = {
+				has_game_rule = ssd_quieter
+			}
+			send_interface_message = {
+				type = quieter_events_bad
+				title = quieter.seduce_outcome.3901.t
+				desc = quieter.seduce_outcome.desc
+				left_icon = scope:owner
+				right_icon = scope:target
+			}
+			random_dummy_gender_servant_effect = yes
+			scope:target = {
+				seduce_outcome_success_discovered_effect = yes
+			}
+		}
+		else = {
+			trigger_event = qe_vanilla_events.0005
+		}
+	}
+}

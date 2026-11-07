@@ -1,0 +1,37 @@
+[h3][i]Currently Supports Game Version 1.20.*[/i]
+[/h3]
+[h1]What It Does[/h1]
+[h3]Events:[/h3]
+This mod converts multiple frequently occurring events that require intervention by the player into smaller toasts/notifications. Thus getting them out of your way so you can actually enjoy the game.
+[h3]Game Rules:[/h3]
+There's a game rule to switch between the modded version of events and the base game version.
+[list]
+[*]Every 'Quieted Event' has a rule to switch back to vanilla.
+[*]Mod game rules are grouped via mod name & are fully localized.
+[/list]
+[h3]Message Settings Filter:[/h3]
+I've now put all the modified events into the mods own custom messages.
+[list]
+[*]Modded events now share custom message filter and can be filtered together in message log.
+[*]Modded events can now be toggled (together) between [b][i]Toast/Feed/Popup/Hidden[/i][/b] via Message Settings.
+
+[/list]
+[h1]Current Events Affected[/h1]
+[list]
+[*][b]Spymaster found Secret Unbeliever[/b]: Spymaster found secret unbeliever in your court and notifies you.
+[*][b]Vassal Imprison Attempt succeeded[/b]: When your attempt to imprison a vassal succeeds.
+[*][b]Marriage Accepted Letter[/b]: Just like Prisoner release, we know when we send offer, so no need to get a large reply.
+[*][b]A Seduction Scheme at Court[/b]: Spymaster notifies player of ongoing scheme against character at court.
+[*][b]Schemer Discovered[/b]: Your spymaster has discovered the schemer, but you can't take action. If you can imprison the schemer (i.e. they're your courtier/vassal), you still get the event.
+[*][b]A Snake at Court[/b]: Attempted seduction of courtier & ongoing affair between courtier and someone else. Still uses the games random insults that Less Event Spam mod used...may change in the future.
+[*][b]Child of My Dynasty[/b]: Sends a simple toast message with the ai chosen name and who the mother is instead of the larger window and prompting you to name using the widgets.
+[*][b][strike]A Fresh Start[/strike][/b][strike]: [/strike]Removed as base game no longer fires this anyway as of 1.20.
+[/list]
+
+[h1]Latest Update![/h1]
+The way I overrode events before via entire files is no longer needed due to 1.20 so I updated to the new way. Now I ONLY override/maintain the specific events I call out below, so there should be much improved compatibility with other mods and less bugs with game updates.
+
+[h1]Compatibility[/h1]
+[b]This mod only overrides the specific events listed in the event section via override priority. So as long as the other mod doesn't touch those event's (it can theoretically replace the file) that's still fine as long as they don't set a higher priority number.[/b]
+[h2]Localization[/h2]
+English, Russian, German, Chinese.
