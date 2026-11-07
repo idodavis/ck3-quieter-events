@@ -1,4 +1,4 @@
-#########################################
+﻿#########################################
 # Vanilla Event Overrides
 #########################################
 # Each event below has the same id as a vanilla event and id_override_priority = 1,
