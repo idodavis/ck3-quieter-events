@@ -89,15 +89,28 @@ child_of_my_dynasty_rule = {
 	cod_quieter = { flag = GG_can_change_rule }
 }
 
-travel_a_new_start_rule = {
-	
+call_to_war_accepted_rule = {
+
 	categories = {
 		quieter_events
 	}
-	
-	default = tans_quieter
-	
-	tans_vanilla = { flag = GG_can_change_rule }
-	
-	tans_quieter = { flag = GG_can_change_rule }
+
+	default = ctw_quieter
+
+	ctw_vanilla = { flag = GG_can_change_rule }
+
+	ctw_quieter = { flag = GG_can_change_rule }
+}
+
+tributary_accepted_rule = {
+
+	categories = {
+		quieter_events
+	}
+
+	default = tra_quieter
+
+	tra_vanilla = { flag = GG_can_change_rule }
+
+	tra_quieter = { flag = GG_can_change_rule }
 }

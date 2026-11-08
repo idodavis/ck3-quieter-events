@@ -22,3 +22,15 @@ quieter_events_neutral = {
 	style = neutral
 	message_filter_type = quieter_events
 }
+
+# Overrides vanilla event_royal_court_good (common/messages/01_court_messages.txt).
+# Vanilla only uses it for the Tutor and Guru "Tutor Educates Child" toasts in
+# common/on_action/childhood_on_actions.txt, so moving it to its own filter lets players hide them.
+# Everything but message_filter_type matches vanilla.
+event_royal_court_good = {
+	icon = "royal_court"
+	title = event_message_title
+	desc = event_message_effect
+	style = good
+	message_filter_type = quieter_events_tutor_education
+}

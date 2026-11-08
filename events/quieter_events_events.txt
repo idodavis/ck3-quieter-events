@@ -64,9 +64,6 @@ qe_vanilla_events.0001 = {
   }
 }
 
-# Removed Prisoner Release Event "char_interaction.0160" ie. qe_vanilla_events.0002 as it was overhauled to serve as even for all "demand" events not just prisoners. 
-# Also they removed the full event and made it a toast/notification instead.
-
 # OG Event Key: char_interaction.0231
 #Vassal Imprison Attempt succeeded.
 qe_vanilla_events.0003 = {
@@ -82,7 +79,7 @@ qe_vanilla_events.0003 = {
       }
       triggered_desc = {
         trigger = {
-          scope:actor = { is_landless_ruler = yes }
+          scope:puppet_or_actor = { is_landless_ruler = yes }
         }
         desc = char_interaction.0231.desc_stockade
       }
@@ -95,6 +92,7 @@ qe_vanilla_events.0003 = {
     animation = prisonhouse
     override_imprisonment_visuals = yes
   }
+  
   theme = prison
   
   immediate = {
@@ -105,9 +103,9 @@ qe_vanilla_events.0003 = {
       }
       if = {
         limit = {
-          scope:actor = { is_rightful_liege_of = scope:recipient }
+          scope:puppet_or_actor = { is_rightful_liege_of = scope:recipient }
         }
-        scope:actor = { add_legitimacy = miniscule_legitimacy_loss }
+        scope:puppet_or_actor = { add_legitimacy_effect = { LEGITIMACY = miniscule_legitimacy_loss } }
       }
     }
     show_as_tooltip = {
@@ -115,6 +113,10 @@ qe_vanilla_events.0003 = {
         target = scope:recipient
         type = dungeon
       }
+    }
+    notify_puppeteer_of_outcome_effect = {
+      TYPE = event_toast_effect_good
+      TITLE = char_interaction.0231.toast_puppeteer
     }
   }
 
@@ -453,18 +455,18 @@ qe_vanilla_events.0004 = {
             scope:secondary_actor = {
               OR = {
                 num_sinful_traits >= 3
-                has_any_shunned_or_criminal_trait_in_faith_trigger = {
+                has_any_shunned_or_criminal_trait_in_rite_trigger = {
                   CHARACTER = scope:secondary_actor
-                  FAITH = scope:recipient.faith
+                  RITE = scope:recipient.rite
                 }
               }
             }
             scope:secondary_recipient = {
               OR = {
                 num_sinful_traits >= 3
-                has_any_shunned_or_criminal_trait_in_faith_trigger = {
+                has_any_shunned_or_criminal_trait_in_rite_trigger = {
                   CHARACTER = scope:secondary_recipient
-                  FAITH = scope:recipient.faith
+                  RITE = scope:recipient.rite
                 }
               }
             }
@@ -482,18 +484,18 @@ qe_vanilla_events.0004 = {
             scope:secondary_actor = {
               OR = {
                 num_sinful_traits >= 3
-                has_any_shunned_or_criminal_trait_in_faith_trigger = {
+                has_any_shunned_or_criminal_trait_in_rite_trigger = {
                   CHARACTER = scope:secondary_actor
-                  FAITH = scope:recipient.faith
+                  RITE = scope:recipient.rite
                 }
               }
             }
             scope:secondary_recipient = {
               OR = {
                 num_sinful_traits >= 3
-                has_any_shunned_or_criminal_trait_in_faith_trigger = {
+                has_any_shunned_or_criminal_trait_in_rite_trigger = {
                   CHARACTER = scope:secondary_recipient
-                  FAITH = scope:recipient.faith
+                  RITE = scope:recipient.rite
                 }
               }
             }
@@ -511,18 +513,18 @@ qe_vanilla_events.0004 = {
             scope:secondary_actor = {
               OR = {
                 num_sinful_traits >= 3
-                has_any_shunned_or_criminal_trait_in_faith_trigger = {
+                has_any_shunned_or_criminal_trait_in_rite_trigger = {
                   CHARACTER = scope:secondary_actor
-                  FAITH = scope:recipient.faith
+                  RITE = scope:recipient.rite
                 }
               }
             }
             scope:secondary_recipient = {
               OR = {
                 num_sinful_traits >= 3
-                has_any_shunned_or_criminal_trait_in_faith_trigger = {
+                has_any_shunned_or_criminal_trait_in_rite_trigger = {
                   CHARACTER = scope:secondary_recipient
-                  FAITH = scope:recipient.faith
+                  RITE = scope:recipient.rite
                 }
               }
             }
@@ -540,18 +542,18 @@ qe_vanilla_events.0004 = {
             scope:secondary_actor = {
               OR = {
                 num_sinful_traits >= 3
-                has_any_shunned_or_criminal_trait_in_faith_trigger = {
+                has_any_shunned_or_criminal_trait_in_rite_trigger = {
                   CHARACTER = scope:secondary_actor
-                  FAITH = scope:recipient.faith
+                  RITE = scope:recipient.rite
                 }
               }
             }
             scope:secondary_recipient = {
               OR = {
                 num_sinful_traits >= 3
-                has_any_shunned_or_criminal_trait_in_faith_trigger = {
+                has_any_shunned_or_criminal_trait_in_rite_trigger = {
                   CHARACTER = scope:secondary_recipient
-                  FAITH = scope:recipient.faith
+                  RITE = scope:recipient.rite
                 }
               }
             }
@@ -1041,6 +1043,7 @@ qe_vanilla_events.0007 = {
       expose_scheme = yes
     }
     scope:owner = {
+      # trigger_event = hostile_scheme_discovery.3002
       trigger_event = hostile_scheme_discovery.3002
     }
   }
@@ -1145,116 +1148,105 @@ qe_vanilla_events.0008 = {
   }
 }
 
-# OG Event Key: travel_start_event.1000
-#Generic start (no activity)
+# OG Event Key: call_ally.0100
+# Call to War Response: Accepted
 qe_vanilla_events.0009 = {
-  orphan = yes
-  type = character_event
-  title = {
-    first_valid = {
-      #Migration start
-      triggered_desc = {
-        trigger = { is_migrating = yes }
-        desc = travel_start_event.1000.t_migrating
-      }
-      #Sick start
-      triggered_desc = {
-        trigger = { has_any_debilitating_illness = yes }
-        desc = travel_start_event.1000.t_sick
-      }
-      #Default
-      triggered_desc = {
-        desc = travel_start_event.1000.t
-      }
-    }
-  } 
-  desc = {
-    first_valid = {
-      #Migration start
-      triggered_desc = {
-        trigger = { is_migrating = yes }
-        desc = travel_start_event.1000.desc_migrating
-      }
-      #Sick start
-      triggered_desc = {
-        trigger = { has_any_debilitating_illness = yes }
-        desc = travel_start_event.1000.desc_sick
-      }
-      #Default
-      triggered_desc = {
-        desc = travel_start_event.1000.desc
-      }
-    }
+  type = letter_event
+  opening = {
+    desc = call_ally.0100.opening
   }
-  theme = travel
-  left_portrait = {
-    character = root
-    triggered_animation = {
-      trigger = { is_nomad = yes }
-      animation = horse_surveying
-      camera = camera_event_horse_left
-    }
-    #Sick - sick animation
-    triggered_animation = {
-      trigger = { has_any_debilitating_illness = yes }
-      animation = sick
-    }
-    triggered_animation = {
-      trigger = {
-        OR = {
-          has_trait = lunatic
-          has_trait = possessed
-        }
-      }
-      animation = personality_irrational
-    }
-    #Default
-       animation = personality_rational
+  desc = call_ally.0100.desc
+  sender = {
+    character = scope:recipient
+    animation = anger
   }
-  #Show our Travel Leader
-  right_portrait = {
-    trigger = { exists = scope:travel_leader }
-    character = scope:travel_leader
-  }
-  trigger = {
-    is_available_travelling = yes
-    OR = {
-      is_landed = yes
-      is_migrating = yes
-    }
-    NOR = { 
-      exists = involved_activity
-      has_an_active_mandala_contract_trigger = yes
-    }
-  }
+
   immediate = {
-    play_music_cue = mx_cue_travel_start
-    if = {
-      limit = { exists = current_travel_plan.travel_leader }
-      current_travel_plan.travel_leader = { save_scope_as = travel_leader }
-    }
-  }
-  #Giddy up!
-  option = { 
-    name = {
-      text = {
-        first_valid = {
-          #Yeah, yeah ...
-          triggered_desc = {
-            trigger = {
-              OR = {
-                has_any_debilitating_illness = yes
-                has_trait = cynical
-              }
+    #What tooltip to we want to show?
+    show_as_tooltip = {
+      if = {
+        limit = {
+          exists = scope:call_dynasty_member_to_war_interaction
+        }
+        call_dynasty_member_to_war_interaction_effect = yes
+      }
+      else_if = {
+        limit = {
+          exists = scope:call_ally_interaction
+        }
+        call_ally_interaction_event_effect = yes
+      }
+      else_if = {
+        limit = {
+          exists = scope:call_house_member_to_war_interaction
+        }
+        call_house_member_to_war_interaction_effect = yes
+      }
+      else = {
+        if = {
+          limit = {
+            NOT = {
+              scope:actor = { has_relation_blood_brother = scope:recipient }
             }
-            desc = travel_start_event.1000.a_cynical
           }
-          #Everything is _awesome_
-          triggered_desc = {
-            desc = travel_start_event.1000.a
+          scope:actor = {
+            if = {
+              limit = {
+                scope:recipient.primary_title.tier = tier_county
+              }
+              add_prestige = minor_prestige_loss
+            }
+            else_if = {
+              limit = {
+                scope:recipient.primary_title.tier = tier_duchy
+              }
+              add_prestige = medium_prestige_loss
+            }
+            else_if = {
+              limit = {
+                scope:recipient.primary_title.tier = tier_kingdom
+              }
+              add_prestige = major_prestige_loss
+            }
+            else = {
+              add_prestige = massive_prestige_loss
+            }
           }
         }
       }
     }
+  }
+
+  option = {
+    name = EXCELLENT
+  }
+}
+
+# OG Event Key: char_interaction.0362
+# Demand Tributary Response: Accepted
+qe_vanilla_events.0011 = {
+  type = letter_event
+  opening = {
+    desc = char_interaction.0362.opening
+  }
+  desc = char_interaction.0362.desc
+
+  sender = scope:recipient
+
+  immediate = {
+    show_as_tooltip = {
+      start_tributary_interaction_effect = {
+        TRIBUTARY = scope:recipient
+        SUZERAIN = root
+      }
+    }
+    notify_puppeteer_of_outcome_effect = {
+      TYPE = event_toast_effect_good
+      TITLE = char_interaction.0362.toast_puppeteer
+    }
+  }
+
+  option = {
+    name = char_interaction.0362.a
   }
 }
