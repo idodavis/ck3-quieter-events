@@ -292,6 +292,14 @@ hostile_scheme_discovery.1002 = {
 							}
 							desc = hostile_scheme_discovery.1002.steal_back_artifact
 						}
+						triggered_desc = {
+							trigger = {
+								scope:scheme = {
+									scheme_type = merchant_smuggle_goods_trade_opportunity_scheme
+								}
+							}
+							desc = hostile_scheme_discovery.1002.smuggle_goods
+						}
 						desc = hostile_scheme_discovery.1002.fallback
 					}
 					first_valid = {
@@ -381,7 +389,18 @@ hostile_scheme_discovery.2001 = {
 						triggered_desc = {
 							trigger = {
 								scope:scheme = {
-									scheme_type = depose
+									scheme_type = merchant_smuggle_goods_trade_opportunity_scheme
+								}
+							}
+							desc = hostile_scheme_discovery.2001.smuggle_goods
+						}
+						triggered_desc = {
+							trigger = {
+								scope:scheme = {
+									OR = {
+										scheme_type = depose
+										scheme_type = gg_replace_ruler
+									}
 								}
 							}
 							desc = hostile_scheme_discovery.2001.depose

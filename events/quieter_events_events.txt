@@ -871,6 +871,14 @@ qe_vanilla_events.0006 = {
         }
         desc = hostile_scheme_discovery.1002.steal_back_artifact
       }
+      triggered_desc = {
+        trigger = {
+          scope:scheme = {
+            scheme_type = merchant_smuggle_goods_trade_opportunity_scheme
+          }
+        }
+        desc = hostile_scheme_discovery.1002.smuggle_goods
+      }
       desc = hostile_scheme_discovery.1002.fallback
     }
     first_valid = {
@@ -915,6 +923,36 @@ qe_vanilla_events.0006 = {
         attempted_murder_opinion_effect = {
           VICTIM = scope:target
           MURDERER = scope:owner
+        }
+      }
+      else_if = {
+        limit = {
+          scope:scheme = {
+            scheme_type = merchant_smuggle_goods_trade_opportunity_scheme
+          }
+        }
+        show_as_tooltip = {
+          scope:owner = {
+            add_dealbreaker_secret_effect = yes
+            reveal_dealbreaker_secret_effect = { REVEAL_TO = scope:target }
+            reverse_add_opinion = {
+              modifier = gdp_smuggler_opinion
+              target = scope:target
+            }
+          }
+        }
+      }
+      else_if = {
+        limit = {
+          scope:scheme = {
+            scheme_type = patrician_slander
+          }
+        }
+        scope:target = {
+          add_opinion = {
+            target = scope:owner
+            modifier = slandered_me_opinion
+          }
         }
       }
       if = {
@@ -995,7 +1033,18 @@ qe_vanilla_events.0007 = {
       triggered_desc = {
         trigger = {
           scope:scheme = {
-            scheme_type = depose
+            scheme_type = merchant_smuggle_goods_trade_opportunity_scheme
+          }
+        }
+        desc = hostile_scheme_discovery.2001.smuggle_goods
+      }
+      triggered_desc = {
+        trigger = {
+          scope:scheme = {
+            OR = {
+              scheme_type = depose
+              scheme_type = gg_replace_ruler
+            }
           }
         }
         desc = hostile_scheme_discovery.2001.depose
